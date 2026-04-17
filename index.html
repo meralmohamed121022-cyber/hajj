@@ -1,1636 +1,1621 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>محاكاة الحج ثلاثية الأبعاد | شرح كامل</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدليل التفاعلي الشامل لمناسك الحج والعمرة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300..900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-  <!-- UI -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+/* ── Design Tokens ── */
+:root,[data-theme="light"]{
+  --color-bg:#f5f3ee;
+  --color-surface:#faf9f6;
+  --color-surface-2:#ffffff;
+  --color-surface-offset:#ede9e2;
+  --color-surface-offset-2:#e5e1d8;
+  --color-surface-dynamic:#d8d3c8;
+  --color-divider:#ccc9c0;
+  --color-border:#c0bbb0;
+  --color-text:#1e1c17;
+  --color-text-muted:#6b6760;
+  --color-text-faint:#b0ada6;
+  --color-text-inverse:#f9f8f4;
+  --color-primary:#1a6b3c;
+  --color-primary-hover:#145530;
+  --color-primary-active:#0e3d22;
+  --color-primary-highlight:#c8ddd1;
+  --color-gold:#c9930a;
+  --color-gold-light:#fdf3dc;
+  --color-gold-border:#e8c96a;
+  --radius-sm:.375rem;
+  --radius-md:.5rem;
+  --radius-lg:.75rem;
+  --radius-xl:1rem;
+  --radius-2xl:1.5rem;
+  --radius-full:9999px;
+  --shadow-sm:0 1px 3px rgba(30,28,23,.07);
+  --shadow-md:0 4px 14px rgba(30,28,23,.09);
+  --shadow-lg:0 12px 36px rgba(30,28,23,.13);
+  --transition:200ms cubic-bezier(.16,1,.3,1);
+  --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;
+  --space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;
+  --space-12:3rem;--space-16:4rem;--space-20:5rem;
+  --text-xs:clamp(.75rem,.7rem + .25vw,.875rem);
+  --text-sm:clamp(.875rem,.8rem + .35vw,1rem);
+  --text-base:clamp(1rem,.95rem + .25vw,1.125rem);
+  --text-lg:clamp(1.125rem,1rem + .75vw,1.5rem);
+  --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+  --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+  --font-display:'Amiri',serif;
+  --font-body:'Cairo',sans-serif;
+}
+[data-theme="dark"]{
+  --color-bg:#0f0e0b;
+  --color-surface:#161510;
+  --color-surface-2:#1c1b16;
+  --color-surface-offset:#1a1914;
+  --color-surface-offset-2:#201f19;
+  --color-surface-dynamic:#2a2921;
+  --color-divider:#27261e;
+  --color-border:#3a3830;
+  --color-text:#d4d2cc;
+  --color-text-muted:#7a7970;
+  --color-text-faint:#5a5952;
+  --color-text-inverse:#1e1c17;
+  --color-primary:#3da068;
+  --color-primary-hover:#2a8a55;
+  --color-primary-active:#1d6e40;
+  --color-primary-highlight:#1e3328;
+  --color-gold:#e0a820;
+  --color-gold-light:#2a2515;
+  --color-gold-border:#6b5520;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.25);
+  --shadow-md:0 4px 14px rgba(0,0,0,.35);
+  --shadow-lg:0 12px 36px rgba(0,0,0,.45);
+}
 
-  <!-- GSAP + Plugins + Three -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+/* ── Base ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth;scroll-padding-top:5rem}
+body{min-height:100dvh;line-height:1.7;font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);transition:background var(--transition),color var(--transition); word-wrap: break-word; overflow-wrap: break-word; max-width: 100vw; overflow-x: hidden;}
+img,svg{display:block;max-width:100%;height:auto}
+button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
-  <style>
-    * { box-sizing: border-box; }
+/* ── Layout Helpers ── */
+.container{max-width:960px;margin-inline:auto;padding-inline:var(--space-4)}
+.container-wide{max-width:1200px;margin-inline:auto;padding-inline:var(--space-4)}
 
-    body{
-      margin:0; padding:0;
-      height:100dvh; width:100vw;
-      overflow:hidden;
-      background:#0f172a;
-      color:#fff;
-      font-family:'Tajawal', sans-serif;
-      display:flex;
-      flex-direction:column;
-    }
+/* ── Header / Nav ── */
+.site-header{position:sticky;top:0;z-index:100;background:color-mix(in oklab,var(--color-bg) 85%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--color-divider);transition:background var(--transition)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding-block:var(--space-3);gap:var(--space-4)}
+.logo{display:flex;align-items:center;gap:var(--space-3);text-decoration:none;color:var(--color-text)}
+.logo-icon{width:40px;height:40px;flex-shrink:0}
+.logo-text{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;line-height:1.2}
+.logo-text span{display:block;font-size:var(--text-xs);font-family:var(--font-body);color:var(--color-text-muted);font-weight:400}
+.nav-actions{display:flex;align-items:center;gap:var(--space-2)}
+.nav-links{display:flex;align-items:center;gap:var(--space-1)}
+.nav-link{padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);font-size:var(--text-sm);font-weight:500;text-decoration:none;color:var(--color-text-muted);transition:color var(--transition),background var(--transition)}
+.nav-link:hover{color:var(--color-text);background:var(--color-surface-offset)}
+.nav-link.active{color:var(--color-primary)}
+.theme-btn{width:38px;height:38px;border-radius:var(--radius-full);display:grid;place-items:center;color:var(--color-text-muted);transition:color var(--transition),background var(--transition)}
+.theme-btn:hover{color:var(--color-text);background:var(--color-surface-offset)}
+@media(max-width:850px){.nav-links{display:none}}
 
-    #visual-container{
-      flex:0 0 45%;
-      width:100%;
-      position:relative;
-      background: radial-gradient(circle at center, #1e293b, #020617);
-      border-bottom:4px solid #fbbf24;
-      overflow:hidden;
-    }
+/* ── Hero ── */
+.hero{padding:var(--space-16) 0 var(--space-12);text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,color-mix(in oklab,var(--color-primary) 8%,transparent),transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-4);background:var(--color-gold-light);border:1px solid var(--color-gold-border);border-radius:var(--radius-full);font-size:var(--text-sm);color:var(--color-gold);margin-bottom:var(--space-6);font-weight:600}
+.hero h1{font-family:var(--font-display);font-size:var(--text-2xl);color:var(--color-text);line-height:1.25;margin-bottom:var(--space-4);max-width:800px;margin-inline:auto}
+.hero p{font-size:var(--text-lg);color:var(--color-text-muted);max-width:560px;margin-inline:auto;margin-bottom:var(--space-8)}
+.hero-ctas{display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-3) var(--space-6);border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:600;text-decoration:none;transition:all var(--transition);border:1.5px solid transparent;line-height:1; cursor:pointer;}
+.btn-primary{background:var(--color-primary);color:#fff;border-color:var(--color-primary)}
+.btn-primary:hover{background:var(--color-primary-hover);border-color:var(--color-primary-hover);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.btn-ghost{color:var(--color-text-muted);border-color:var(--color-border)}
+.btn-ghost:hover{color:var(--color-text);background:var(--color-surface-offset);border-color:var(--color-border)}
+.hero-stats{display:flex;gap:var(--space-8);justify-content:center;margin-top:var(--space-10);padding-top:var(--space-8);border-top:1px solid var(--color-divider);flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-family:var(--font-display);font-size:var(--text-xl);color:var(--color-primary);font-weight:700;display:block;line-height:1}
+.stat-label{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-1)}
 
-    /* المحتوى: سايدبار + خطوات */
-    #content-container{
-      flex:1;
-      overflow-y:auto;
-      overflow-x:hidden;
-      padding:12px;
-      background:#0f172a;
-      -webkit-overflow-scrolling:touch;
-      scroll-behavior:auto;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
+/* ── Section Wrapper ── */
+.section{padding-block:clamp(3rem,6vw,5rem)}
+.section-header{margin-bottom:var(--space-10)}
+.section-eyebrow{display:inline-flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--color-primary);margin-bottom:var(--space-3)}
+.section-eyebrow::before{content:'';display:block;width:20px;height:2px;background:var(--color-primary);border-radius:var(--radius-full)}
+.section-title{font-family:var(--font-display);font-size:var(--text-xl);color:var(--color-text);line-height:1.3;margin-bottom:var(--space-3)}
+.section-desc{color:var(--color-text-muted);max-width:60ch;font-size:var(--text-base)}
 
-    @media (min-width: 992px){
-      body{ flex-direction:row; }
-      #visual-container{
-        flex:0 0 50%;
-        height:100%;
-        border-bottom:none;
-        border-left:4px solid #fbbf24;
-      }
-      #content-container{
-        flex:1;
-        height:100%;
-        padding:18px;
-        flex-direction:row;
-        gap:16px;
-      }
-    }
+/* ── Tips Grid ── */
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:var(--space-4)}
+.tip-card{background:var(--color-surface);border:1px solid oklch(from var(--color-text) l c h / .08);border-radius:var(--radius-xl);padding:var(--space-6);transition:box-shadow var(--transition),transform var(--transition)}
+.tip-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.tip-icon{width:44px;height:44px;border-radius:var(--radius-lg);background:var(--color-primary-highlight);display:grid;place-items:center;margin-bottom:var(--space-4);color:var(--color-primary)}
+.tip-title{font-weight:700;font-size:var(--text-base);margin-bottom:var(--space-2);color:var(--color-text)}
+.tip-desc{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.7}
 
-    #sidebar{ width:100%; }
-    #main-steps{ width:100%; min-width:0; }
+/* ── Pillars Banner ── */
+.pillars-banner{margin-top:var(--space-8);background:linear-gradient(135deg,var(--color-primary),var(--color-primary-active));border-radius:var(--radius-2xl);padding:var(--space-8);display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)}
+.pillar-item{display:flex;gap:var(--space-3);align-items:flex-start}
+.pillar-dot{width:8px;height:8px;border-radius:var(--radius-full);background:#fff;opacity:.7;margin-top:.5em;flex-shrink:0}
+.pillar-text{color:#fff;font-size:var(--text-sm);line-height:1.6;opacity:.92}
 
-    @media (min-width: 992px){
-      #sidebar{ flex:0 0 300px; max-width:300px; }
-      #main-steps{ flex:1; }
-    }
+/* ── Umrah Box ── */
+.umrah-box { background: var(--color-surface-2); border: 1px solid var(--color-primary); border-radius: var(--radius-2xl); padding: var(--space-8); box-shadow: var(--shadow-md); }
+.umrah-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-8); }
+.umrah-section h4 { color: var(--color-primary); font-family: var(--font-display); font-size: var(--text-lg); margin-bottom: var(--space-4); border-bottom: 2px solid var(--color-primary-highlight); padding-bottom: var(--space-2); display: inline-block; }
+.umrah-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.umrah-list li { position: relative; padding-right: 1.8rem; font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; }
+.umrah-list li::before { content: '🕋'; position: absolute; right: 0; top: 2px; font-size: 1rem; }
+.umrah-list li strong { color: var(--color-text); }
 
-    #sidebar-inner{
-      background: rgba(15,23,42,0.98);
-      border-radius:16px;
-      border:1px solid rgba(148,163,184,0.25);
-      padding:10px;
-    }
+/* ── Prohibitions Slider ── */
+.slider-wrapper { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: var(--space-4); padding-bottom: var(--space-4); scrollbar-width: thin; scrollbar-color: var(--color-primary) var(--color-surface-offset); }
+.slider-wrapper::-webkit-scrollbar { height: 8px; }
+.slider-wrapper::-webkit-scrollbar-track { background: var(--color-surface-offset); border-radius: var(--radius-full); }
+.slider-wrapper::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: var(--radius-full); }
+.prohibition-slide { flex: 0 0 min(320px, 85vw); scroll-snap-align: start; background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius-xl); overflow: hidden; display: flex; flex-direction: column; transition: transform var(--transition), box-shadow var(--transition); }
+.prohibition-slide:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.slide-media { height: 180px; background: var(--color-surface-offset); display: flex; align-items: center; justify-content: center; color: var(--color-text-faint); font-size: var(--text-sm); position: relative; border-bottom: 1px solid var(--color-divider); }
+.slide-media img, .slide-media video { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; display: none; }
+.slide-content { padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); flex: 1; }
+.slide-target { font-size: 0.75rem; font-weight: 700; padding: 4px 10px; background: var(--color-primary-highlight); color: var(--color-primary-active); border-radius: var(--radius-full); width: fit-content; margin-bottom: var(--space-1); }
+.slide-title { font-family: var(--font-display); font-size: var(--text-lg); color: var(--color-text); font-weight: bold; line-height: 1.2; }
+.slide-desc { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; }
 
-    @media (min-width: 992px){
-      #sidebar-inner{
-        position:sticky;
-        top:10px;
-        max-height: calc(100vh - 36px);
-        overflow-y:auto;
-      }
-    }
+/* ── Tabs & Type Content ── */
+.tabs-wrapper{border-radius:var(--radius-2xl);overflow:hidden;background:var(--color-surface);box-shadow:var(--shadow-md);border:1px solid oklch(from var(--color-text) l c h / .07)}
+.tabs-header{display:grid;grid-template-columns:repeat(3,1fr);background:var(--color-surface-offset)}
+.tab-btn{padding:var(--space-4) var(--space-6);font-size:var(--text-sm);font-weight:600;font-family:var(--font-body);color:var(--color-text-muted);border-bottom:2px solid transparent;transition:all var(--transition);text-align:center}
+.tab-btn:hover{color:var(--color-text);background:var(--color-surface-dynamic)}
+.tab-btn.active{color:var(--color-primary);border-bottom-color:var(--color-primary);background:var(--color-surface)}
 
-    /* بطاقات الخطوات */
-    .step-card{
-      background:#1e293b;
-      border:1px solid #334155;
-      border-radius:16px;
-      padding:18px;
-      margin-bottom:24px;
-      opacity:0.3;
-      transition: opacity 0.25s, transform 0.25s, border-color 0.25s, box-shadow 0.25s;
-      cursor:pointer;
-      user-select:none;
-    }
-    .step-card.active-step{
-      opacity:1;
-      transform:scale(1.02);
-      border-color:#fbbf24;
-      box-shadow: 0 0 20px rgba(251,191,36,0.12);
-    }
+.type-content{display:grid;grid-template-columns:1fr 2fr;gap:var(--space-8);align-items:start; padding: var(--space-8); border-bottom: 1px solid var(--color-divider); animation:fadeIn .25s ease; max-width: 100%;}
+.type-badge-big{background:var(--color-primary-highlight);border-radius:var(--radius-xl);padding:var(--space-6);text-align:center}
+.type-icon-big{font-size:2.5rem;margin-bottom:var(--space-3);display:block}
+.type-badge-big h3{font-family:var(--font-display);font-size:var(--text-xl);color:var(--color-primary);margin-bottom:var(--space-2)}
+.type-badge-big p{font-size:var(--text-xs);color:var(--color-primary);opacity:.8;font-weight:600}
+.type-desc p{font-size:var(--text-base);color:var(--color-text-muted);line-height:1.8;margin-bottom:var(--space-4)}
+.type-steps{list-style:none;display:flex;flex-direction:column;gap:var(--space-3)}
+.type-step{display:flex;gap:var(--space-3);align-items:flex-start;font-size:var(--text-sm);color:var(--color-text-muted)}
+.step-num{width:24px;height:24px;border-radius:var(--radius-full);background:var(--color-primary);color:#fff;font-size:var(--text-xs);font-weight:700;display:grid;place-items:center;flex-shrink:0;margin-top:.15em}
 
-    h2{
-      color:#fbbf24;
-      font-weight:800;
-      font-size:1.22rem;
-      border-bottom:1px solid #475569;
-      padding-bottom:10px;
-      margin-bottom:12px;
-    }
+/* ── Timeline ── */
+.timeline{display:flex;flex-direction:column;gap:var(--space-3); padding: var(--space-8); animation:fadeIn .25s ease}
+.day-card{background:var(--color-surface);border:1px solid oklch(from var(--color-text) l c h / .07);border-radius:var(--radius-xl);overflow:hidden;transition:box-shadow var(--transition)}
+.day-card:hover{box-shadow:var(--shadow-md)}
+.day-header{display:flex;align-items:center;gap:var(--space-4);padding:var(--space-5) var(--space-6);cursor:pointer;user-select:none;transition:background var(--transition)}
+.day-header:hover{background:var(--color-surface-offset)}
+.day-num{width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-primary);color:#fff;display:grid;place-items:center;flex-shrink:0}
+.day-num-text{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;line-height:1}
+.day-info{flex:1}
+.day-name{font-weight:700;font-size:var(--text-base);color:var(--color-text)}
+.day-date{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:2px}
+.day-chevron{color:var(--color-text-faint);transition:transform var(--transition);flex-shrink:0}
+.day-card.open .day-chevron{transform:rotate(180deg)}
+.day-body{display:none;border-top:1px solid var(--color-divider)}
+.day-card.open .day-body{display:block}
 
-    .phase-badge{
-      display:inline-block;
-      background:#334155;
-      color:#cbd5e1;
-      padding:4px 8px;
-      border-radius:8px;
-      font-size:0.72rem;
-      margin-bottom:8px;
-    }
+/* Prayer box */
+.prayer-box{margin:var(--space-5) var(--space-6);background:var(--color-gold-light);border:1px solid var(--color-gold-border);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-5);display:flex;gap:var(--space-3);align-items:flex-start}
+.prayer-icon{flex-shrink:0;color:var(--color-gold);margin-top:2px}
+.prayer-title{font-weight:700;font-size:var(--text-sm);color:var(--color-gold);margin-bottom:var(--space-1)}
+.prayer-text{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.7}
 
-    .quran{
-      font-family:'Amiri', serif;
-      color:#fcd34d;
-      background: rgba(251,191,36,0.05);
-      border-right:3px solid #fcd34d;
-      padding:10px;
-      margin:10px 0;
-      font-size:1.02rem;
-      line-height:1.85;
-      white-space:pre-wrap;
-    }
+/* Hourly timeline */
+.hours-timeline{padding:var(--space-2) var(--space-6) var(--space-6);display:flex;flex-direction:column;gap:0}
+.hour-item{display:grid;grid-template-columns:140px 1fr;gap:0;position:relative}
+.hour-item::before{content:'';position:absolute;right:127px;top:26px;bottom:-10px;width:1px;background:var(--color-divider)}
+.hour-item:last-child::before{display:none}
+.hour-time{padding:var(--space-3) var(--space-4) var(--space-3) 0;text-align:left;display:flex;align-items:flex-start;justify-content:flex-end;gap:var(--space-2);position:relative;padding-top:14px}
+.hour-dot{width:10px;height:10px;border-radius:var(--radius-full);background:var(--color-primary);flex-shrink:0;margin-top:5px;position:relative;z-index:1}
+.hour-time-label{font-size:var(--text-xs);color:var(--color-text-muted);font-weight:600;text-align:right;line-height:1.4;padding-top:2px}
+.hour-content{padding:var(--space-3) var(--space-3) var(--space-5);margin-right:var(--space-4)}
+.hour-action{background:var(--color-surface-2);border:1px solid oklch(from var(--color-text) l c h / .06);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-5);transition:box-shadow var(--transition); max-width: 100%;}
+.hour-action:hover{box-shadow:var(--shadow-sm)}
+.hour-action-header{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);margin-bottom:var(--space-2); flex-wrap: wrap;}
+.hour-action-title{font-weight:700;font-size:var(--text-sm);color:var(--color-text)}
+.hour-action-details{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.7}
 
-    .alert-red{
-      background: rgba(220,38,38,0.15);
-      border: 1px solid #dc2626;
-      color:#fca5a5;
-      padding:12px;
-      border-radius:12px;
-      font-size:0.95rem;
-      margin-top:10px;
-      white-space:pre-wrap;
-    }
-    .alert-green{
-      background: rgba(16,185,129,0.15);
-      border:1px solid #059669;
-      color:#6ee7b7;
-      padding:12px;
-      border-radius:12px;
-      font-size:0.95rem;
-      margin-top:10px;
-      white-space:pre-wrap;
-    }
-    .alert-slate{
-      background: rgba(2,6,23,0.35);
-      border:1px solid rgba(148,163,184,0.25);
-      color:#e2e8f0;
-      padding:12px;
-      border-radius:12px;
-      font-size:0.95rem;
-      margin-top:10px;
-      white-space:pre-wrap;
-    }
+/* Action Links & Images */
+.hour-link-add{display:inline-flex;align-items:center;gap:var(--space-1);font-size:var(--text-xs);color:var(--color-text-faint);border:1px dashed var(--color-border);padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);transition:all var(--transition);cursor:pointer;background:none;font-family:var(--font-body)}
+.hour-link-add:hover{color:var(--color-primary);border-color:var(--color-primary)}
+.action-media-box { margin-top: var(--space-3); display: flex; flex-direction: column; gap: var(--space-2); }
+.action-img { max-width: 100%; border-radius: var(--radius-md); display: none; border: 1px solid var(--color-border); }
+.action-link-btn { display: none; align-items: center; gap: var(--space-1); font-size: var(--text-xs); color: var(--color-primary); text-decoration: none; font-weight: 600; padding: var(--space-1) var(--space-3); background: var(--color-primary-highlight); border-radius: var(--radius-full); transition: all var(--transition); width: fit-content;}
+.action-link-btn:hover { background: var(--color-primary); color: #fff; }
 
-    .tiny-note{
-      color:#94a3b8;
-      font-size:0.86rem;
-      margin-top:10px;
-      white-space:pre-wrap;
-    }
+.is-prayer{background:color-mix(in oklab,var(--color-gold-light) 100%,transparent);border-color:var(--color-gold-border)!important}
+.is-prayer .hour-action-title{color:var(--color-gold)}
 
-    /* عدّادات */
-    .counter-inline{
-      margin-top:14px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      padding:12px;
-      border-radius:14px;
-      border:1px dashed rgba(251,191,36,0.55);
-      background: rgba(251,191,36,0.06);
-    }
-    .counter-inline .counter-title{
-      font-weight:900;
-      color:#e2e8f0;
-      font-size:0.95rem;
-      white-space:nowrap;
-    }
-    .counter-inline .counter-num{
-      min-width:58px;
-      text-align:center;
-      font-weight:900;
-      color:#fbbf24;
-      font-size:1.35rem;
-      line-height:1;
-      padding:8px 10px;
-      border-radius:12px;
-      border:1px solid rgba(251,191,36,0.5);
-      background: rgba(2,6,23,0.35);
-      cursor:pointer;
-      user-select:none;
-    }
-    .counter-inline .counter-btn{
-      background:#fbbf24;
-      color:#0f172a;
-      border:0;
-      padding:10px 12px;
-      border-radius:12px;
-      font-weight:900;
-      cursor:pointer;
-      white-space:nowrap;
-    }
-    .counter-inline .counter-btn:active{ transform:scale(0.98); }
+/* ── Extra Content Cards ── */
+.extra-content-grid {display: grid; grid-template-columns: 1fr; gap: var(--space-4); margin-top: var(--space-6);}
+.extra-card {background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-6);}
+.extra-card h3 {color: var(--color-primary); margin-bottom: var(--space-3); font-family: var(--font-display); font-size: var(--text-lg);}
+.extra-list {list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--space-2);}
+.extra-list li {position: relative; padding-right: 1.5rem; font-size: var(--text-sm); color: var(--color-text-muted);}
+.extra-list li::before {content: '🔸'; position: absolute; right: 0; top: 2px; font-size: 0.8rem;}
 
-    .counter-inline.completed{
-      border-color: rgba(16,185,129,0.95);
-      background: rgba(16,185,129,0.16);
-    }
-    .counter-inline.completed .counter-num{
-      color:#052e16;
-      background: rgba(16,185,129,0.95);
-      border-color: rgba(16,185,129,0.95);
-    }
-    .counter-inline.completed .counter-btn{
-      background: rgba(16,185,129,0.95);
-      color:#052e16;
-    }
-    .counter-action.is-done{
-      pointer-events:none;
-      opacity:0.95;
-      cursor:default;
-    }
+/* ── Responsive Mobile Fixes ── */
+@media(max-width:640px){
+  .hour-item{grid-template-columns:1fr}
+  .hour-item::before{display:none}
+  .hour-time{justify-content:flex-start;padding:var(--space-3) 0 var(--space-1);flex-direction:row-reverse}
+  .hour-time-label{text-align:right}
+  .hour-content{padding:0 0 var(--space-4);margin-right:0}
+  .day-header{padding:var(--space-4)}
+  .prayer-box,.hours-timeline{margin-inline:var(--space-4);padding-inline:0}
+  .hours-timeline{padding-inline:var(--space-4)}
+  .pillars-banner{padding:var(--space-5); grid-template-columns:1fr;}
+  .type-content{grid-template-columns:1fr; padding:var(--space-4)}
+  .timeline{padding: var(--space-4);}
+  .hero h1{font-size:clamp(1.6rem,5vw,3rem)}
+  .prayer-box { flex-direction: column; }
+  .umrah-box { padding: var(--space-5); }
+}
 
-    /* Mini toast */
-    #mini-toast{
-      position:fixed;
-      top:14px;
-      left:14px;
-      z-index:10000;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid rgba(148,163,184,0.35);
-      background: rgba(2,6,23,0.78);
-      color:#e2e8f0;
-      font-weight:800;
-      font-size:0.95rem;
-      opacity:0;
-      transform: translateY(-10px);
-      pointer-events:none;
-      transition: opacity 0.25s, transform 0.25s;
-      max-width: min(92vw, 520px);
-    }
-    #mini-toast.show{ opacity:1; transform: translateY(0); }
+/* ── Scroll Reveal ── */
+.fade-in{opacity:1}
+@supports(animation-timeline:scroll()){
+  .fade-in{opacity:0;animation:reveal-fade linear both;animation-timeline:view();animation-range:entry 0% entry 80%}
+  @keyframes reveal-fade{to{opacity:1}}
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
-    /* أزرار التالي/السابق */
-    .step-nav{
-      position:fixed;
-      bottom:12px;
-      right:12px;
-      display:flex;
-      gap:10px;
-      z-index:9999;
-    }
-    .step-nav button{
-      background:#fbbf24;
-      color:#0f172a;
-      border:0;
-      padding:10px 14px;
-      border-radius:12px;
-      font-weight:900;
-      cursor:pointer;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-    }
-    .step-nav button:active{ transform:scale(0.98); }
-    .step-nav button:disabled{ opacity:0.5; cursor:not-allowed; transform:none; }
+/* ── Footer & Modals ── */
+.site-footer{border-top:1px solid var(--color-divider);padding-block:var(--space-8);text-align:center;color:var(--color-text-faint);font-size:var(--text-xs)}
+.site-footer a{color:var(--color-text-muted);text-decoration:none}
+.site-footer a:hover{color:var(--color-primary)}
 
-    /* أزرار نوع الحج (سايدبار) */
-    .type-btn{
-      width:100%;
-      border:1px solid rgba(148,163,184,0.25);
-      background: rgba(51,65,85,0.55);
-      color:#e2e8f0;
-      padding:10px 12px;
-      border-radius:12px;
-      font-weight:900;
-      margin-bottom:8px;
-      text-align:right;
-    }
-    .type-btn.active{
-      background:#fbbf24;
-      color:#0f172a;
-      border-color:#fbbf24;
-    }
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:grid;place-items:center;padding:var(--space-4);opacity:0;pointer-events:none;transition:opacity var(--transition)}
+.modal-backdrop.open{opacity:1;pointer-events:auto}
+.modal{background:var(--color-surface);border-radius:var(--radius-xl);padding:var(--space-8);width:100%;max-width:440px;box-shadow:var(--shadow-lg);transform:scale(.97);transition:transform var(--transition); max-height:90vh; overflow-y:auto; overflow-x:hidden;}
+.modal-wide{max-width: 600px;}
+.modal-backdrop.open .modal{transform:scale(1)}
+.modal h3{font-family:var(--font-display);font-size:var(--text-lg);margin-bottom:var(--space-5);color:var(--color-text)}
+.modal label {font-size:var(--text-sm); font-weight:bold; display:block; margin-bottom:var(--space-2); color:var(--color-text)}
+.modal input{width:100%;padding:var(--space-3) var(--space-4);border:1.5px solid var(--color-border);border-radius:var(--radius-md);font-size:var(--text-sm);font-family:var(--font-body);background:var(--color-surface-2);color:var(--color-text);margin-bottom:var(--space-4);transition:border-color var(--transition)}
+.modal input:focus{outline:none;border-color:var(--color-primary)}
+.modal-actions{display:flex;gap:var(--space-3);justify-content:flex-end; margin-top:1rem}
+.btn-sm{padding:var(--space-2) var(--space-4);font-size:var(--text-sm);border-radius:var(--radius-md)}
+.modal-content-list { list-style: none; padding: 0; margin-bottom: 1rem; }
+.modal-content-list li { margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-divider); font-size: var(--text-sm); }
+.modal-content-list li:last-child { border-bottom: none; }
 
-    /* Accordion in sidebar */
-    .side-box{
-      border:1px solid rgba(148,163,184,0.22);
-      background: rgba(2,6,23,0.22);
-      border-radius:14px;
-      padding:10px;
-      margin-top:10px;
-    }
-    .side-title{
-      font-weight:900;
-      color:#fbbf24;
-      margin-bottom:6px;
-      font-size:0.95rem;
-    }
-    .side-text{
-      color:#cbd5e1;
-      font-size:0.9rem;
-      line-height:1.85;
-      white-space:pre-wrap;
-    }
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--color-primary);z-index:999;width:0%;transition:width .1s linear}
+/* ستايلات الكروت التفاعلية الجديدة */
+/* تحويل الجريد لسلايدر أفقي سلس */
+.hajj-grid { 
+    display: flex; 
+    gap: 20px; 
+    overflow-x: auto; 
+    padding-bottom: 20px; 
+    scrollbar-width: thin; /* للمتصفحات الحديثة */
+    scroll-snap-type: x mandatory; /* يخلي السلايد يثبت في مكانه */
+}
 
-    .side-link{
-      display:block;
-      width:100%;
-      text-align:right;
-      background: rgba(15,23,42,0.35);
-      border:1px solid rgba(148,163,184,0.18);
-      color:#e2e8f0;
-      padding:10px 12px;
-      border-radius:12px;
-      font-weight:900;
-      margin-top:8px;
-      cursor:pointer;
-    }
-    .side-link:active{ transform:scale(0.99); }
-  </style>
+/* تحسين شكل الكارت داخل السلايدر */
+.interactive-card { 
+    min-width: 320px; /* عرض الكارت */
+    flex-shrink: 0; 
+    scroll-snap-align: start; 
+    background: var(--color-surface-2); 
+    border: 1px solid var(--color-border); 
+    border-radius: var(--radius-xl); 
+    display: flex; 
+    flex-direction: column; 
+    height: auto;
+}
+
+/* تحسين السكرول بار (Scrollbar) */
+.hajj-grid::-webkit-scrollbar { height: 6px; }
+.hajj-grid::-webkit-scrollbar-track { background: var(--color-surface-offset); border-radius: 10px; }
+.hajj-grid::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 10px; }
+.card-visuals { position: relative; height: 200px; background: #eee; overflow: hidden; }
+.carousel-track { height: 100%; display: flex; transition: transform 0.5s ease; }
+.inner-slide { min-width: 100%; height: 100%; }
+.inner-slide img { width: 100%; height: 100%; object-fit: cover; }
+.card-info { padding: 20px; flex-grow: 1; }
+.info-badge { background: var(--color-primary-highlight); color: var(--color-primary); font-size: 10px; font-weight: bold; padding: 3px 12px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+.info-title { font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 8px; color: var(--color-text); }
+.info-details { font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.6; }
+.info-conditions { margin-top: 15px; padding: 12px; background: var(--color-bg); border-radius: var(--radius-md); border-right: 3px solid var(--color-gold); }
+.info-conditions strong { font-size: 0.8rem; color: var(--color-gold); display: block; }
+.info-conditions p { font-size: 0.85rem; margin-top: 5px; color: var(--color-text); }
+.inner-nav-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px; }
+.ind-dot { width: 6px; height: 6px; background: rgba(255,255,255,0.5); border-radius: 50%; transition: 0.3s; }
+.ind-dot.active { background: #fff; width: 15px; border-radius: 4px; }
+.info-conditions { 
+  margin-top: 15px; 
+  padding: 12px; 
+  background: var(--color-surface-offset); 
+  border-radius: var(--radius-md); 
+  border-right: 4px solid var(--color-gold); 
+  display: block !important; 
+}
+.interactive-card { height: 100%; display: flex; flex-direction: column; }
+.card-info { flex-grow: 1; }
+/* ألوان التاجات المخصصة */
+.badge-red { background: #fee2e2 !important; color: #dc2626 !important; border: 1px solid #fca5a5; }
+.badge-green { background: #dcfce7 !important; color: #16a34a !important; border: 1px solid #bbf7d0; }
+.badge-default { background: var(--color-primary-highlight); color: var(--color-primary); }
+</style>
 </head>
-
 <body>
-  <div id="visual-container"></div>
 
-  <div id="content-container">
-    <!-- Sidebar -->
-    <div id="sidebar">
-      <div id="sidebar-inner">
+<div id="progress-bar"></div>
 
-        <div class="text-slate-200 text-sm font-extrabold mb-2">نوع الحج:</div>
-        <button class="type-btn active" data-type="tamattu" type="button">حج التمتع</button>
-        <button class="type-btn" data-type="qiran" type="button">حج القِران</button>
-        <button class="type-btn" data-type="ifrad" type="button">حج الإفراد</button>
+<header class="site-header">
+  <div class="nav-inner container-wide">
+    <a href="#" class="logo">
+      <svg class="logo-icon" viewBox="0 0 40 40" fill="none">
+        <rect width="40" height="40" rx="10" fill="var(--color-primary)"/>
+        <path d="M20 7 C14 7 9 12 9 18 C9 22 11 25.5 14 27.5 L14 31 C14 31.6 14.4 32 15 32 L25 32 C25.6 32 26 31.6 26 31 L26 27.5 C29 25.5 31 22 31 18 C31 12 26 7 20 7Z" fill="white" opacity=".9"/>
+        <path d="M17 32 L23 32" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
+        <path d="M16 34 L24 34" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+        <circle cx="20" cy="18" r="4" fill="var(--color-primary)"/>
+        <path d="M20 6 L20 4" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M31 14 L33 13" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M9 14 L7 13" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <div class="logo-text">
+        دليل الحج والعمرة
+        <span>الدليل التفاعلي الشامل</span>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="#tips" class="nav-link">النصائح والأركان</a>
+      <a href="#umrah-section" class="nav-link">العمرة والمحظورات</a>
+      <a href="#types" class="nav-link">أنواع النسك (الحج)</a>
+      <a href="#extra-info" class="nav-link">إضافات وفتاوى</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-btn" data-theme-toggle aria-label="تبديل المظهر">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
 
-        <div class="side-box" id="type-summary-box">
-          <div class="side-title">ملخص النوع</div>
-          <div class="side-text" id="type-summary"></div>
-        </div>
-
-        <div class="side-box">
-          <div class="side-title">تنقّل سريع</div>
-          <button class="side-link" type="button" data-jump="step-intro">أركان الحج + الخريطة العامة</button>
-          <button class="side-link" type="button" data-jump="appendix-manhurat">محظورات الإحرام (ملحق)</button>
-          <button class="side-link" type="button" data-jump="appendix-women">حج المرأة (ملحق)</button>
-          <button class="side-link" type="button" data-jump="appendix-checklist">مستلزمات الحاج (ملحق)</button>
-          <button class="side-link" type="button" data-jump="appendix-nums">أرقام مهمة (ملحق)</button>
-          <button class="side-link" type="button" data-jump="appendix-duas">جوامع الدعاء (ملحق)</button>
-        </div>
-
-        <div class="side-box">
-          <div class="side-title">معلومة تشغيل</div>
-          <div class="side-text">
-- اضغط على أي بطاقة خطوة عشان تروح لها.
-- زر "تم" في العدّاد يقلل العدد تدريجياً لحد ما يخلص ويتحوّل أخضر.
-- الصوت العربي شغال تلقائي عند الضغط على العدّادات.
-          </div>
-        </div>
-
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      دليل متكامل للحاج والمعتمر
+    </div>
+    <h1>الدليل التفاعلي الشامل<br>لمناسك الحج والعمرة</h1>
+    <p>خريطة زمنية تفصيلية، إرشادات العمرة، محظورات الإحرام، وفتاوى شرعية</p>
+   <div class="hero-ctas">
+  <a href="#types" class="btn btn-primary">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5,12 19,12"/><polyline points="12,5 19,12 12,19"/></svg>
+    ابدأ خريطة الحج
+  </a>
+  <button onclick="openExternalGuide('https://umrasteps.vercel.app/')" class="btn btn-ghost">🕋 دليل العمرة</button>
+  <button onclick="openExternalGuide('https://hajjsteps.vercel.app/')" class="btn btn-ghost">🚶 دليل الحج</button>
+</div>
+  
+</section>
+<section class="section" id="virtues" style="background:var(--color-surface-offset-2)">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">بُشرى النَّبي ﷺ</div>
+      <h2 class="section-title">فضائل الحج والعمرة</h2>
+      <p class="section-desc">أحاديث نبوية شريفة في فضل قصد بيت الله الحرام</p>
+    </div>
+    
+    <div class="tips-grid fade-in">
+      <div class="tip-card">
+        <div class="tip-icon">✨</div>
+        <div class="tip-title">أجر الحج والعمرة معًا</div>
+        <p class="tip-desc">«الْعُمْرَةُ إِلَى الْعُمْرَةِ كَفَّارَةٌ لِمَا بَيْنَهُمَا، وَالْحَجُّ الْمَبْرُورُ لَيْسَ لَهُ جَزَاءٌ إِلَّا الْجَنَّةُ».</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">⚪</div>
+        <div class="tip-title">غفران الذنوب</div>
+        <p class="tip-desc">«مَنْ حَجَّ لِلَّهِ فَلَمْ يَرْفُثْ وَلَمْ يَفْسُقْ، رَجَعَ كَيَوْمِ وَلَدَتْهُ أُمُّهُ».</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🤲</div>
+        <div class="tip-title">استجابة الدعاء</div>
+        <p class="tip-desc">«الْحُجَّاجُ وَالْعُمَّارُ وَفْدُ اللَّهِ، إِنْ دَعَوْهُ أَجَابَهُمْ، وَإِنِ اسْتَغْفَرُوهُ غَفَرَ لَهُمْ».</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">💰</div>
+        <div class="tip-title">فضل النفقة عليهما</div>
+        <p class="tip-desc">«النَّفَقَةُ فِي الْحَجِّ كَالنَّفَقَةِ فِي سَبِيلِ اللَّهِ، الدِّرْهَمُ بِسَبْعِمِائَةِ ضِعْفٍ».</p>
       </div>
     </div>
+  </div>
+</section>
+<section class="section" id="umrah-section" style="background: var(--color-bg)">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-eyebrow">قبل البدء</div>
+            <h2 class="section-title">نصائح وتوجيهات هامة والأركان</h2>
+            <p class="section-desc">استعداد روحي وجسدي وعلمي قبل الشروع في أداء المناسك</p>
+        </div>
+        
+        <div id="umrah-container"></div>
+    </div>
+</section>
 
-    <!-- Main steps -->
-    <div id="main-steps">
-      <div id="steps-host"></div>
-      <div class="h-10"></div>
+<section class="section" id="prohibitions-section" style="background: #fffafa;">
+    <div class="container-wide">
+        <div class="section-header fade-in container" style="margin-bottom: var(--space-6);">
+            <div class="section-eyebrow" style="color: #dc2626;">احذر الوقوع فيها</div>
+            <h2 class="section-title" style="color: #b91c1c;">محظورات الإحرام</h2>
+            <p class="section-desc">دليل كامل لما يجب تجنبه تماماً أثناء فترة الإحرام.</p>
+        </div>
+        <div id="prohibitions-slider" class="hajj-grid" style="display: flex; gap: 20px; overflow-x: auto; padding: 20px; scroll-snap-type: x mandatory;">
+            </div>
+    </div>
+</section>
+
+<section class="section" id="permitted-section" style="background: #f5fff6;">
+    <div class="container-wide">
+        <div class="section-header fade-in container" style="margin-bottom: var(--space-6);">
+            <div class="section-eyebrow" style="color: #16a34a;">تيسير الشريعة</div>
+            <h2 class="section-title" style="color: #15803d;">مباحات الإحرام</h2>
+            <p class="section-desc">أمور رخص بها الشرع ولا تؤثر على صحة الإحرام.</p>
+        </div>
+        <div id="permitted-slider" class="hajj-grid" style="display: flex; gap: 20px; overflow-x: auto; padding: 20px; scroll-snap-type: x mandatory;">
+            </div>
+    </div>
+</section>
+<section class="section" id="types" style="background:var(--color-surface-offset)">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">خريطة الحج</div>
+      <h2 class="section-title">أنواع النسك والخريطة الزمنية</h2>
+      <p class="section-desc">حدد نوع النسك ليتم عرض كافة تفاصيله والخريطة الزمنية بالساعات والصلوات المخصصة له.</p>
+    </div>
+    
+    <div class="tabs-wrapper fade-in">
+     <div class="tabs-header" id="tabs-header">
+    <button class="tab-btn active" onclick="renderNusk('umrah_full', this)">مناسك العمرة</button>
+    <button class="tab-btn" onclick="renderNusk('tamattu', this)">حج التمتع</button>
+    <button class="tab-btn" onclick="renderNusk('qiran', this)">حج القران</button>
+    <button class="tab-btn" onclick="renderNusk('ifrad', this)">حج الإفراد</button>
+</div>
+      <div id="nusk-container"></div>
     </div>
   </div>
+</section>
 
-  <div id="mini-toast"></div>
-
-  <div class="step-nav">
-    <button id="btn-prev" type="button">السابق</button>
-    <button id="btn-next" type="button">التالي</button>
+<section class="section" id="extra-info">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">إضافات هامة</div>
+      <h2 class="section-title">موسوعة الأحكام، الأدعية وزيارة المدينة</h2>
+    </div>
+    <div class="extra-content-grid fade-in" id="extra-container">
+      </div>
   </div>
+</section>
 
+<footer class="site-footer">
+  <div class="container">
+    <p>الدليل التفاعلي الشامل لمناسك الحج والعمرة &nbsp;•&nbsp; <a href="#tips">الأعلى</a></p>
+    <p style="margin-top:var(--space-2)">يُنصح بمراجعة العلماء وأهل الفتوى لكل مسألة تخص مناسككم</p>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="mediaModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h3 id="modalTitle">إضافة وسائط توضيحية للمنسك</h3>
+    <label>رابط الصورة (لعرضها داخل المنسك):</label>
+    <input type="url" id="modalImg" placeholder="https://example.com/image.jpg" dir="ltr">
+    <label style="margin-top: 15px;">رابط خارجي (فيديو/مقال للتفاصيل):</label>
+    <input type="url" id="modalLink" placeholder="https://example.com/guide" dir="ltr">
+    <div class="modal-actions" style="margin-top: 20px;">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('mediaModal')">إلغاء</button>
+      <button class="btn btn-primary btn-sm" onclick="saveMedia()">حفظ وعرض</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="tawafModal" role="dialog" aria-modal="true">
+  <div class="modal modal-wide">
+    <h3>الدليل التفاعلي للطواف بالكعبة</h3>
+    <ul class="modal-content-list">
+      <li><strong>الشروط:</strong> الطهارة والوضوء، وستر العورة وضبط ملابس الإحرام حتى لا تنكشف.</li>
+      <li><strong>نقطة البدء:</strong> الحجر الأسود.</li>
+      <li><strong>الاستعداد (للرجال فقط):</strong> الاضطباع: جعل وسط الرداء تحت الإبط الأيمن وطرفيه على الكتف الأيسر.</li>
+      <li><strong>النية:</strong> استقبال الحجر الأسود بالوجه والصدر، رفع اليدين كالتكبير للصلاة، ونية الطواف.</li>
+      <li><strong>دعاء البدء:</strong> التهليل والتكبير وقول: 'اللهم إيمانًا بك، وتصديقًا بكتابك، ووفاءً بعهدك'.</li>
+      <li><strong>الأشواط من ١ إلى ٣:</strong> طواف حول الكعبة (على يسارك). يسن 'الرمل' للرجال (إسراع المشي). استلام الحجر مع التكبير.<br><strong style="color:var(--color-primary);">بين الركن اليماني والحجر:</strong> 'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ'.</li>
+      <li><strong>الأشواط من ٤ إلى ٧:</strong> المشي العادي مع بقاء الاضطباع للرجال. الإكثار من الدعاء الخاشع.</li>
+      <li><strong>بعد الطواف:</strong> صلاة ركعتين خلف مقام إبراهيم، الدعاء عند الملتزم، الشرب من ماء زمزم والتضلع منه والدعاء بما تحب.</li>
+    </ul>
+    <div class="modal-actions"><button class="btn btn-primary btn-sm" onclick="closeModal('tawafModal')">إغلاق الدليل</button></div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="saiModal" role="dialog" aria-modal="true">
+  <div class="modal modal-wide">
+    <h3>الدليل التفاعلي للسعي بين الصفا والمروة</h3>
+    <ul class="modal-content-list">
+      <li><strong>الشرط:</strong> أن يكون بعد طواف صحيح (سبعة أشواط). لا تشترط الطهارة للسعي.</li>
+      <li><strong>البدء من الصفا:</strong> الصعود، استقبال الكعبة، التكبير والتهليل. القول: "إِنَّ الصَّفَا وَالْمَرْوَةَ مِن شَعَائِرِ اللَّهِ. نبدأ بما بدأ الله به". <br><strong style="color:var(--color-primary);">الدعاء:</strong> "لا إله إلا الله وحده لا شريك له... (٣ مرات)".</li>
+      <li><strong>أثناء المشي:</strong> النزول والمشي باتجاه المروة. بين الميلين الأخضرين: يسن للرجال فقط 'الهرولة'.<br><strong style="color:var(--color-primary);">الدعاء:</strong> "اللهم اغفر وارحم واعف عما تعلم، وأنت الأعز الأكرم...".</li>
+      <li><strong>عند المروة:</strong> الوقوف واستقبال الكعبة، التكبير والدعاء تماماً كما فُعل على الصفا.</li>
+      <li><strong>طريقة الحساب:</strong> الذهاب من الصفا للمروة يُحسب شوطاً، والعودة للمروة للصفا شوطاً ثانياً، حتى إتمام ٧ أشواط تنتهي بالمروة.</li>
+    </ul>
+    <div class="modal-actions"><button class="btn btn-primary btn-sm" onclick="closeModal('saiModal')">إغلاق الدليل</button></div>
+  </div>
+</div>
+<div id="guideFrameContainer" style="display:none; position:fixed; inset:0; z-index:9999; background:var(--color-bg);">
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 20px; background:var(--color-surface); border-bottom:1px solid var(--color-divider);">
+        <span id="frameTitle" style="font-weight:bold; font-family:var(--font-display);">جاري تحميل الدليل...</span>
+        <button onclick="closeExternalGuide()" class="btn btn-primary btn-sm" style="padding:5px 15px;">إغلاق العرض ✕</button>
+    </div>
+    <iframe id="externalIframe" src="" style="width:100%; height:calc(100% - 50px); border:none;"></iframe>
+</div>
 <script>
-/* =========================================================
-   Mini toast
-========================================================= */
-const toastEl = document.getElementById('mini-toast');
-let toastTimer = null;
-function showToast(msg){
-  toastEl.textContent = msg;
-  toastEl.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>toastEl.classList.remove('show'), 1400);
-}
+// 1. الداتا الشاملة والمحدثة (محظورات كاملة + صور حقيقية)
+const hajjMasterData = {
+  "categories": [
+    {
+      "id": "ihram_basics",
+      "name": "📖 باب الإحرام والمواقيت",
+      "description": "تعريف الإحرام وأنواع النسك والمواقيت التي حددها الشرع.",
+      "items": [
+        { 
+          "title": "تعريف الإحرام", 
+          "details": "لغةً: المنع والتحريم. اصطلاحاً: نية الدخول في النسك.", 
+          "conditions": "يُسمى إحراماً لأن المسلم يُحرم على نفسه بنيته ما كان مباحاً له كالنكاح والطيب.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Pilgrims_at_the_Kaaba.jpg/800px-Pilgrims_at_the_Kaaba.jpg"], 
+          "type": "أساسيات" 
+        },
+        { 
+          "title": "المواقيت الزمانية", 
+          "details": "الأشهر التي يصح فيها الإحرام بالحج.", 
+          "conditions": "وهي: شوال، ذو القعدة، وعشر من ذي الحجة.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=المواقيت+الزمانية"], 
+          "type": "مواقيت" 
+        },
+        { 
+          "title": "المواقيت المكانية", 
+          "details": "ذو الحليفة (المدينة)، الجحفة (الشام ومصر)، يلملم (اليمن)، قرن المنازل (نجد)، ذات عرق (العراق).", 
+          "conditions": "أهل مكة يحرمون للحج من مكة، وللعمرة من أدنى الحل (كالتنعيم والجعرانة).", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Miqat_Dhu_al-Hulayfah.jpg/800px-Miqat_Dhu_al-Hulayfah.jpg"], 
+          "type": "مواقيت" 
+        },
+        { 
+          "title": "أنواع النسك (طرق الإحرام)", 
+          "details": "التمتع (عمرة ثم حج)، القران (عمرة وحج معاً)، الإفراد (حج فقط).", 
+          "conditions": "التمتع والقران يوجبان الهدي، أما الإفراد فليس عليه هدي.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=أنواع+النسك"], 
+          "type": "الحج" 
+        }
+      ]
+    },
+    {
+      "id": "pillars",
+      "name": "🕋 أركان الحج",
+      "description": "لا يصح الحج إلا بها، ومن فاته ركن بطل حجه.",
+      "items": [
+        { "title": "الإحرام", "details": "نِيَّةُ الدُّخُولِ فِي النُّسُكِ", "conditions": "الإسلام، العقل، والنية الصادقة من القلب.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Pilgrims_at_the_Kaaba.jpg/800px-Pilgrims_at_the_Kaaba.jpg"], "type": "ركن" },
+        { "title": "الوقوف بعرفة", "details": "أهم أركان الحج (الْحَجُّ عَرَفَةُ)", "conditions": "التواجد في حدود عرفة من زوال شمس يوم 9 لطلوع فجر يوم 10.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Mount_Arafat_during_Hajj.jpg/1024px-Mount_Arafat_during_Hajj.jpg"], "type": "ركن" },
+        { "title": "طواف الإفاضة", "details": "طواف الزيارة بعد التحلل الأصغر", "conditions": "ستر العورة، الطهارة من الحدث، وأن يكون بعد منتصف ليلة النحر.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Kaaba_during_Hajj.jpg/1024px-Kaaba_during_Hajj.jpg"], "type": "ركن" },
+        { "title": "السعي بين الصفا والمروة", "details": "سعي الحج بعد طواف الإفاضة", "conditions": "أن يكون سبعة أشواط، والبدء بالصفا والختم بالمروة بعد طواف صحيح.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Safa_and_Marwa.jpg/1024px-Safa_and_Marwa.jpg"], "type": "ركن" }
+      ]
+    },
+    {
+      "id": "obligations",
+      "name": "📌 واجبات الحج",
+      "description": "من تركها صح حجه ولزمه دم (فدية).",
+      "items": [
+    { 
+          "title": "النية وسنة الاشتراط", 
+          "details": "عقد النية بالقلب والتلفظ بها حسب نوع النسك:<br>• <strong>التمتع:</strong> لبيك اللهم عمرة.<br>• <strong>القران:</strong> لبيك اللهم عمرة وحجاً.<br>• <strong>الإفراد:</strong> لبيك اللهم حجاً.<br>• <strong>العمرة المفردة:</strong> لبيك اللهم عمرة.", 
+          "target": "للرجال والنساء",
+          "conditions": "💡 <strong>سنة الاشتراط:</strong> يُسن لمن خاف عائقاً<br>(مرض أو منع) أن يقول: <em>«اللَّهُمَّ مَحِلِّي حَيْثُ حَبَسْتَنِي»</em>.<br><strong>التلبية بعد النية:</strong> لبيك اللهم لبيك، لبيك لا شريك<br>لك لبيك، إن الحمد والنعمة لك والملك، لا شريك لك.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=النية+والاشتراط"], 
+          "type": "واجب" 
+        },
+        { 
+          "title": "الإحرام من الميقات", 
+          "details": "عدم تجاوز الميقات المكاني المحدد شرعاً بدون إحرام.", 
+          "conditions": "✈️ جواً وبحراً: الإحرام عند محاذاة الميقات (الكابتن بينبه).<br>🚌 براً: من موقع الميقات نفسه.<br>📍 تنبيه هام: من نزل جدة بدون إحرام يلزمه العودة للميقات أو فدية (دم).", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Miqat_Dhu_al-Hulayfah.jpg/800px-Miqat_Dhu_al-Hulayfah.jpg"], 
+          "type": "واجب" 
+        },
+        { "title": "المبيت بمزدلفة", "details": "بعد الإفاضة من عرفات", "conditions": "البقاء فيها إلى بعد منتصف الليل ليلة النحر.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Muzdalifah_Night.jpg/800px-Muzdalifah_Night.jpg"], "type": "واجب" },
+        { "title": "رمي الجمرات", "details": "جمرة العقبة وأيام التشريق", "conditions": "الترتيب في الأيام، وأن يكون الرمي بسبع حصيات لكل جمرة.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Jamarat_Bridge.jpg/1024px-Jamarat_Bridge.jpg"], "type": "واجب" },
+        { "title": "الحلق أو التقصير", "details": "إزالة الشعر للتحلل", "conditions": "استيعاب كامل الرأس أو قدر أنملة، والحلق أفضل للرجال.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Hajj_Shaving.jpg/800px-Hajj_Shaving.jpg"], "type": "واجب" },
+        { "title": "طواف الوداع", "details": "آخر فعل قبل مغادرة مكة", "conditions": "أن يكون آخر عهد الحاج بالبيت، ويسقط عن الحائض والنفساء.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Farewell_Tawaf.jpg/800px-Farewell_Tawaf.jpg"], "type": "واجب" }
+      ]
+    },
+    {
+      "id": "ihram_sunnahs",
+      "name": "✨ سنن الإحرام ومستحباته التفصيلية",
+      "description": "أفعال يُستحب فعلها لزيادة الأجر اقتداءً بالنبي ﷺ.",
+      "items": [
+        { 
+          "title": "الاغتسال ونظافة الفطرة", 
+          "details": "تقليم الأظافر، قص الشارب، نتف الإبط،<br>حلق العانة، والاغتسال الكامل بنية السنّة.", 
+          "target": "للرجال والنساء",
+          "conditions": "يُسن التطيب في البدن واللحية قبل النية.<br><strong>للمرأة:</strong> تتنظف وتغتسل ولو كانت حائضاً،<br>بشرط تجنب الأطياب ذات الرائحة النفاذة.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Arabic_Perfumes.jpg/800px-Arabic_Perfumes.jpg"], 
+          "type": "سنة" 
+        },
+        { 
+          "title": "رداء وإزار الرجل (المخيط)", 
+          "details": "لبس قطعتين بيضاويتين (رداء وإزار)<br>غير مفصلتين على قدر أعضاء الجسم.", 
+          "target": "للرجال فقط",
+          "conditions": "مباح استخدام 'الكباسين' أو 'السوستة'<br>لتثبيت الإزار، ولا يعتبر مخيطاً ممنوعاً.<br>الممنوع: ما فُصل على العضو كالقميص والسروال.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Ihram_clothing.jpg/800px-Ihram_clothing.jpg"], 
+          "type": "سنة" 
+        },
+        { 
+          "title": "لباس المرأة وضوابطه", 
+          "details": "تحرم المرأة في ملابسها العادية الساترة<br>التي لا زينة فيها ولا تشبه الرجال.", 
+          "target": "للنساء فقط",
+          "conditions": "يجب أن تكون الملابس فضفاضة لا تصف البدن.<br>يُمنع لبس 'النقاب' أو 'القفازين' تماماً.<br>تستر وجهها بـ 'سدل' الخمار عند وجود أجانب.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=لباس+المرأة"], 
+          "type": "واجب" 
+        },
+        { 
+          "title": "نعل الإحرام (حذاء القدم)", 
+          "details": "لبس نعل (صندل أو كروكس مفتوح العقب)<br>يظهر منه 'الكعبان' وأصابع القدمين.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الكعبان:</strong> العظمتان البارزتان بالجانبين.<br><strong>للنساء:</strong> يباح لبس الجوارب (الشراب)<br>والحذاء المغلق المعتاد دون أي كراهة.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=نعل+الإحرام"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "الصلاة والاشتراط الشرعي", 
+          "details": "صلاة ركعتين (سنة الوضوء أو الإحرام)<br>ثم النطق بالنية والاشتراط باللسان.", 
+          "target": "للرجال والنساء",
+          "conditions": "تقول: (فإن حبسني حابس فمحلي حيث حبستني).<br>الفائدة: التحلل بلا فدية عند المرض أو الزحام<br>الذي يمنع الحاج من إتمام مناسكه.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الاشتراط"], 
+          "type": "سنة" 
+        },
+        { 
+          "title": "التلبية والجهر (شعار الحج)", 
+          "details": "قول: (لبيك اللهم لبيك، لبيك لا شريك لك...)<br>وهي إعلان الاستجابة لنداء الله عز وجل.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الرجل:</strong> يسن له رفع الصوت بالتلبية جهاراً.<br><strong>المرأة:</strong> تلبي سراً بحيث تسمع نفسها فقط.<br>تستمر التلبية حتى رؤية الكعبة أو رمي الجمرة.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=التلبية"], 
+          "type": "سنة" 
+        },
+        { 
+          "title": "الاضطباع والهرولة (للطواف)", 
+          "details": "كشف الكتف الأيمن (الاضطباع) والهرولة<br>(الرمل) في الأشواط الثلاثة الأولى فقط.", 
+          "target": "للرجال فقط",
+          "conditions": "الاضطباع يكون في طواف القدوم أو العمرة.<br>يجب تغطية الكتفين فور الانتهاء أو عند الصلاة.<br>النساء: يمشين مشياً عادياً وبستر كامل للبدن.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الاضطباع"], 
+          "type": "سنة" 
+        }
+      ]
+    },
+    {
+      "id": "travel_and_miqat",
+      "name": "✈️ مسار الرحلة وتحديد الميقات",
+      "description": "دليل حجاج الخارج والداخل (أهل الدمام والشرقية)<br>وكيفية الإحرام عند المرور بجدة أو المدينة.",
+      "items": [
+        { 
+          "title": "القادمون من المدينة المنورة", 
+          "details": "إذا بدأت رحلتك بزيارة المسجد النبوي:<br>• الميقات هو 'ذو الحليفة' (آبار علي).<br>• تحرم منه عند مغادرة المدينة باتجاه مكة.<br>• يجوز لبس ملابس الإحرام في الفندق بالمدينة.", 
+          "target": "للرجال والنساء",
+          "conditions": "تؤجل نية الإحرام والصلاة حتى الميقات.<br>تستمر في التلبية فور تحرك الحافلة<br>من منطقة آبار علي باتجاه مكة المكرمة.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=ميقات+أهل+المدينة"], 
+          "type": "واجب" 
+        },
+        { 
+          "title": "حجاج الخارج (مصر والشام والمغرب)", 
+          "details": "للقادمين جوًا أو بحرًا من جهة مصر والشام:<br>• الميقات هو 'رابع' (الجحفة).<br>• الطائرات تمر فوق الميقات قبل الهبوط بجدة.<br>• يجب ارتداء الملابس قبل صعود الطائرة أو فيها.", 
+          "target": "للرجال والنساء",
+          "conditions": "📍 تنبيه لمسافري الجو: ميقاتكم قبل جدة.<br>بمجرد التنبيه في الطائرة تنوي وتلبي فوراً.<br>لا تنتظر الوصول لمطار جدة لعقد النية.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=ميقات+الجحفة"], 
+          "type": "واجب" 
+        },
+        { 
+          "title": "حجاج الداخل (الدمام والشرقية)", 
+          "details": "للقادمين من الدمام والمنطقة الشرقية جوًا:<br>• الميقات هو 'قرن المنازل' (السيل الكبير).<br>• يحرم الحاج في الطائرة عند محاذاة الميقات.<br>• يلبس ملابسه في مطار الدمام أو في الطائرة.", 
+          "target": "للرجال والنساء",
+          "conditions": "ينبه كابتن الطائرة قبل الميقات بـ 15 دقيقة.<br>يجب عقد النية فور التنبيه بمحاذاة الميقات<br>ولا يجوز تأخير الإحرام حتى الهبوط بجدة.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=ميقات+حجاج+الداخل"], 
+          "type": "واجب" 
+        },
+        { 
+          "title": "حالة النزول في جدة أولاً", 
+          "details": "إذا كنت ذاهباً لجدة (لعمل أو زيارة) قبل العمرة:<br>• إذا نويت العمرة من بلدك: أحرم في الجو.<br>• إذا كانت نية العمرة نشأت وأنت داخل جدة:<br>• تحرم من مكانك في جدة (باعتبارك من أهلها).", 
+          "target": "للرجال والنساء",
+          "conditions": "📍 تنبيه هام: من تجاوز الميقات وهو ينوي<br>العمرة قاصداً جدة للإحرام منها فقد أخطأ،<br>ويلزمه العودة للميقات أو ذبح 'فدية' (دم).", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=ترانزيت+جدة"], 
+          "type": "تنبيه" 
+        },
+        { 
+          "title": "توقيت النية في الطائرة", 
+          "details": "كيفية الإحرام لمسافري الجو:<br>• يغتسل الحاج في منزله (بالدمام أو القاهرة).<br>• يرتدي ملابس الإحرام في المطار أو الطائرة.<br>• ينطق بالنية (لبيك عمرة) عند محاذاة الميقات.", 
+          "target": "للرجال والنساء",
+          "conditions": "لا تشترط صلاة ركعتين إذا كنت في الطائرة.<br>يكفي عقد النية بالقلب والتلفظ باللسان،<br>ثم البدء بالتلبية فوراً بصوت مسموع.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الإحرام+الجوي"], 
+          "type": "سنة" 
+        }
+      ]
+    },
+{
+      "id": "ihram_prohibitions",
+      "name": "🚫 محظورات الإحرام بالتفصيل",
+      "description": "الممنوعات التي يجب تجنبها فور عقد نية الإحرام.<br><strong>قاعدة عامة:</strong> الناسي والجاهل لا إثم عليهما ولا فدية،<br>أما العامد فتجب عليه الفدية، والمريض يفعله ويفدي.",
+      "items": [
+        { 
+          "title": "الرفث والفسوق والجدال", 
+          "details": "المعاصي والمشاحنات والجدال بالباطل.<br>والتحدث في أمور الجماع والشهوة.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>العامد:</strong> يأثم وينقص أجر حجه جداً.<br><strong>الناسي/الجاهل:</strong> لا إثم عليه ويستغفر.<br><strong>المريض:</strong> لا عذر في سوء الخلق.", 
+          "penalty": "يجب الاستغفار والتوبة النصوح فوراً،<br>ولا تجب فيه فدية مالية (دم) عند الجمهور.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الرفث+والجدال"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "الجماع (مفسد الحج)", 
+          "details": "الجماع الكامل قبل التحلل الأول<br>(قبل رمي جمرة العقبة يوم العيد).", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>العامد:</strong> يفسد حجه وعليه بدنة والقضاء.<br><strong>الناسي/الجاهل:</strong> عند الجمهور يفسد الحج أيضاً<br>لعظم شأن هذا المحظور وغلظته.", 
+          "penalty": "يجب إتمام الحج الفاسد، وقضاؤه العام القادم،<br>مع ذبح 'بدنة' (جمل) وتوزيعه على الفقراء.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الجماع+والمباشرة"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "لباس القدم (للرجال فقط)", 
+          "details": "لبس الحذاء الساتر للعقب أو الكعبين<br>مثل 'الكنادر' أو الجوارب والشرابات.", 
+          "target": "للرجال فقط",
+          "conditions": "<strong>المريض:</strong> إذا احتاج للشراب لمرض يلبسه ويفدي.<br><strong>الناسي:</strong> يخلعه فور تذكره ولا شيء عليه.<br><strong>العامد:</strong> يلزمه الفدية فوراً.", 
+          "penalty": "فدية أذى (تخيير): صيام 3 أيام،<br>أو إطعام 6 مساكين، أو ذبح شاة.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=لباس+القدم+المحظور"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "إزالة الشعر والأظافر", 
+          "details": "حلق أو قص أو نتف شعر الرأس أو البدن،<br>أو تقليم أظافر اليدين والقدمين.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>المريض:</strong> إذا حلق لضرورة (عملية مثلاً) يفدي.<br><strong>الناسي:</strong> إذا قص ناسياً فلا شيء عليه.<br><strong>العامد:</strong> تجب عليه الفدية.", 
+          "penalty": "فدية أذى (تخيير): صيام 3 أيام،<br>أو إطعام 6 مساكين، أو ذبح شاة.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Hair_clipping.jpg/800px-Hair_clipping.jpg"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "استعمال الطيب والعطور", 
+          "details": "تعمد وضع العطور على البدن أو الثياب،<br>أو شمها بقصد التلذذ برائحتها.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الناسي:</strong> يغسل أثر الطيب فوراً ولا فدية.<br><strong>الجاهل:</strong> يعذر بجهله ويغسله فوراً.<br><strong>العامد:</strong> تجب عليه الفدية.", 
+          "penalty": "فدية أذى (تخيير): صيام 3 أيام،<br>أو إطعام 6 مساكين، أو ذبح شاة.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Arabic_Perfumes.jpg/800px-Arabic_Perfumes.jpg"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "المخيط وتغطية الرأس (للرجال)", 
+          "details": "لبس الثياب المفصلة كالبنطلون والقميص،<br>أو تغطية الرأس بملاصق كالطاقية.", 
+          "target": "للرجال فقط",
+          "conditions": "<strong>المضطر:</strong> من لم يجد إزاراً لبس السراويل.<br><strong>الناسي:</strong> يخلع المخيط فوراً ولا شيء عليه.<br><strong>العامد:</strong> يلزمه الفدية فوراً.", 
+          "penalty": "فدية أذى (تخيير): صيام 3 أيام،<br>أو إطعام 6 مساكين، أو ذبح شاة.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Ihram_clothing.jpg/800px-Ihram_clothing.jpg"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "النقاب والقفازين (للنساء)", 
+          "details": "لبس النقاب المفصل للوجه أو القفازين.<br>(تستر وجهها بغير النقاب عند الأجانب).", 
+          "target": "للنساء فقط",
+          "conditions": "<strong>الناسي/الجاهل:</strong> تخلعه فوراً ولا شيء عليها.<br><strong>العامد:</strong> تأثم وتجب عليها الفدية.<br><strong>المريضة:</strong> لو احتاجت لستر يدها لمرض تفدي.", 
+          "penalty": "فدية أذى (تخيير): صيام 3 أيام،<br>أو إطعام 6 مساكين، أو ذبح شاة.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Women_in_Hajj.jpg/800px-Women_in_Hajj.jpg"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "عقد النكاح والخطبة", 
+          "details": "إيقاع عقد الزواج لنفسه أو لغيره،<br>أو التقدم لخطبة امرأة أثناء الإحرام.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>العامد:</strong> العقد باطل شرعاً ويأثم فاعله.<br><strong>الناسي/الجاهل:</strong> العقد باطل أيضاً عند الجمهور<br>ولكن لا إثم عليه لجهله.", 
+          "penalty": "لا فدية مالية فيه، ولكن يجب فسخ العقد<br>وإعادته بعد التحلل من الإحرام.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=عقد+النكاح"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "قتل صيد البر", 
+          "details": "صيد الحيوانات البرية المأكولة أو الإعانة عليه.<br>(لا يشمل صيد البحر أو الدجاج والغنم).", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الناسي:</strong> يضمن الصيد بالفدية (بالمثل).<br><strong>الجاهل:</strong> يضمن الصيد بالفدية أيضاً.<br><strong>العامد:</strong> يأثم ويضمن الصيد بالفدية.", 
+          "penalty": "الجزاء بمثل ما قَتَل من النَّعَم،<br>يُذبح ويُوزع على مساكين الحرم الشريف.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Gazelle_hajj_ref.jpg/800px-Gazelle_hajj_ref.jpg"], 
+          "type": "محظور" 
+        }
+      ]
+    },
+{
+      "id": "ihram_permitted",
+      "name": "✅ ما يباح للمحرم فعله (الرخص الشرعية)",
+      "description": "أمور رخص بها الشرع تيسيراً على العباد،<br>ولا تجب فيها فدية ولا تفسد الإحرام.",
+      "items": [
+        { 
+          "title": "تمشيط الشعر ونقضه", 
+          "details": "يجوز للمحرم تمشيط شعره ونقضه عند الحاجة،<br>ولا يضره ما يسقط منه بغير قصد.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الدليل:</strong> قوله ﷺ لعائشة وهي محرمة:<br>«انقضي رأسك وامتشطي، وأهلي بالحج».<br>(رواه البخاري ومسلم). وهذا إذن صريح بالتمشط.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=تمشيط+الشعر"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "الاغتسال وغسل الرأس", 
+          "details": "يجوز للمحرم الاستحمام للتبرد أو النظافة،<br>وتبديل ملابس الإحرام بأخرى نظيفة.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الدليل:</strong> سُئل أبو أيوب الأنصاري:<br>كيف كان ﷺ يغسل رأسه وهو محرم؟<br>فأراهم بيديه: (أقبل بهما وأدبر). (رواه مسلم).", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Pilgrims_at_the_Kaaba.jpg/800px-Pilgrims_at_the_Kaaba.jpg"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "نحر الهدي وذبح الأنعام", 
+          "details": "يجوز للمحرم ذبح الهدي والأغنام والدجاج،<br>وكل ما ليس بـ 'صيد بري' وحشي.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الدليل:</strong> «أن النبي ﷺ نحر بدنه بيده وهو محرم».<br>فالمحرم يذبح بهيمة الأنعام ويأكل منها،<br>وإنما الممنوع هو صيد البر (مثل الغزال).", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=ذبح+الهدي"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "حك الجسد والعمل اليدوي", 
+          "details": "يجوز للمحرم حك جسده ورأسه برفق عند الحاجة،<br>وممارسة البيع والشراء والأعمال المباحة.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الفقه:</strong> سُئلت عائشة رضي الله عنها عن حك<br>المحرم جسده، فقالت: (نعم فليحككه وليشدد).<br>وكذلك التجارة مباحة لقوله: (ليس عليكم جناح أن تبتغوا فضلاً من ربكم).", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=حك+الجسد"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "الحجامة والتداوي", 
+          "details": "استخدام الأدوية، قلع الضرس، التداوي،<br>وعمل الحجامة إذا احتاج الحاج إليها.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الدليل:</strong> حديث ابن عباس رضي الله عنهما:<br>«أن رسول الله ﷺ احتجم وهو محرم».<br>(رواه البخاري). وهذا دليل قاطع على إباحتها.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الحجامة+للمحرم"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "التظلل بغير الملاصق", 
+          "details": "استخدام المظلة أو الخيمة أو الاستظلال<br>بسيارة أو شجرة للوقاية من الشمس.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الدليل:</strong> حديث أم الحصين رضي الله عنها:<br>«رأيت أسامة وبلالاً يستران النبي ﷺ ببرد<br>من الحر حتى رمى جمرة العقبة». (رواه مسلم).", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Hajj_Umbrella.jpg/800px-Hajj_Umbrella.jpg"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "ربط الجروح والضمادات", 
+          "details": "يجوز للمحرم شد الأربطة والضمادات على الجروح،<br>وكذلك وضع 'اللزقة' الطبية على البدن.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الفقه:</strong> يجوز التداوي وربط موضع الألم والكسر،<br>ولا يعتبر ذلك من لبس 'المخيط' الممنوع،<br>لأنه للضرورة ولعلاج عضو بعينه.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=ربط+الجروح"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "لبس الخاتم والساعة", 
+          "details": "ارتداء ساعة اليد، خاتم الفضة، النظارة،<br>وكل ما لا يعد ثياباً مفصلة.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الدليل:</strong> ثبت في الصحيحين:<br>«أن رسول الله ﷺ اتخذ خاتماً من فضة».<br>ولم ينهَ عن لبسه حال الإحرام، فبقي على الإباحة.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Wristwatch.jpg/800px-Wristwatch.jpg"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "قتل الفواسق الخمس", 
+          "details": "قتل كل ما يؤذي المحرم من الدواب والسباع<br>لدرء خطرها عن النفس والحجاج.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الدليل:</strong> قوله ﷺ: «خمس من الدواب كلهن فاسق<br>يُقتلن في الحل والحرم: العقرب، والحدأة،<br>والغراب، والفأرة، والكلب العقور». (متفق عليه).", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=قتل+المؤذيات"], 
+          "type": "مباح" 
+        }
+      ]
+    },    {
+      "id": "ihram_fidyah",
+      "name": "⚖️ الفدية وجزاء المحظورات",
+      "description": "ما يترتب على الحاج في حال ارتكاب أحد المحظورات.",
+      "items": [
+        { "title": "فدية الأذى", "details": "من ارتكب محظوراً متعمداً أو لحاجة (كمرض) وجبت عليه الفدية.", "conditions": "على التخيير: صيام ثلاثة أيام، أو إطعام 6 مساكين، أو ذبح شاة.", "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الفدية"], "type": "فدية" },
+        { "title": "الناسي والجاهل", "details": "من ارتكب محظوراً ناسياً أو جاهلاً.", "conditions": "لا شيء عليه (باستثناء الجماع وصيد البر)، وعليه الإقلاع فور تذكره.", "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الناسي+والجاهل"], "type": "عذر" }
+      ]
+    }
+  ]
+};
+// 2. دالة الريندر الذكية (سلايدر أفقي لكل قسم)
+function renderHajjMaster() {
+    const mainContainer = document.getElementById('umrah-container');
+    const prohibitionsSlider = document.getElementById('prohibitions-slider');
+    const permittedSlider = document.getElementById('permitted-slider');
+    
+    if (mainContainer) mainContainer.innerHTML = '';
+    if (prohibitionsSlider) prohibitionsSlider.innerHTML = '';
+    if (permittedSlider) permittedSlider.innerHTML = '';
 
-/* =========================================================
-   Voice (SpeechSynthesis) - no beep
-========================================================= */
-function speakArabic(text){
-  try{
-    if (!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ar-SA';
-    u.rate = 0.95;
-    u.pitch = 1.0;
-    u.volume = 1.0;
-    window.speechSynthesis.speak(u);
-  }catch(e){}
-}
-
-/* =========================================================
-   THREE.JS
-========================================================= */
-const container = document.getElementById("visual-container");
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0f172a);
-
-const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ alpha:true, antialias:true });
-renderer.setSize(container.clientWidth, container.clientHeight);
-renderer.shadowMap.enabled = true;
-container.appendChild(renderer.domElement);
-
-const ambLight = new THREE.AmbientLight(0xffffff, 0.55);
-scene.add(ambLight);
-const dirLight = new THREE.DirectionalLight(0xffd700, 1.1);
-dirLight.position.set(5, 10, 5);
-scene.add(dirLight);
-
-function updateCamera(){
-  const w = container.clientWidth, h = container.clientHeight;
-  const aspect = w / h;
-  renderer.setSize(w, h);
-  camera.aspect = aspect;
-  if (aspect < 1) camera.position.set(0, 10, 19);
-  else camera.position.set(0, 6.2, 12.5);
-  camera.lookAt(0, 1.25, 0);
-  camera.updateProjectionMatrix();
-}
-updateCamera();
-window.addEventListener("resize", updateCamera);
-
-/* =========================================================
-   Vector billboards
-========================================================= */
-function svgToCanvasTexture(svgString, size=900){
-  return new Promise((resolve, reject)=>{
-    const svgDataUri = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgString);
-    const img = new Image();
-    img.onload = ()=>{
-      const canvas = document.createElement("canvas");
-      canvas.width = size; canvas.height = size;
-      const ctx = canvas.getContext("2d");
-      ctx.clearRect(0,0,size,size);
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = "high";
-      ctx.drawImage(img,0,0,size,size);
-      const texture = new THREE.CanvasTexture(canvas);
-      texture.needsUpdate = true;
-      texture.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
-      resolve(texture);
+    // دالة داخلية صغيرة عشان نكررش كود توليد أزرار العناوين
+    const generateQuickNav = (items) => {
+        return `
+            <div class="quick-nav-wrapper" style="display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px; scrollbar-width: none;">
+                ${items.map(item => `
+                    <a href="#${item.title.replace(/\s+/g, '-')}" style="white-space: nowrap; background: var(--color-surface-offset); border: 1px solid var(--color-border); padding: 5px 12px; border-radius: var(--radius-md); font-size: 11px; color: var(--color-primary); text-decoration: none; font-weight: 600; transition: 0.3s;">
+                        ${item.title}
+                    </a>
+                `).join('')}
+            </div>
+        `;
     };
-    img.onerror = reject;
-    img.src = svgDataUri;
-  });
+
+    hajjMasterData.categories.forEach(cat => {
+        const navHtml = generateQuickNav(cat.items);
+
+        // 1. قسم المحظورات
+        if (cat.id === 'ihram_prohibitions') {
+            if(prohibitionsSlider) {
+                // بنحط أزرار التنقل قبل السلايدر مباشرة
+                prohibitionsSlider.insertAdjacentHTML('beforebegin', navHtml);
+                cat.items.forEach(item => {
+                    prohibitionsSlider.insertAdjacentHTML('beforeend', createHajjCard(item));
+                });
+            }
+        } 
+        // 2. قسم المباحات
+        else if (cat.id === 'ihram_permitted') {
+            if(permittedSlider) {
+                // بنحط أزرار التنقل قبل السلايدر مباشرة
+                permittedSlider.insertAdjacentHTML('beforebegin', navHtml);
+                cat.items.forEach(item => {
+                    permittedSlider.insertAdjacentHTML('beforeend', createHajjCard(item));
+                });
+            }
+        } 
+        // 3. باقي الأقسام (أركان، واجبات، سنن)
+        else {
+            let catHtml = `
+                <div class="category-group fade-in" style="margin-bottom: 40px;">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px;">
+                        <div style="width:5px; height:25px; background:var(--color-primary); border-radius:10px;"></div>
+                        <h3 style="color:var(--color-text); font-family:var(--font-display); font-size:1.4rem;">${cat.name}</h3>
+                    </div>
+                    
+                    ${navHtml} <div class="hajj-grid" style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scroll-snap-type: x mandatory;">
+                        ${cat.items.map(item => createHajjCard(item)).join('')}
+                    </div>
+                </div>
+            `;
+            if(mainContainer) mainContainer.insertAdjacentHTML('beforeend', catHtml);
+        }
+    });
 }
-async function createVectorBillboard(svgString, scaleX=2.6, scaleY=3.2){
-  const tex = await svgToCanvasTexture(svgString, 900);
-  const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true });
-  const geo = new THREE.PlaneGeometry(scaleX, scaleY);
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.y = 1.45;
-  mesh.userData.billboard = true;
-  return mesh;
+function createHajjCard(item) {
+    const images = item.images && item.images.length > 0 ? item.images : [item.image_url || 'https://via.placeholder.com/400x200?text=Depanto'];
+    
+    // إنشاء معرف فريد (ID) من العنوان لاستخدامه كـ Anchor
+    // بنشيل المسافات ونخليها ID صالح
+    const cardAnchorId = item.title.replace(/\s+/g, '-');
+
+    // تحديد لون الكلمة (التاج) بناءً على النوع
+    let badgeClass = 'badge-default';
+    if (item.type === 'محظور') badgeClass = 'badge-red';
+    else if (item.type === 'مباح') badgeClass = 'badge-green';
+
+    return `
+        <div class="interactive-card" id="${cardAnchorId}" style="min-width: 320px; flex-shrink: 0; scroll-snap-align: start;">
+            <div class="card-visuals">
+                <div class="carousel-track" style="display: flex; height: 100%;">
+                    ${images.map(url => `
+                        <div class="inner-slide" style="min-width:100%;">
+                            <img src="${url}" style="width:100%; height:200px; object-fit:cover;" onerror="this.src='https://via.placeholder.com/400x200?text=Depanto'">
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            <div class="card-info">
+                <div class="info-badge ${badgeClass}">${item.type}</div>
+                <h3 class="info-title">${item.title}</h3>
+                <p class="info-details">${item.details}</p>
+                <div class="info-conditions">
+                    <strong>الضابط الشرعي:</strong>
+                    <p>${item.conditions}</p>
+                </div>
+                ${item.penalty ? `
+                <div class="info-conditions" style="margin-top: 10px; border-right-color: #dc2626; background: #fff5f5;">
+                    <strong style="color: #dc2626;">حكم من فعل المحظور:</strong>
+                    <p style="color: #991b1b; margin-top: 5px;">${item.penalty}</p>
+                </div>
+                ` : ''}
+            </div>
+        </div>
+    `;
 }
+function generateCategoryNav(cat) {
+    return `
+        <div class="category-nav" style="display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px;">
+            ${cat.items.map((item, index) => `
+                <a href="#card-${cat.id}-${index}" style="
+                    white-space: nowrap;
+                    padding: 6px 12px;
+                    background: var(--color-surface-offset);
+                    border: 1px solid var(--color-border);
+                    border-radius: var(--radius-md);
+                    font-size: var(--text-xs);
+                    color: var(--color-text-muted);
+                    text-decoration: none;
+                    transition: all 0.2s;
+                " onmouseover="this.style.borderColor='var(--color-primary)';this.style.color='var(--color-primary)'" 
+                   onmouseout="this.style.borderColor='var(--color-border)';this.style.color='var(--color-text-muted)'">
+                    ${item.title}
+                </a>
+            `).join('')}
+        </div>
+    `;
+}
+// 3. تشغيل كل شيء عند التحميل
+window.onload = () => {
+    // تشغيل الوظائف القديمة
+    if (typeof renderUmrah === "function") renderUmrah();
+    if (typeof renderNusk === "function") renderNusk('tamattu');
+    if (typeof renderExtraInfo === "function") renderExtraInfo();
+    
+    // تشغيل الماب الجديدة
+    renderHajjMaster();
+};
+// ── Theme toggle ──
+(function(){
+  const btn = document.querySelector('[data-theme-toggle]');
+  const root = document.documentElement;
+  let dark = matchMedia('(prefers-color-scheme:dark)').matches;
+  root.setAttribute('data-theme', dark ? 'dark' : 'light');
+  const moon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  const sun  = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+  function setIcon(){ btn.innerHTML = dark ? sun : moon; }
+  setIcon();
+  btn.addEventListener('click', () => { dark = !dark; root.setAttribute('data-theme', dark ? 'dark' : 'light'); setIcon(); });
+})();
 
-const MALE_IHRAM_SVG = `
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#0b1220"/><stop offset="1" stop-color="#0f172a"/>
-    </linearGradient>
-    <linearGradient id="cloth" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e5e7eb"/>
-    </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity="0.35"/>
-    </filter>
-  </defs>
-  <rect width="900" height="900" fill="url(#bg)"/>
-  <g filter="url(#shadow)">
-    <circle cx="450" cy="240" r="72" fill="#d4a373"/>
-    <rect x="415" y="298" width="70" height="40" rx="18" fill="#c98f5a"/>
-    <path d="M330 360 c40-35 85-55 120-55 c45 0 90 20 120 55 c40 45 42 100 20 140 c-22 40-66 55-100 55 H390 c-34 0-78-15-100-55 c-22-40-20-95 40-140z" fill="url(#cloth)"/>
-    <path d="M310 520 c40-35 95-55 140-55 c45 0 100 20 140 55 c25 22 40 55 40 92 v170 c0 28-18 52-45 60 c-90 25-180 25-270 0 c-27-8-45-32-45-60 V612 c0-37 15-70 40-92z" fill="url(#cloth)"/>
-  </g>
-  <rect x="40" y="40" width="820" height="820" rx="40" fill="none" stroke="#fbbf24" stroke-width="6" opacity="0.25"/>
-</svg>`;
+// ── Reading progress bar ──
+window.addEventListener('scroll', () => {
+  const s = document.documentElement.scrollTop;
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('progress-bar').style.width = (s/h*100) + '%';
+});
 
-const FEMALE_IHRAM_SVG = `
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900">
-  <defs>
-    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#0b1220"/><stop offset="1" stop-color="#0f172a"/>
-    </linearGradient>
-    <linearGradient id="abaya" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#111827"/><stop offset="1" stop-color="#0b1020"/>
-    </linearGradient>
-    <filter id="shadow2" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity="0.35"/>
-    </filter>
-  </defs>
-  <rect width="900" height="900" fill="url(#bg2)"/>
-  <g filter="url(#shadow2)">
-    <path d="M450 190 c-55 0-100 40-110 90 c-10 55 10 85 25 100 c-55 50-100 140-110 250 c-10 105 15 180 45 215 c25 30 60 45 95 50 c85 12 170 12 255 0 c35-5 70-20 95-50 c30-35 55-110 45-215 c-10-110-55-200-110-250 c15-15 35-45 25-100 c-10-50-55-90-110-90z" fill="url(#abaya)"/>
-    <ellipse cx="450" cy="270" rx="62" ry="78" fill="#d4a373"/>
-  </g>
-  <rect x="40" y="40" width="820" height="820" rx="40" fill="none" stroke="#fbbf24" stroke-width="6" opacity="0.25"/>
-</svg>`;
+// ── Modals Logic ──
+let _currentActionId = null;
 
-/* =========================================================
-   3D Groups
-========================================================= */
-const ihramGroup = new THREE.Group(); scene.add(ihramGroup);
-
-const kaabaGroup = new THREE.Group(); kaabaGroup.visible = false; scene.add(kaabaGroup);
-const saiGroup   = new THREE.Group(); saiGroup.visible   = false; scene.add(saiGroup);
-const arafatGroup = new THREE.Group(); arafatGroup.visible = false; scene.add(arafatGroup);
-const muzdalifahGroup = new THREE.Group(); muzdalifahGroup.visible = false; scene.add(muzdalifahGroup);
-const minaGroup = new THREE.Group(); minaGroup.visible = false; scene.add(minaGroup);
-const jamaratGroup = new THREE.Group(); jamaratGroup.visible = false; scene.add(jamaratGroup);
-
-/* Kaaba scene */
-const kaabaMesh = new THREE.Mesh(
-  new THREE.BoxGeometry(4, 5, 4),
-  new THREE.MeshStandardMaterial({ color: 0x050505 })
-);
-kaabaMesh.position.y = 2.5;
-
-const goldStrip = new THREE.Mesh(
-  new THREE.BoxGeometry(4.05, 0.5, 4.05),
-  new THREE.MeshStandardMaterial({ color: 0xffcc00 })
-);
-goldStrip.position.y = 4;
-
-const tawafPath = new THREE.Mesh(
-  new THREE.RingGeometry(5, 7, 48),
-  new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.12, side: THREE.DoubleSide })
-);
-tawafPath.rotation.x = -Math.PI / 2;
-tawafPath.position.y = 0.05;
-
-const tawafOrbitGroup = new THREE.Group();
-kaabaGroup.add(kaabaMesh, goldStrip, tawafPath, tawafOrbitGroup);
-
-/* Maqam marker */
-const maqamGroup = new THREE.Group();
-maqamGroup.visible = false;
-kaabaGroup.add(maqamGroup);
-
-const mqStone = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.18, 0.25, 32), new THREE.MeshStandardMaterial({ color: 0x9ca3af, roughness: 0.9 }));
-const mqBody  = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 1.0, 1.25, 32), new THREE.MeshStandardMaterial({ color: 0xffcc00, roughness: 0.35, metalness: 0.9 }));
-mqStone.position.set(4.6, 0.13, -1.8);
-mqBody.position.set(4.6, 0.9, -1.8);
-maqamGroup.add(mqStone, mqBody);
-
-/* Sai scene */
-const hillMat = new THREE.MeshStandardMaterial({ color: 0x334155 });
-const safaHill = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.6, 0.8, 24), hillMat);
-const marwaHill = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.6, 0.8, 24), hillMat);
-safaHill.position.set(-4, 0.4, 0);
-marwaHill.position.set( 4, 0.4, 0);
-
-const track = new THREE.Mesh(
-  new THREE.BoxGeometry(8, 0.12, 1.6),
-  new THREE.MeshStandardMaterial({ color: 0xffffff, transparent:true, opacity:0.12 })
-);
-track.position.set(0, 0.12, 0);
-
-const greenMat = new THREE.MeshStandardMaterial({ color: 0x22c55e, emissive: 0x16a34a, emissiveIntensity: 0.8 });
-const markerGeo = new THREE.BoxGeometry(0.12, 1.0, 1.8);
-const markerLeft = new THREE.Mesh(markerGeo, greenMat);
-const markerRight = new THREE.Mesh(markerGeo, greenMat);
-markerLeft.position.set(-1, 0.55, 0);
-markerRight.position.set( 1, 0.55, 0);
-saiGroup.add(safaHill, marwaHill, track, markerLeft, markerRight);
-
-/* Arafat scene */
-const arafatGround = new THREE.Mesh(
-  new THREE.CircleGeometry(7.5, 64),
-  new THREE.MeshStandardMaterial({ color: 0x1f2937, roughness: 1.0 })
-);
-arafatGround.rotation.x = -Math.PI/2;
-arafatGround.position.y = 0.02;
-
-const arafatMount = new THREE.Mesh(
-  new THREE.ConeGeometry(1.7, 2.2, 28),
-  new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.95 })
-);
-arafatMount.position.set(2.0, 1.1, -1.0);
-
-const arafatSun = new THREE.Mesh(
-  new THREE.SphereGeometry(0.55, 24, 24),
-  new THREE.MeshStandardMaterial({ color: 0xfbbf24, emissive: 0xf59e0b, emissiveIntensity: 0.8 })
-);
-arafatSun.position.set(-3.6, 4.2, -3.8);
-
-arafatGroup.add(arafatGround, arafatMount, arafatSun);
-
-/* Muzdalifah scene */
-const mzGround = new THREE.Mesh(
-  new THREE.CircleGeometry(7.5, 64),
-  new THREE.MeshStandardMaterial({ color: 0x0b1020, roughness: 1.0 })
-);
-mzGround.rotation.x = -Math.PI/2;
-mzGround.position.y = 0.02;
-
-const pebblePile = new THREE.Mesh(
-  new THREE.SphereGeometry(0.85, 18, 18),
-  new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.95 })
-);
-pebblePile.position.set(0.4, 0.85, 0.2);
-muzdalifahGroup.add(mzGround, pebblePile);
-
-/* Mina scene */
-const minaGround = new THREE.Mesh(
-  new THREE.CircleGeometry(7.5, 64),
-  new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 1.0 })
-);
-minaGround.rotation.x = -Math.PI/2;
-minaGround.position.y = 0.02;
-minaGroup.add(minaGround);
-
-const tentMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.8 });
-for(let i=0;i<14;i++){
-  const tent = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.7, 0.9), tentMat);
-  const row = Math.floor(i/7);
-  const col = i%7;
-  tent.position.set(-4.2 + col*1.4, 0.4, -1.6 + row*1.6);
-  minaGroup.add(tent);
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { 
+  document.getElementById(id).classList.remove('open'); 
+  if(id === 'mediaModal') _currentActionId = null; 
 }
 
-/* Jamarat scene */
-const jmGround = new THREE.Mesh(
-  new THREE.CircleGeometry(7.5, 64),
-  new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 1.0 })
-);
-jmGround.rotation.x = -Math.PI/2;
-jmGround.position.y = 0.02;
-
-const pillarMat = new THREE.MeshStandardMaterial({ color: 0x9ca3af, roughness: 0.85 });
-const p1 = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 2.4, 28), pillarMat);
-const p2 = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 2.4, 28), pillarMat);
-const p3 = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 2.4, 28), pillarMat);
-p1.position.set(-2.6, 1.2, 0);
-p2.position.set( 0.0, 1.2, 0);
-p3.position.set( 2.6, 1.2, 0);
-jamaratGroup.add(jmGround, p1, p2, p3);
-
-/* Pilgrims */
-let vectorMale=null, vectorFemale=null;
-let tawafMale=null, tawafFemale=null;
-let saiMale=null, saiFemale=null;
-let arafatMale=null, arafatFemale=null;
-let mzMale=null, mzFemale=null;
-let minaMale=null, minaFemale=null;
-let jmMale=null, jmFemale=null;
-
-function faceCameraIfBillboard(obj){
-  if (obj && obj.userData && obj.userData.billboard) obj.lookAt(camera.position);
+function openMediaModal(actionId) {
+  _currentActionId = actionId;
+  const imgEl = document.getElementById('img-' + actionId);
+  const linkEl = document.getElementById('link-' + actionId);
+  document.getElementById('modalImg').value = (imgEl && imgEl.style.display !== 'none') ? imgEl.src : '';
+  document.getElementById('modalLink').value = (linkEl && linkEl.style.display !== 'none') ? linkEl.href : '';
+  openModal('mediaModal');
 }
 
-async function initVectorPilgrims(){
-  try{
-    vectorMale = await createVectorBillboard(MALE_IHRAM_SVG, 2.6, 3.2);
-    vectorFemale = await createVectorBillboard(FEMALE_IHRAM_SVG, 2.6, 3.2);
-
-    const vm = vectorMale.clone(), vf = vectorFemale.clone();
-    vm.position.x = -1.2; vf.position.x = 1.2;
-    vm.rotation.y = 0.12; vf.rotation.y = -0.12;
-    ihramGroup.add(vm, vf);
-
-    tawafMale = vectorMale.clone();
-    tawafFemale = vectorFemale.clone();
-    tawafMale.scale.set(0.55,0.55,0.55);
-    tawafFemale.scale.set(0.55,0.55,0.55);
-    const r = 6.2;
-    tawafMale.position.set(r,0,0);
-    tawafFemale.position.set(-r,0,0);
-    tawafMale.userData.billboard = true;
-    tawafFemale.userData.billboard = true;
-    tawafOrbitGroup.add(tawafMale, tawafFemale);
-
-    saiMale = vectorMale.clone();
-    saiFemale = vectorFemale.clone();
-    saiMale.scale.set(0.42,0.42,0.42);
-    saiFemale.scale.set(0.42,0.42,0.42);
-    saiMale.position.set(-4,0,0.25);
-    saiFemale.position.set(-4,0,-0.25);
-    saiMale.userData.billboard = true;
-    saiFemale.userData.billboard = true;
-    saiGroup.add(saiMale, saiFemale);
-
-        arafatMale = vectorMale.clone();
-    arafatFemale = vectorFemale.clone();
-    arafatMale.scale.set(0.45, 0.45, 0.45);
-    arafatFemale.scale.set(0.45, 0.45, 0.45);
-    arafatMale.position.set(-1.6, 0, 0.4);
-    arafatFemale.position.set(-0.6, 0, -0.2);
-    arafatMale.userData.billboard = true;
-    arafatFemale.userData.billboard = true;
-    arafatGroup.add(arafatMale, arafatFemale);
-
-    // حجّاج مزدلفة
-    mzMale = vectorMale.clone();
-    mzFemale = vectorFemale.clone();
-    mzMale.scale.set(0.42, 0.42, 0.42);
-    mzFemale.scale.set(0.42, 0.42, 0.42);
-    mzMale.position.set(-1.5, 0, 0.4);
-    mzFemale.position.set(-0.5, 0, -0.2);
-    mzMale.userData.billboard = true;
-    mzFemale.userData.billboard = true;
-    muzdalifahGroup.add(mzMale, mzFemale);
-
-    // حجّاج منى
-    minaMale = vectorMale.clone();
-    minaFemale = vectorFemale.clone();
-    minaMale.scale.set(0.42, 0.42, 0.42);
-    minaFemale.scale.set(0.42, 0.42, 0.42);
-    minaMale.position.set(-2.8, 0, 2.1);
-    minaFemale.position.set(-1.7, 0, 1.6);
-    minaMale.userData.billboard = true;
-    minaFemale.userData.billboard = true;
-    minaGroup.add(minaMale, minaFemale);
-
-    // حجّاج الجمرات
-    jmMale = vectorMale.clone();
-    jmFemale = vectorFemale.clone();
-    jmMale.scale.set(0.42, 0.42, 0.42);
-    jmFemale.scale.set(0.42, 0.42, 0.42);
-    jmMale.position.set(-3.8, 0, 1.2);
-    jmFemale.position.set(-3.0, 0, 0.6);
-    jmMale.userData.billboard = true;
-    jmFemale.userData.billboard = true;
-    jamaratGroup.add(jmMale, jmFemale);
-
-  } catch (e) {
-    console.warn("Vector pilgrims failed:", e);
+function saveMedia() {
+  if (!_currentActionId) return;
+  const imgUrl = document.getElementById('modalImg').value.trim();
+  const linkUrl = document.getElementById('modalLink').value.trim();
+  const imgEl = document.getElementById('img-' + _currentActionId);
+  if (imgEl) {
+    if (imgUrl) { imgEl.src = imgUrl; imgEl.style.display = 'block'; }
+    else { imgEl.style.display = 'none'; imgEl.src = ''; }
   }
+  const linkEl = document.getElementById('link-' + _currentActionId);
+  if (linkEl) {
+    if (linkUrl) { linkEl.href = linkUrl; linkEl.style.display = 'inline-flex'; }
+    else { linkEl.style.display = 'none'; linkEl.href = ''; }
+  }
+  closeModal('mediaModal');
 }
 
-// تشغيل تحميل الشخصيات
-initVectorPilgrims();
-/* =========================================================
-   حركات ومشاهد 3D
-========================================================= */
-let tawafTween = null;
-let saiMaleTl = null, saiFemaleTl = null;
-let sunTween = null;
+document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+  backdrop.addEventListener('click', (e) => { if (e.target === e.currentTarget) backdrop.classList.remove('open'); });
+});
+document.addEventListener('keydown', (e) => { 
+  if (e.key === 'Escape') document.querySelectorAll('.modal-backdrop.open').forEach(m => m.classList.remove('open')); 
+});
 
-function kill3DMotions(){
-  if (tawafTween) { tawafTween.kill(); tawafTween = null; }
-  if (saiMaleTl) { saiMaleTl.kill(); saiMaleTl = null; }
-  if (saiFemaleTl) { saiFemaleTl.kill(); saiFemaleTl = null; }
-  if (sunTween) { sunTween.kill(); sunTween = null; }
-  gsap.killTweensOf(tawafOrbitGroup.rotation);
-  gsap.killTweensOf(ihramGroup.rotation);
+function toggleDay(header) {
+  const card = header.closest('.day-card');
+  const isOpen = card.classList.contains('open');
+  card.classList.toggle('open', !isOpen);
 }
 
-function showOnly(groupName){
-  ihramGroup.visible = (groupName === "ihram");
-  kaabaGroup.visible = (groupName === "kaaba");
-  saiGroup.visible = (groupName === "sai");
-  arafatGroup.visible = (groupName === "arafat");
-  muzdalifahGroup.visible = (groupName === "muzdalifah");
-  minaGroup.visible = (groupName === "mina");
-  jamaratGroup.visible = (groupName === "jamarat");
-}
-
-function startTawaf(secondsPerRev = 6){
-  gsap.killTweensOf(tawafOrbitGroup.rotation);
-  tawafOrbitGroup.rotation.y = 0;
-  tawafTween = gsap.to(tawafOrbitGroup.rotation, {
-    y: -Math.PI * 2,
-    duration: secondsPerRev,
-    repeat: -1,
-    ease: "none"
-  });
-}
-
-function startSai(){
-  if (!saiMale || !saiFemale) return;
-
-  if (saiMaleTl) saiMaleTl.kill();
-  saiMale.position.x = -4;
-
-  saiMaleTl = gsap.timeline({ repeat: -1, yoyo: true });
-  saiMaleTl
-    .to(saiMale.position, { x: -1, duration: 1.2, ease: "none" })
-    .to(saiMale.position, { x:  1, duration: 0.55, ease: "none" })
-    .to(saiMale.position, { x:  4, duration: 1.2, ease: "none" });
-
-  if (saiFemaleTl) saiFemaleTl.kill();
-  saiFemale.position.x = -4;
-  saiFemaleTl = gsap.timeline({ repeat: -1, yoyo: true });
-  saiFemaleTl.to(saiFemale.position, { x: 4, duration: 3.2, ease: "none" });
-}
-
-function startArafatSunset(){
-  if (!arafatSun) return;
-  if (sunTween) sunTween.kill();
-  arafatSun.position.set(-3.6, 4.2, -3.8);
-  sunTween = gsap.to(arafatSun.position, {
-    y: 1.2, x: -1.0,
-    duration: 7.5,
-    yoyo: true,
-    repeat: -1,
-    ease: "sine.inOut"
-  });
-}
-
-/* =========================================================
-   بيانات: أنواع الحج (عربي بالكامل)
-   (المحتوى مبني على ترتيب الكتيّب المرفق مع صياغة جديدة)
-========================================================= */
-const TYPE_META = {
-  tamattu: {
-    label: "حج التمتع",
-    summary: [
-      "النية: عمرة من الميقات ثم تحلل كامل، ثم إحرام بالحج يوم ٨ من مكة.",
-      "يلزم الهدي غالباً (بحسب الأنظمة والقدرة).",
-      "السعي للحج يكون بعد طواف الإفاضة يوم النحر."
+// ── The Database (Isolated JSON for ALL content) ──
+const db = {
+  umrah: {
+    title: "دليل العمرة المفردة",
+    arkan: ["الإحرام (النية)", "الطواف بالبيت", "السعي بين الصفا والمروة"],
+    wajibat: ["الإحرام من الميقات (تجاوز الميقات بنية العمرة بلا إحرام يوجب دماً)", "الحلق أو التقصير (التحلل)"],
+    steps: [
+      { title: "١. الإحرام", desc: "الاغتسال والتطيب (للرجال قبل النية)، ولبس ثياب الإحرام، ثم عقد النية من الميقات بقول: 'لبيك اللهم بعمرة'." },
+      { title: "٢. الطواف", desc: "٧ أشواط حول الكعبة تبدأ وتنتهي بالحجر الأسود. وبعدها صلاة ركعتين خلف مقام إبراهيم (أو في أي مكان بالمسجد)." },
+      { title: "٣. السعي", desc: "٧ أشواط بين الصفا والمروة؛ يبدأ بالصفا وينتهي بالمروة (الذهاب شوط والعودة شوط)." },
+      { title: "٤. التحلل", desc: "حلق شعر الرأس أو تقصيره للرجل (والحلق أفضل)، وقص قدر أنملة من أطراف الشعر للمرأة. وبهذا تتم العمرة ويحل كل شيء." }
+    ],
+    duas: [
+      "عند الإحرام: لبيك اللهم بعمرة، لبيك اللهم لبيك، لبيك لا شريك لك لبيك...",
+      "عند الطواف (بين الركن اليماني والحجر): رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ.",
+      "عند الصفا والمروة: إِنَّ الصَّفَا وَالْمَرْوَةَ مِن شَعَائِرِ اللَّهِ... لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير."
     ]
   },
-  qiran: {
-    label: "حج القِران",
-    summary: [
-      "النية: الحج والعمرة معاً من الميقات، ويبقى على الإحرام حتى يوم النحر.",
-      "يلزم الهدي غالباً (بحسب الأنظمة والقدرة).",
-      "السعي غالباً مرة واحدة: بعد طواف القدوم (وقد يُؤخَّر عند الحاجة)."
+  prohibitions: [
+    { title: "لبس المخيط", target: "الرجال", desc: "يحرم على الرجل لبس كل ما فُصِّل على هيئة البدن كالقمصان، السراويل، والجوارب.", mediaPlaceholder: "📸 أضف صورة للملابس الممنوعة" },
+    { title: "تغطية الرأس", target: "الرجال", desc: "يحرم تغطية الرأس بملاصق كالطاقية والعمامة. (يجوز الاستظلال بشمسية أو سقف السيارة).", mediaPlaceholder: "📸 أضف صورة للتغطية الممنوعة" },
+    { title: "أخذ الشعر والأظافر", target: "الجميع", desc: "يحرم قص أو حلق أي شعر من البدن، أو تقليم الأظافر بعد عقد نية الإحرام.", mediaPlaceholder: "📸 أضف صورة أو أيقونة معبرة" },
+    { title: "الطيب (العطور)", target: "الجميع", desc: "يحرم استخدام العطور في البدن أو الثياب بعد الإحرام، وكذلك الصابون المعطر بشكل قوي.", mediaPlaceholder: "📸 أضف فيديو/جيف للعطور" },
+    { title: "النقاب والقفازين", target: "النساء", desc: "يحرم على المرأة لبس النقاب والبرقع والقفازين، وتغطي وجهها عند مرور الرجال الأجانب بغير النقاب المفصل.", mediaPlaceholder: "📸 أضف صورة توضيحية للمرأة" },
+    { title: "الصيد وعقد النكاح", target: "الجميع", desc: "يحرم صيد الحيوانات البرية أو تنفيرها، ويحرم عقد النكاح أو الخطبة أثناء الإحرام.", mediaPlaceholder: "📸 أضف صورة توضيحية" }
+  ],
+  hajjTypes: {
+      umrah_full: {
+    icon: '🕋', 
+    name: 'مناسك العمرة المفردة',
+    desc: 'خريطة زمنية تفصيلية لأداء العمرة من الميقات وحتى التحلل، شاملة كافة الأدعية والخطوات.',
+    features: [
+        'الإحرام من الميقات المحدد شرعاً.',
+        'الطواف بالبيت العتيق (٧ أشواط).',
+        'السعي بين الصفا والمروة (٧ أشواط).',
+        'التحلل بالحلق أو التقصير.'
+    ],
+    days: [
+        {
+            num: '١', name: 'الاستعداد والإحرام', date: 'الميقات',
+            prayer: 'صلاة ركعتي سنة الإحرام (أو صلاة الفريضة إذا وافق وقتها).',
+            hours: [
+                { time: 'البداية', title: 'الاغتسال والتنظف', isPrayer: false, desc: "يقلم أظافره ويقص شاربه ويغتسل ويتطيب في بدنه فقط." },
+                { time: 'الميقات', title: 'لبس الإحرام والنية', isPrayer: false, desc: "يلبس الإزار والرداء (للرجال) وينوي بالقلب ويقول: 'لبيك اللهم عمرة'." },
+                { time: 'بعد النية', title: 'التلبية الجهرية', isPrayer: false, desc: "يرفع الرجل صوته بالتلبية: 'لبيك اللهم لبيك...' وتستمر حتى رؤية الكعبة." }
+            ]
+        },
+        {
+            num: '٢', name: 'دخول الحرم والطواف', date: 'مكة المكرمة',
+            prayer: 'ركعتين خلف مقام إبراهيم بعد الطواف (يقرأ بالكافرون والإخلاص).',
+            hours: [
+                { time: 'الدخول', title: 'دخول المسجد الحرام', isPrayer: false, desc: "يدخل بالرجل اليمنى ويقول: 'اللهم افتح لي أبواب رحمتك'." },
+                { time: 'بدء الطواف', title: 'استلام الحجر الأسود', isPrayer: false, desc: "يبدأ من الحجر الأسود، يكبر ويستلمه بيده أو يشير إليه." },
+                { time: 'الأشواط ٣-١', title: 'طواف القدوم والاضطباع', isPrayer: false, desc: "الرمل (إسراع المشي) والاضطباع (كشف الكتف الأيمن) للرجال فقط." },
+                { time: 'الأشواط ٧-٤', title: 'إتمام الطواف والدعاء', isPrayer: false, desc: "المشي العادي والإكثار من الذكر والدعاء بما تيسر." },
+                { time: 'الختام', title: 'شرب ماء زمزم', isPrayer: false, desc: "التضلع من ماء زمزم والدعاء، وصلاة الركعتين خلف المقام." }
+            ]
+        },
+        {
+            num: '٣', name: 'السعي والتحلل', date: 'الصفا والمروة',
+            prayer: 'الإكثار من الدعاء عند الوقوف على الصفا والمروة.',
+            hours: [
+                { time: 'البداية', title: 'الصعود على الصفا', isPrayer: false, desc: "يقرأ: 'إن الصفا والمروة من شعائر الله...' ويستقبل القبلة ويكبر ٣ مرات." },
+                { time: 'بين العلمين', title: 'الهرولة بين الميلين', isPrayer: false, desc: "يسن للرجال فقط الهرولة الشديدة بين العلمين الأخضرين." },
+                { time: 'الأشواط', title: 'إتمام السعي (٧ أشواط)', isPrayer: false, desc: "الذهاب شوط والرجوع شوط، ينتهي السعي عند المروة." },
+                { time: 'النهاية', title: 'التحلل (الحلق أو التقصير)', isPrayer: false, desc: "يحلق الرجل رأسه (وهو الأفضل) أو يقصر، وتقص المرأة قدر أنملة." }
+            ]
+        }
     ]
+},
+    tamattu: {
+      icon: '🕌', name: 'حج التمتع',
+      desc: 'الإحرام بالعمرة أولاً في أشهر الحج، وبعد الانتهاء منها يتحلل الحاج تحللاً كاملاً ويلبس ثيابه العادية، ثم يُحرم للحج في اليوم الثامن من ذي الحجة.',
+      features: [
+        'الإحرام مرتين: مرة للعمرة من الميقات، ومرة للحج من مكة.',
+        'أداء طوافين وسعيين: طواف وسعي للعمرة، وطواف وسعي للحج.',
+        'وجوب ذبح الهدي (دم التمتع).'
+      ],
+      days: [
+        {
+          num: '🕋', name: 'الوصول لمكة (العمرة)', date: 'قبل يوم ٨ ذي الحجة',
+          prayer: 'تُصلى الصلوات الخمس بشكل طبيعي في المسجد الحرام.',
+          hours: [
+            { time: 'الميقات', title: 'النية والإحرام بالعمرة', isPrayer: false, color: '', desc: "الاغتسال والتطهر، ولبس ملابس الإحرام، وعقد النية بلفظ: 'لبيك اللهم بعمرة'." },
+            { time: 'عند الوصول', title: 'طواف العمرة', isPrayer: false, color: '', desc: "التوجه للمسجد الحرام، والطواف ٧ أشواط بدءاً من الحجر الأسود، ثم صلاة ركعتين خلف المقام والشرب من زمزم." },
+            { time: 'بعد الطواف', title: 'سعي العمرة', isPrayer: false, color: '', desc: "السعي بين الصفا والمروة ٧ أشواط، مع التكبير والدعاء." },
+            { time: 'الختام', title: 'التحلل من العمرة', isPrayer: false, color: '', desc: "الحلق أو التقصير للرجل، وقص أطراف الشعر للمرأة. بهذا يتم التحلل الكامل، وتُلبس الثياب العادية." }
+          ]
+        },
+        {
+          num: '١', name: 'يوم التروية', date: '٨ ذي الحجة',
+          prayer: 'تصلى الصلوات الخمس بمنى (الظهر، العصر، المغرب، العشاء، وفجر يوم عرفة) قصراً للرباعية بدون جمع.',
+          hours: [
+            { time: 'الصباح', title: 'الإحرام للحج', isPrayer: false, color: '', desc: "يغتسل الحاج ويلبس ملابس الإحرام من مقر إقامته بمكة، وينوي: 'لبيك اللهم بحج'." },
+            { time: 'باقي اليوم', title: 'التوجه إلى منى والمبيت', isPrayer: false, color: '', desc: "التوجه إلى منى والمبيت بها استعداداً ليوم عرفة (وهو سنة مستحبة). يُكثر من التلبية." },
+            { time: 'أوقات الصلاة', title: 'صلاة القصر', isPrayer: true, color: 'var(--color-gold)', desc: "يصلي الظهر والعصر والعشاء ركعتين في أوقاتها، والمغرب ثلاث ركعات." }
+          ]
+        },
+        {
+          num: '٢', name: 'يوم عرفة - الركن الأعظم ⭐', date: '٩ ذي الحجة',
+          prayer: 'الظهر والعصر جمع تقديم وقصر بمسجد نمرة أو الخيمة، والمغرب والعشاء جمع تأخير وقصر عند الوصول لمزدلفة.',
+          hours: [
+            { time: 'الفجر', title: 'صلاة الفجر بمنى', isPrayer: true, color: 'var(--color-gold)', desc: "صلاة فجر اليوم التاسع في منى، ثم الاستعداد للمغادرة." },
+            { time: 'بعد الشروق', title: 'التوجه لعرفات', isPrayer: false, color: '', desc: "السير بهدوء وسكينة تلبيةً لله والتوجه نحو صعيد عرفات." },
+            { time: 'وقت الزوال', title: 'صلاة الظهر والعصر', isPrayer: true, color: 'var(--color-gold)', desc: "بعد خطبة عرفة، يصلي الظهر والعصر (جمع تقديم وقصر)." },
+            { time: 'حتى الغروب', title: 'الوقوف بعرفة', isPrayer: false, color: '#e74c3c', desc: "الركن الأعظم. التفرغ التام للدعاء والتضرع. خير الدعاء: 'لا إله إلا الله وحده لا شريك له...'. يُمنع المغادرة قبل الغروب." },
+            { time: 'بعد الغروب', title: 'الإفاضة لمزدلفة', isPrayer: false, color: '', desc: "مغادرة عرفات والتوجه إلى مزدلفة بسكينة." },
+            { time: 'في مزدلفة', title: 'الصلاة والمبيت', isPrayer: true, color: 'var(--color-gold)', desc: "تصلى المغرب والعشاء جمع تأخير. يتم المبيت، وتُجمع ٧ حصيات لجمرة العقبة." }
+          ]
+        },
+        {
+          num: '٣', name: 'يوم النحر (يوم العيد)', date: '١٠ ذي الحجة',
+          prayer: 'الفجر في مزدلفة قبل التوجه إلى منى، وباقي الصلوات في أوقاتها بمنى.',
+          hours: [
+            { time: 'الفجر', title: 'صلاة الفجر بمزدلفة', isPrayer: true, color: 'var(--color-gold)', desc: "الصلاة في مزدلفة والدعاء حتى الإسفار." },
+            { time: 'الصباح', title: 'رمي جمرة العقبة الكبرى', isPrayer: false, color: '', desc: "التوجه لمنى ورمي جمرة العقبة بـ ٧ حصيات متعاقبة." },
+            { time: 'بعد الرمي', title: 'الهدي والتحلل الأصغر', isPrayer: false, color: '', desc: "ذبح هدي التمتع. ثم الحلق أو التقصير. يحل كل شيء إلا النساء." },
+            { time: 'خلال اليوم', title: 'طواف الإفاضة والسعي', isPrayer: false, color: '', desc: "النزول لمكة لأداء طواف الإفاضة وسعي الحج. يتم التحلل الأكبر، والعودة لمنى للمبيت." }
+          ]
+        },
+        {
+          num: '٤', name: 'أيام التشريق ومغادرة مكة', date: '١١، ١٢، ١٣ ذي الحجة',
+          prayer: 'تُؤدى الصلوات الخمس قصراً (للرباعية) في أوقاتها بمنى دون جمع.',
+          hours: [
+            { time: 'بعد الزوال', title: 'رمي الجمرات الثلاث', isPrayer: false, color: '', desc: "كل يوم بعد الزوال: رمي الصغرى، الوسطى، ثم الكبرى." },
+            { time: 'اليوم ١٢', title: 'التعجل (اختياري)', isPrayer: false, color: '', desc: "يجوز المغادرة بعد الرمي في اليوم ١٢، بشرط المغادرة قبل الغروب." },
+            { time: 'عند السفر', title: 'طواف الوداع', isPrayer: false, color: 'var(--color-primary)', desc: "واجب قبل السفر مباشرة (طواف ٧ أشواط دون سعي)." }
+          ]
+        }
+      ]
+    },
+    qiran: {
+      icon: '⚜️', name: 'حج القران',
+      desc: 'أن ينوي الحاج الإحرام بالعمرة والحج معاً بلفظ واحد من الميقات، ويبقى على إحرامه ولا يتحلل أبداً حتى ينهي جميع أعمال الحج يوم العيد.',
+      features: [
+        'الإحرام مرة واحدة فقط، وعدم التحلل بعد الوصول لمكة.',
+        'يكفيه طواف واحد (الإفاضة) وسعي واحد عن الحج والعمرة معاً.',
+        'يجب عليه ذبح الهدي كالمتمتع تماماً.'
+      ],
+      days: [
+        {
+          num: '🕋', name: 'الوصول لمكة', date: 'قبل يوم ٨ ذي الحجة',
+          prayer: 'تُصلى الصلوات الخمس بشكل طبيعي في المسجد الحرام.',
+          hours: [
+            { time: 'الميقات', title: 'النية والإحرام للقران', isPrayer: false, color: '', desc: "النية: 'لبيك اللهم بحج وعمرة'. يبقى بهذا الإحرام حتى يوم النحر." },
+            { time: 'عند الوصول', title: 'طواف القدوم (سنة)', isPrayer: false, color: '', desc: "الطواف ٧ أشواط تحية للبيت الحرام." },
+            { time: 'بعد الطواف', title: 'سعي الحج (اختياري التقديم)', isPrayer: false, color: '', desc: "يجوز تقديم سعي الحج بعد طواف القدوم لتخفيف الزحام يوم العيد." },
+            { time: 'طوال الوقت', title: 'الاستمرار بالإحرام', isPrayer: false, color: '#c0392b', desc: "يُمنع الحاج من جميع محظورات الإحرام ولا يتحلل أبداً." }
+          ]
+        },
+        {
+          num: '١', name: 'يوم التروية', date: '٨ ذي الحجة',
+          prayer: 'تصلى الصلوات الخمس بمنى قصراً للرباعية بدون جمع.',
+          hours: [
+            { time: 'الصباح', title: 'التوجه إلى منى', isPrayer: false, color: '', desc: "يتوجه من مقر إقامته بمكة (وهو بإحرامه الأصلي) إلى منى." },
+            { time: 'باقي اليوم', title: 'المبيت بمنى', isPrayer: false, color: '', desc: "المبيت سنة. يصلي الظهر والعصر والمغرب والعشاء وفجر عرفة." }
+          ]
+        },
+        {
+          num: '٢', name: 'يوم عرفة - الركن الأعظم ⭐', date: '٩ ذي الحجة',
+          prayer: 'الظهر والعصر جمع تقديم وقصر، والمغرب والعشاء جمع تأخير وقصر.',
+          hours: [
+            { time: 'بعد الشروق', title: 'التوجه لعرفات والوقوف', isPrayer: false, color: '#e74c3c', desc: "التوجه لعرفات والوقوف من الزوال حتى الغروب بالدعاء والذكر." },
+            { time: 'بعد الغروب', title: 'الإفاضة لمزدلفة', isPrayer: true, color: 'var(--color-gold)', desc: "المغادرة لمزدلفة، وصلاة المغرب والعشاء جمع تأخير، والمبيت وجمع الحصيات." }
+          ]
+        },
+        {
+          num: '٣', name: 'يوم النحر (يوم العيد)', date: '١٠ ذي الحجة',
+          prayer: 'الفجر في مزدلفة قبل التوجه إلى منى.',
+          hours: [
+            { time: 'الصباح', title: 'رمي جمرة العقبة', isPrayer: false, color: '', desc: "رمي ٧ حصيات بجمرة العقبة الكبرى." },
+            { time: 'بعد الرمي', title: 'الهدي والتحلل الأصغر', isPrayer: false, color: '', desc: "ذبح هدي القران (واجب)، ثم الحلق أو التقصير. يحل كل شيء إلا النساء." },
+            { time: 'خلال اليوم', title: 'طواف الإفاضة', isPrayer: false, color: '', desc: "طواف الإفاضة (ركن). وإذا لم يكن قد سعى بعد طواف القدوم، يجب عليه السعي الآن." }
+          ]
+        },
+        {
+          num: '٤', name: 'أيام التشريق ومغادرة مكة', date: '١١، ١٢، ١٣ ذي الحجة',
+          prayer: 'تُؤدى الصلوات الخمس قصراً (للرباعية) في أوقاتها بمنى.',
+          hours: [
+            { time: 'بعد الزوال', title: 'رمي الجمرات الثلاث', isPrayer: false, color: '', desc: "رمي الجمرات الثلاث يومياً، والعودة للمبيت بمنى." },
+            { time: 'عند السفر', title: 'طواف الوداع', isPrayer: false, color: 'var(--color-primary)', desc: "طواف ٧ أشواط، والرحيل." }
+          ]
+        }
+      ]
+    },
+    
+    ifrad: {
+      icon: '🌙', name: 'حج الإفراد',
+      desc: 'الإحرام بالحج وحده بلفظ (لبيك بحج)، ويبقى المحرم على صفة الإحرام حتى ينتهي من جميع أعمال الحج.',
+      features: [
+        'نية الحج فقط دون عمرة.',
+        'الاستمرار في الإحرام وعدم التحلل عند الوصول لمكة.',
+        'لا يجب عليه ذبح الهدي إطلاقاً (معفى من الدم).'
+      ],
+      days: [
+        {
+          num: '🕋', name: 'الوصول لمكة', date: 'قبل يوم ٨ ذي الحجة',
+          prayer: 'تُصلى الصلوات الخمس بشكل طبيعي في المسجد الحرام.',
+          hours: [
+            { time: 'الميقات', title: 'النية والإحرام للإفراد', isPrayer: false, color: '', desc: "النية من الميقات: 'لبيك اللهم بحج'. يبقى محُرماً حتى يوم النحر." },
+            { time: 'عند الوصول', title: 'طواف القدوم (سنة)', isPrayer: false, color: '', desc: "الطواف ٧ أشواط تحية للبيت." },
+            { time: 'بعد الطواف', title: 'سعي الحج (اختياري التقديم)', isPrayer: false, color: '', desc: "يجوز تقديم سعي الحج، وإذا فعله يسقط عنه يوم النحر." },
+            { time: 'طوال الوقت', title: 'الاستمرار بالإحرام', isPrayer: false, color: '#c0392b', desc: "لا يتحلل ويبقى محافظاً على محظورات الإحرام." }
+          ]
+        },
+        {
+          num: '١', name: 'يوم التروية', date: '٨ ذي الحجة',
+          prayer: 'تصلى الصلوات الخمس بمنى قصراً للرباعية بدون جمع.',
+          hours: [
+            { time: 'الصباح', title: 'التوجه إلى منى', isPrayer: false, color: '', desc: "يتوجه من مكة إلى منى في إحرامه الأصلي ليبيت هناك." }
+          ]
+        },
+        {
+          num: '٢', name: 'يوم عرفة - الركن الأعظم ⭐', date: '٩ ذي الحجة',
+          prayer: 'الظهر والعصر جمع تقديم وقصر، والمغرب والعشاء جمع تأخير وقصر.',
+          hours: [
+            { time: 'النهار', title: 'الوقوف بعرفة', isPrayer: false, color: '#e74c3c', desc: "الوقوف والدعاء الخاشع حتى الغروب." },
+            { time: 'الليل', title: 'مزدلفة', isPrayer: true, color: 'var(--color-gold)', desc: "الإفاضة والمبيت وصلاة الجمع والتأخير وجمع الحصيات." }
+          ]
+        },
+        {
+          num: '٣', name: 'يوم النحر (يوم العيد)', date: '١٠ ذي الحجة',
+          prayer: 'الفجر في مزدلفة قبل التوجه إلى منى.',
+          hours: [
+            { time: 'الصباح', title: 'رمي الجمرة والتحلل الأصغر', isPrayer: false, color: '', desc: "رمي جمرة العقبة، ثم الحلق أو التقصير مباشرة (ليس عليه هدي). يحل كل شيء إلا النساء." },
+            { time: 'خلال اليوم', title: 'طواف الإفاضة', isPrayer: false, color: '', desc: "النزول لطواف الإفاضة. وإذا لم يكن سعى مع القدوم وجب السعي." }
+          ]
+        },
+        {
+          num: '٤', name: 'أيام التشريق ومغادرة مكة', date: '١١، ١٢، ١٣ ذي الحجة',
+          prayer: 'تُؤدى الصلوات الخمس قصراً (للرباعية) في أوقاتها بمنى.',
+          hours: [
+            { time: 'بعد الزوال', title: 'رمي الجمرات الثلاث', isPrayer: false, color: '', desc: "رمي الجمرات الثلاث متعاقبة كل يوم." },
+            { time: 'عند السفر', title: 'طواف الوداع', isPrayer: false, color: 'var(--color-primary)', desc: "طواف الوداع ٧ أشواط." }
+          ]
+        }
+      ]
+    }
   },
-  ifrad: {
-    label: "حج الإفراد",
-    summary: [
-      "النية: الحج فقط من الميقات.",
-      "لا يلزم الهدي غالباً.",
-      "يمكن السعي بعد طواف القدوم أو يؤخره لما بعد الإفاضة."
+  extraInfo: {
+    ihram: {
+      title: "أحكام الإحرام العامة",
+      items: [
+        "يستحب تقليم الأظافر وحلق العانة والإبط والاغتسال قبل الإحرام.",
+        "يجوز الاغتسال بالصابون (غير المعطر) والتظليل بخيمة أو شمسية.",
+        "يجوز لبس الجوارب المقطوعة أسفل الكعبين للرجل إذا فقد النعلين.",
+        "المرأة تحرم في أي ثياب شاءت بشرط ألا يكون فيها زينة وتلتزم بالحجاب الشرعي."
+      ]
+    },
+    medina: {
+      title: "زيارة المدينة المنورة",
+      items: [
+        "زيارة المسجد النبوي من أعظم القربات (الصلاة فيه خير من ألف صلاة فيما سواه).",
+        "يستحب الاغتسال ولبس أحسن الثياب والتطيب قبل دخول المسجد.",
+        "الصلاة والدعاء في الروضة الشريفة لأنها روضة من رياض الجنة.",
+        "السلام على رسول الله وصاحبيه (أبي بكر وعمر) رضي الله عنهما.",
+        "استحباب زيارة شهداء أحد، ومسجد قباء، ومقبرة البقيع."
+      ]
+    },
+
+  "fatwas": {
+    "title": "فتاوى وأحكام مختارة (دار الإفتاء والمصادر المعتمدة)",
+    "items": [
+      "يصح الحج عن ذوي الاحتياجات الخاصة، ولا تجب الفريضة على مريض ألزهايمر لسقوط شرط التكليف.",
+      "من أحدث (انتقض وضوؤه) في الطواف يقطعه ليتوضأ ويبني على ما طاف تيسيراً (وهو مذهب المالكية المفتى به للتيسير).",
+      "المصاب بالسلس (البول أو الريح) يتوضأ ويتحفظ ويطوف طوافاً صحيحاً ولا حرج عليه إذا خرج منه شيء أثناء الطواف.",
+      "طواف الإفاضة لا حد لآخره، وتأخيره عن أيام التشريق يجزئ ولا يلزم به دم، وإن كان الأفضل أداؤه في وقته.",
+      "يجوز الجمع بين طواف الإفاضة وطواف الوداع بنية واحدة تيسيراً وتخفيفاً على الحاج عند مغادرة مكة.",
+      "التوكيل في رمي الجمرات جائز للمرضى وكبار السن والنساء عند وجود الزحام الشديد الذي قد يسبب ضرراً.",
+      "يجوز للمرأة استخدام العقاقير الطبية لتأجيل الحيض لتمكينها من أداء ركن طواف الإفاضة مع رفقة الحج.",
+      "من ترك المبيت بمنى أو مزدلفة لعذر شرعي أو بسبب الزحام أو المرض فلا إثم عليه ولا يلزمه فدية عند بعض العلماء للتيسير.",
+      "يجوز رمي الجمرات قبل الزوال في أيام التشريق في حالات الزحام الشديد التي تهدد سلامة الحجيج (بناءً على فتاوى معاصرة).",
+      "التحلل الأصغر يحصل بفعل شيئين من ثلاثة (رمي جمرة العقبة، الحلق أو التقصير، طواف الإفاضة)، وبه يباح كل شيء إلا النساء.",
+      "يجوز الخروج من مكة إلى جدة أو الطائف بعد الإحرام وقبل الوقوف بعرفة ولا ينقطع الإحرام ولا يفسد الحج.",
+      "النية هي الركن الأساسي، فمن نوى الإحرام ولم يتلفظ بلسانه فإحرامه صحيح ومنعقد بمجرد النية القلبية."
     ]
+  }
   }
 };
 
-function makeCounterHTML({ key, title, count = 7, say = "الله أكبر" }){
-  return `
-    <div class="counter-inline" data-counter-key="${key}" data-counter-max="${count}">
-      <div class="counter-title">${title}</div>
-      <div class="counter-num counter-action" role="button" tabindex="0" data-say="${say}">${count}</div>
-      <button class="counter-btn counter-action" type="button" data-say="${say}">تم</button>
+// ── Render Functions ──
+function renderUmrah() {
+  const data = db.umrah;
+  let arkanHtml = data.arkan.map(item => `<li><strong>${item}</strong></li>`).join('');
+  let wajibatHtml = data.wajibat.map(item => `<li><strong>${item}</strong></li>`).join('');
+  let stepsHtml = data.steps.map(item => `<li><strong>${item.title}:</strong> ${item.desc}</li>`).join('');
+  let duasHtml = data.duas.map(item => `<li>${item}</li>`).join('');
+
+  let html = `
+    <div class="section-eyebrow">منسك مستقل</div>
+    <h2 class="section-title">${data.title}</h2>
+    <p class="section-desc">إذا كنت تريد أداء العمرة المفردة بعيداً عن مناسك الحج، فهذه أركانها وواجباتها وخطواتها بالترتيب.</p>
+    
+    <div class="umrah-box fade-in" style="margin-top: var(--space-6);">
+        <div class="umrah-grid">
+            <div class="umrah-section">
+                <h4>الأركان والواجبات</h4>
+                <ul class="umrah-list">
+                    <li style="color:var(--color-primary)"><strong>الأركان (لا تصح العمرة إلا بها):</strong></li>
+                    ${arkanHtml}
+                    <li style="margin-top: var(--space-4); color:var(--color-primary)"><strong>الواجبات (من تركها يلزمه دم):</strong></li>
+                    ${wajibatHtml}
+                </ul>
+            </div>
+            <div class="umrah-section">
+                <h4>خطوات العمل بالترتيب</h4>
+                <ul class="umrah-list">${stepsHtml}</ul>
+            </div>
+            <div class="umrah-section">
+                <h4>أدعية العمرة</h4>
+                <ul class="umrah-list">${duasHtml}</ul>
+            </div>
+        </div>
     </div>
   `;
+  document.getElementById('umrah-container').innerHTML = html;
 }
 
-/* =========================================================
-   بناء خطوات كل نوع (تفصيلي + ملحقات)
-========================================================= */
-function stepsForType(typeKey){
-  const intro = {
-    id: "step-intro",
-    badge: "مدخل",
-    title: "أركان الحج والخريطة العامة للأيام",
-    scene: "ihram",
-    html: `
-      <div class="alert-green">
-        <strong>أركان الحج (باختصار عملي):</strong>
-        <ul class="mt-2 text-sm text-slate-200" style="line-height:1.9; padding-right:18px; list-style:disc;">
-          <li>الإحرام (الدخول في النسك).</li>
-          <li>الوقوف بعرفة.</li>
-          <li>طواف الإفاضة.</li>
-          <li>السعي بين الصفا والمروة.</li>
-        </ul>
-      </div>
-
-      <div class="alert-slate mt-3">
-        <strong>التقسيم الزمني الشائع:</strong>
-        ٨ (منى) → ٩ (عرفة ثم مزدلفة) → ١٠ (النحر: رمي/هدي لمن يلزمه/حلق أو تقصير + الإفاضة) → ١١–١٣ (أيام التشريق) → طواف الوداع.
-      </div>
-
-      <div class="tiny-note">
-ملاحظة: ترتيب بعض الأعمال فيه تفصيلات فقهية؛ هنا مسار عملي منظم على طريقة حملات الحج وبنَفَس الكتيّب المرفق.
-      </div>
-    `
-  };
-
-  const appendixManhurat = {
-    id: "appendix-manhurat",
-    badge: "ملحق",
-    title: "محظورات الإحرام (مختصر واضح)",
-    scene: "ihram",
-    html: `
-      <div class="alert-red">
-        <strong>محظورات مشهورة:</strong>
-        قص الشعر، تقليم الأظافر، التطيب بعد عقد الإحرام، الصيد، عقد النكاح، الجماع.
-      </div>
-      <div class="alert-slate mt-3">
-        <strong>تنبيه مهم:</strong>
-        تفاصيل الفدية/الدم تختلف حسب نوع المحظور وحال الشخص؛ التطبيق ممكن نزود له “حاسبة فدية” لاحقاً لو تحب.
-      </div>
-    `
-  };
-
-  const appendixWomen = {
-    id: "appendix-women",
-    badge: "ملحق",
-    title: "حج المرأة (نقاط عملية)",
-    scene: "ihram",
-    html: `
-      <div class="alert-green">
-        <strong>نقاط عملية شائعة:</strong>
-        <ul class="mt-2 text-sm text-slate-200" style="line-height:1.9; padding-right:18px; list-style:disc;">
-          <li>يجوز لها لبس المخيط في الإحرام مع تجنب الزينة.</li>
-          <li>لا تلبس النقاب ولا القفازين.</li>
-          <li>لا ترمل في الطواف ولا تسرع بين العلامتين الخضراوين في السعي.</li>
-          <li>لا تحلق؛ وإنما تقصر قدر أنملة.</li>
-          <li>الحيض/النفاس لا يمنع عقد الإحرام، ويمنع الطواف حتى تطهر.</li>
-        </ul>
-      </div>
-      <div class="alert-slate mt-3">
-        <strong>طواف الوداع:</strong> يُذكر في الكتيب أنه لا يلزم الحائض/النفساء.
-      </div>
-    `
-  };
-
-  const appendixChecklist = {
-    id: "appendix-checklist",
-    badge: "ملحق",
-    title: "مستلزمات الحاج (قائمة عملية)",
-    scene: "ihram",
-    html: `
-      <div class="alert-slate">
-        <strong>أساسيات:</strong> هوية/تصريح، جوال وشاحن متنقل، محفظة صغيرة، قلم وملاحظات.
-      </div>
-      <div class="alert-slate mt-2">
-        <strong>إيمانيات:</strong> مصحف، كتيب أذكار/أدعية (أو ملف على الهاتف)، سجادة صلاة، سواك.
-      </div>
-      <div class="alert-slate mt-2">
-        <strong>شخصي/صحي:</strong> صابون وشامبو غير معطر، مناديل، معقم، كريم مرطب/عازل احتكاك، لاصقات جروح، مسكن ألم، أدوية خاصة بالحاج.
-      </div>
-    `
-  };
-
-  const appendixNums = {
-    id: "appendix-nums",
-    badge: "ملحق",
-    title: "أرقام مهمة (كما وردت بالكتيب)",
-    scene: "ihram",
-    html: `
-      <div class="alert-slate">
-        <strong>مناسك (توعية):</strong> 8002488888
-      </div>
-      <div class="alert-slate mt-2">
-        <strong>فتاوى الحجاج:</strong> 8002451000
-      </div>
-      <div class="alert-slate mt-2">
-        <strong>الدوريات الأمنية:</strong> 999 | <strong>الدفاع المدني:</strong> 998 | <strong>الهلال الأحمر:</strong> 997
-      </div>
-    `
-  };
-
-  const appendixDuas = {
-    id: "appendix-duas",
-    badge: "ملحق",
-    title: "جوامع الدعاء (مختصر + خانة إضافة)",
-    scene: "ihram",
-    html: `
-      <div class="alert-green">
-        <strong>فكرة عملية:</strong> مفيش دعاء “إجباري” لكل شوط؛ المهم الإخلاص والدعاء بما تيسر.
-      </div>
-      <div class="alert-slate mt-3">
-        <strong>جوامع قصيرة:</strong>
-        اللهم اغفر لي — اللهم ارحمني — اللهم تقبل — اللهم اهدني — اللهم ارزقني — ربنا آتنا في الدنيا حسنة وفي الآخرة حسنة.
-      </div>
-      <div class="alert-slate mt-3">
-        <strong>أضف دعاءك هنا:</strong>
-        <textarea id="dua-notes" class="form-control mt-2" rows="4" placeholder="اكتب أدعيتك الخاصة هنا..."></textarea>
-      </div>
-      <div class="tiny-note">
-ملحوظة: نصوص الأدعية المطولة في الكتيّب لا يتم نسخها حرفياً داخل الكود، لكن يمكن إضافة “زر استيراد ملف أدعية” لاحقاً.
-      </div>
-    `
-  };
-
-  /* ----------- بناء مسارات الأنواع ----------- */
-  if (typeKey === "tamattu") {
-    return [
-      intro,
-      {
-        id:"tmt-1",
-        badge:"التمتع (١)",
-        title:"الإحرام للعمرة من الميقات + التلبية",
-        scene:"ihram",
-        html: `
-          <div class="alert-green"><strong>النية:</strong> نية العمرة (متمتعاً بها إلى الحج).</div>
-          <div class="alert-slate mt-3"><strong>بعد الإحرام:</strong> الإكثار من التلبية حتى دخول الطواف.</div>
-        `
-      },
-      {
-        id:"tmt-2",
-        badge:"التمتع (٢)",
-        title:"طواف العمرة (٧) + ركعتان + زمزم",
-        scene:"kaaba",
-        html: `
-          <div class="alert-green"><strong>قاعدة الطواف:</strong> الكعبة على اليسار، البداية من الحجر الأسود، ولا يلزم دعاء محدد لكل شوط.</div>
-          ${makeCounterHTML({ key:"tmt_umrah_tawaf", title:"باقي أشواط طواف العمرة", count:7, say:"الله أكبر" })}
-          <div class="alert-slate mt-3"><strong>بعده:</strong> ركعتان إن تيسر ثم شرب زمزم.</div>
-        `
-      },
-      {
-        id:"tmt-3",
-        badge:"التمتع (٣)",
-        title:"سعي العمرة (٧) ثم الحلق/التقصير والتحلل الكامل",
-        scene:"sai",
-        html: `
-          <div class="alert-green"><strong>السعي:</strong> من الصفا إلى المروة شوط، والعودة شوط (المجموع ٧).</div>
-          ${makeCounterHTML({ key:"tmt_umrah_sai", title:"باقي أشواط سعي العمرة", count:7, say:"سبحان الله" })}
-          <div class="alert-green mt-3"><strong>التحلل:</strong> بعد الحلق/التقصير يحل كل شيء.</div>
-        `
-      },
-      {
-        id:"tmt-4",
-        badge:"٨ ذو الحجة",
-        title:"يوم التروية: الإحرام للحج من مكة ثم الخروج إلى منى والصلاة فيها",
-        scene:"mina",
-        html: `
-          <div class="alert-green"><strong>النية:</strong> الإحرام بالحج من مكانك بمكة.</div>
-          <div class="alert-slate mt-3">
-            <strong>منى:</strong> المبيت بمنى، والصلاة في أوقاتها، وقصر الرباعية.
+function renderProhibitions() {
+  let html = db.prohibitions.map((item, index) => {
+    let actionId = `prohibition-${index}`;
+    return `
+      <div class="prohibition-slide">
+          <div class="slide-media">
+              <span id="placeholder-${actionId}">${item.mediaPlaceholder}</span>
+              <img id="img-${actionId}" src="" alt="${item.title}">
           </div>
-        `
-      },
-      {
-        id:"tmt-5",
-        badge:"٩ ذو الحجة",
-        title:"عرفة: الذهاب صباحاً، صلاة الظهر والعصر جمع تقديم وقصر، دعاء حتى الغروب",
-        scene:"arafat",
-        html: `
-          <div class="alert-green"><strong>الركن الأعظم:</strong> الوقوف بعرفة.</div>
-          <div class="alert-slate mt-3"><strong>البرنامج:</strong> ظهر+عصر جمع تقديم وقصر، ثم دعاء وذكر حتى الغروب.</div>
-        `
-      },
-      {
-        id:"tmt-6",
-        badge:"ليلة ٩",
-        title:"الإفاضة إلى مزدلفة بعد الغروب: جمع المغرب والعشاء، المبيت، صلاة الفجر",
-        scene:"muzdalifah",
-        html: `
-          <div class="alert-slate"><strong>مزدلفة:</strong> جمع المغرب والعشاء، ثم المبيت، ثم صلاة الفجر.</div>
-          <div class="alert-green mt-3"><strong>مفيد:</strong> تجهيز حصى الرمي حسب التنظيم.</div>
-        `
-      },
-      {
-        id:"tmt-7",
-        badge:"١٠ ذو الحجة",
-        title:"يوم النحر: رمي جمرة العقبة (٧) + الهدي + الحلق/التقصير (التحلل الأول)",
-        scene:"jamarat",
-        html: `
-          <div class="alert-green"><strong>الرمي:</strong> ٧ حصيات مع التكبير.</div>
-          ${makeCounterHTML({ key:"tmt_aqabah", title:"باقي حصى جمرة العقبة", count:7, say:"الله أكبر" })}
-          <div class="alert-red mt-3"><strong>الهدي:</strong> يلزم المتمتع غالباً.</div>
-          <div class="alert-slate mt-3"><strong>التحلل الأول:</strong> يحل كل شيء إلا النساء.</div>
-        `
-      },
-      {
-        id:"tmt-8",
-        badge:"١٠ ذو الحجة",
-        title:"طواف الإفاضة (٧) + سعي الحج (٧) ثم التحلل التام",
-        scene:"kaaba",
-        html: `
-          <div class="alert-green"><strong>طواف الإفاضة:</strong> ركن أساسي.</div>
-          ${makeCounterHTML({ key:"tmt_ifadah", title:"باقي أشواط طواف الإفاضة", count:7, say:"الله أكبر" })}
-          <div class="alert-green mt-3"><strong>سعي الحج للتمتع:</strong></div>
-          ${makeCounterHTML({ key:"tmt_hajj_sai", title:"باقي أشواط سعي الحج", count:7, say:"سبحان الله" })}
-          <div class="alert-slate mt-3"><strong>التحلل الثاني:</strong> يحل كل شيء حتى النساء.</div>
-        `
-      },
-      {
-        id:"tmt-9",
-        badge:"أيام التشريق",
-        title:"١١–١٣: المبيت بمنى + رمي الجمرات الثلاث بعد الزوال",
-        scene:"jamarat",
-        html: `
-          <div class="alert-green"><strong>كل يوم:</strong> رمي الصغرى ثم الوسطى ثم الكبرى، لكل واحدة ٧ حصيات بعد الزوال.</div>
-          ${makeCounterHTML({ key:"tmt_day11", title:"اليوم ١١: إجمالي الحصيات (٣×٧)", count:21, say:"الله أكبر" })}
-          ${makeCounterHTML({ key:"tmt_day12", title:"اليوم ١٢: إجمالي الحصيات (٣×٧)", count:21, say:"الله أكبر" })}
-          ${makeCounterHTML({ key:"tmt_day13", title:"اليوم ١٣ (لمن تأخر): إجمالي الحصيات", count:21, say:"الله أكبر" })}
-          <div class="alert-slate mt-3"><strong>التعجل:</strong> الخروج من منى قبل الغروب بعد رمي يوم ١٢.</div>
-        `
-      },
-      {
-        id:"tmt-10",
-        badge:"الختام",
-        title:"طواف الوداع (٧) ثم السفر (يسقط عن الحائض والنفساء)",
-        scene:"kaaba",
-        html: `
-          <div class="alert-green"><strong>طواف الوداع:</strong> آخر عمل قبل مغادرة مكة لغير أهلها.</div>
-          ${makeCounterHTML({ key:"tmt_wadaa", title:"باقي أشواط طواف الوداع", count:7, say:"الله أكبر" })}
-        `
-      },
-      appendixManhurat, appendixWomen, appendixChecklist, appendixNums, appendixDuas
-    ];
+          <div class="slide-content">
+              <span class="slide-target">يخص: ${item.target}</span>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                <h3 class="slide-title">${item.title}</h3>
+                <button class="hour-link-add" onclick="openMediaModal('${actionId}')">إضافة وسائط</button>
+              </div>
+              <p class="slide-desc">${item.desc}</p>
+          </div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('prohibitions-slider').innerHTML = html;
+}
+
+function renderNusk(typeId, btnEl) {
+  if(btnEl) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
   }
 
-  if (typeKey === "qiran") {
-    return [
-      intro,
-      {
-        id:"qr-1",
-        badge:"القِران (١)",
-        title:"الإحرام بالحج والعمرة معاً من الميقات + التلبية",
-        scene:"ihram",
-        html: `
-          <div class="alert-green"><strong>النية:</strong> الحج والعمرة معاً.</div>
-          <div class="alert-red mt-3"><strong>مهم:</strong> يبقى على الإحرام حتى يوم النحر.</div>
-        `
-      },
-      {
-        id:"qr-2",
-        badge:"القِران (٢)",
-        title:"مكة: طواف القدوم (٧) + السعي (٧) ثم البقاء على الإحرام",
-        scene:"kaaba",
-        html: `
-          ${makeCounterHTML({ key:"qr_qudum", title:"باقي أشواط طواف القدوم", count:7, say:"الله أكبر" })}
-          ${makeCounterHTML({ key:"qr_sai", title:"باقي أشواط السعي", count:7, say:"سبحان الله" })}
-          <div class="alert-slate mt-3"><strong>بعدها:</strong> يظل مُحرِماً إلى يوم النحر.</div>
-        `
-      },
-      {
-        id:"qr-3",
-        badge:"٨ ذو الحجة",
-        title:"منى: يوم التروية والصلاة وقصر الرباعية",
-        scene:"mina",
-        html: `<div class="alert-slate">المبيت بمنى والصلاة في أوقاتها مع قصر الرباعية.</div>`
-      },
-      {
-        id:"qr-4",
-        badge:"٩ ذو الحجة",
-        title:"عرفة: ظهر+عصر جمع تقديم وقصر + دعاء حتى الغروب",
-        scene:"arafat",
-        html: `<div class="alert-green">الوقوف بعرفة هو الركن الأعظم.</div>`
-      },
-      {
-        id:"qr-5",
-        badge:"ليلة ٩",
-        title:"مزدلفة: جمع المغرب والعشاء + المبيت + الفجر",
-        scene:"muzdalifah",
-        html: `<div class="alert-slate">جمع المغرب والعشاء، ثم المبيت، ثم صلاة الفجر.</div>`
-      },
-      {
-        id:"qr-6",
-        badge:"١٠ ذو الحجة",
-        title:"يوم النحر: رمي جمرة العقبة (٧) + الهدي + الحلق/التقصير (التحلل الأول)",
-        scene:"jamarat",
-        html: `
-          ${makeCounterHTML({ key:"qr_aqabah", title:"باقي حصى جمرة العقبة", count:7, say:"الله أكبر" })}
-          <div class="alert-red mt-3"><strong>الهدي:</strong> يلزم القارن غالباً.</div>
-          <div class="alert-slate mt-3"><strong>التحلل الأول:</strong> يحل كل شيء إلا النساء.</div>
-        `
-      },
-      {
-        id:"qr-7",
-        badge:"١٠ ذو الحجة",
-        title:"طواف الإفاضة (٧) + (السعي إن لم يكن سعى بعد القدوم) + التحلل التام",
-        scene:"kaaba",
-        html: `
-          ${makeCounterHTML({ key:"qr_ifadah", title:"باقي أشواط طواف الإفاضة", count:7, say:"الله أكبر" })}
-          <div class="alert-slate mt-3">
-            <strong>السعي:</strong> إن تم بعد طواف القدوم فغالباً لا يُعاد، وإن لم يتم فيُؤدى هنا.
-          </div>
-          ${makeCounterHTML({ key:"qr_sai_if_needed", title:"السعي (إن لم يُؤدَّ سابقاً)", count:7, say:"سبحان الله" })}
-          <div class="alert-green mt-3"><strong>التحلل الثاني:</strong> يحل كل شيء حتى النساء.</div>
-        `
-      },
-      {
-        id:"qr-8",
-        badge:"أيام التشريق",
-        title:"١١–١٣: المبيت بمنى + رمي الجمرات الثلاث بعد الزوال",
-        scene:"jamarat",
-        html: `
-          ${makeCounterHTML({ key:"qr_day11", title:"اليوم ١١: إجمالي الحصيات (٣×٧)", count:21, say:"الله أكبر" })}
-          ${makeCounterHTML({ key:"qr_day12", title:"اليوم ١٢: إجمالي الحصيات (٣×٧)", count:21, say:"الله أكبر" })}
-          ${makeCounterHTML({ key:"qr_day13", title:"اليوم ١٣ (لمن تأخر): إجمالي الحصيات", count:21, say:"الله أكبر" })}
-        `
-      },
-      {
-        id:"qr-9",
-        badge:"الختام",
-        title:"طواف الوداع (٧) ثم السفر (يسقط عن الحائض والنفساء)",
-        scene:"kaaba",
-        html: `${makeCounterHTML({ key:"qr_wadaa", title:"باقي أشواط طواف الوداع", count:7, say:"الله أكبر" })}`
-      },
-      appendixManhurat, appendixWomen, appendixChecklist, appendixNums, appendixDuas
-    ];
-  }
+  const data = db.hajjTypes[typeId];
+  let html = '';
 
-  // ifrad
-  return [
-    intro,
-    {
-      id:"if-1",
-      badge:"الإفراد (١)",
-      title:"الإحرام بالحج فقط من الميقات + التلبية",
-      scene:"ihram",
-      html: `
-        <div class="alert-green"><strong>النية:</strong> الحج فقط.</div>
-        <div class="alert-slate mt-3"><strong>معلومة:</strong> لا يلزم الهدي غالباً.</div>
-      `
-    },
-    {
-      id:"if-2",
-      badge:"الإفراد (٢)",
-      title:"مكة: طواف القدوم (٧) + سعي الحج (٧) ثم البقاء على الإحرام",
-      scene:"kaaba",
-      html: `
-        ${makeCounterHTML({ key:"if_qudum", title:"باقي أشواط طواف القدوم", count:7, say:"الله أكبر" })}
-        ${makeCounterHTML({ key:"if_sai_early", title:"باقي أشواط السعي", count:7, say:"سبحان الله" })}
-      `
-    },
-    {
-      id:"if-3",
-      badge:"٨ ذو الحجة",
-      title:"منى: يوم التروية والصلاة وقصر الرباعية",
-      scene:"mina",
-      html: `<div class="alert-slate">المبيت بمنى والصلاة في أوقاتها مع قصر الرباعية.</div>`
-    },
-    {
-      id:"if-4",
-      badge:"٩ ذو الحجة",
-      title:"عرفة: ظهر+عصر جمع تقديم وقصر + دعاء حتى الغروب",
-      scene:"arafat",
-      html: `<div class="alert-green">الوقوف بعرفة هو الركن الأعظم.</div>`
-    },
-    {
-      id:"if-5",
-      badge:"ليلة ٩",
-      title:"مزدلفة: جمع المغرب والعشاء + المبيت + الفجر",
-      scene:"muzdalifah",
-      html: `<div class="alert-slate">جمع المغرب والعشاء، ثم المبيت، ثم صلاة الفجر.</div>`
-    },
-    {
-      id:"if-6",
-      badge:"١٠ ذو الحجة",
-      title:"يوم النحر: رمي جمرة العقبة (٧) + الحلق/التقصير (التحلل الأول)",
-      scene:"jamarat",
-      html: `
-        ${makeCounterHTML({ key:"if_aqabah", title:"باقي حصى جمرة العقبة", count:7, say:"الله أكبر" })}
-        <div class="alert-slate mt-3"><strong>التحلل الأول:</strong> يحل كل شيء إلا النساء.</div>
-      `
-    },
-    {
-      id:"if-7",
-      badge:"١٠ ذو الحجة",
-      title:"طواف الإفاضة (٧) + (السعي إن لم يكن سعى بعد القدوم) + التحلل التام",
-      scene:"kaaba",
-      html: `
-        ${makeCounterHTML({ key:"if_ifadah", title:"باقي أشواط طواف الإفاضة", count:7, say:"الله أكبر" })}
-        <div class="alert-slate mt-3">
-          <strong>السعي:</strong> إن تم بعد طواف القدوم فغالباً لا يُعاد، وإن لم يتم فيُؤدى هنا.
-        </div>
-        ${makeCounterHTML({ key:"if_sai_if_needed", title:"السعي (إن لم يُؤدَّ سابقاً)", count:7, say:"سبحان الله" })}
-        <div class="alert-green mt-3"><strong>التحلل الثاني:</strong> يحل كل شيء حتى النساء.</div>
-      `
-    },
-    {
-      id:"if-8",
-      badge:"أيام التشريق",
-      title:"١١–١٣: المبيت بمنى + رمي الجمرات الثلاث بعد الزوال",
-      scene:"jamarat",
-      html: `
-        ${makeCounterHTML({ key:"if_day11", title:"اليوم ١١: إجمالي الحصيات (٣×٧)", count:21, say:"الله أكبر" })}
-        ${makeCounterHTML({ key:"if_day12", title:"اليوم ١٢: إجمالي الحصيات (٣×٧)", count:21, say:"الله أكبر" })}
-        ${makeCounterHTML({ key:"if_day13", title:"اليوم ١٣ (لمن تأخر): إجمالي الحصيات", count:21, say:"الله أكبر" })}
-      `
-    },
-    {
-      id:"if-9",
-      badge:"الختام",
-      title:"طواف الوداع (٧) ثم السفر (يسقط عن الحائض والنفساء)",
-      scene:"kaaba",
-      html: `${makeCounterHTML({ key:"if_wadaa", title:"باقي أشواط طواف الوداع", count:7, say:"الله أكبر" })}`
-    },
-    appendixManhurat, appendixWomen, appendixChecklist, appendixNums, appendixDuas
-  ];
-}
-
-/* =========================================================
-   العرض + التنقل + العدّادات + السايدبار
-========================================================= */
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-
-const scroller = document.getElementById("content-container");
-const stepsHost = document.getElementById("steps-host");
-const btnPrev = document.getElementById("btn-prev");
-const btnNext = document.getElementById("btn-next");
-
-let currentTypeKey = "tamattu";
-let stepsData = [];
-let stepIds = [];
-let currentIndex = 0;
-let isAutoScrolling = false;
-let scrollTween = null;
-let triggers = [];
-
-const COUNTER_STATE = { tamattu:{}, qiran:{}, ifrad:{} };
-
-function setTypeSummary(typeKey){
-  const box = document.getElementById("type-summary");
-  const meta = TYPE_META[typeKey];
-  box.textContent = meta.summary.join("\n• ").replace(/^/,"• ");
-}
-
-function renderSteps(typeKey){
-  triggers.forEach(t=>t.kill());
-  triggers = [];
-
-  stepsData = stepsForType(typeKey);
-  stepIds = stepsData.map(s=>s.id);
-
-  stepsHost.innerHTML = stepsData.map(s => `
-    <div class="step-card" id="${s.id}" data-scene="${s.scene}">
-      <span class="phase-badge">${s.badge}</span>
-      <h2>${s.title}</h2>
-      ${s.html}
+  let distHtml = data.features.map((feat, i) => `<li class="type-step"><span class="step-num">${i+1}</span>${feat}</li>`).join('');
+  html += `
+    <div class="type-content" id="scroll-target">
+      <div class="type-badge-big">
+        <span class="type-icon-big">${data.icon}</span>
+        <h3>${data.name}</h3>
+      </div>
+      <div class="type-desc">
+        <p>${data.desc}</p>
+        <h4 style="margin-bottom:8px; font-weight:bold; color:var(--color-primary)">أهم ما يميزه:</h4>
+        <ul class="type-steps">${distHtml}</ul>
+      </div>
     </div>
-  `).join("");
+  `;
 
-  restoreCountersForType(typeKey);
+  html += `<div class="timeline">`;
+  data.days.forEach((day, dayIndex) => {
+    let isOpen = dayIndex === 1 ? 'open' : ''; // Open day 8 by default
+    let hoursHtml = day.hours.map((hr, idx) => {
+      let actionId = `${typeId}-day${dayIndex}-hr${idx}`;
+      let isPrayerClass = hr.isPrayer ? 'is-prayer' : '';
+      let dotColor = hr.color ? `background:${hr.color}` : '';
+      
+      return `
+        <div class="hour-item">
+          <div class="hour-time"><span class="hour-time-label">${hr.time}</span><div class="hour-dot" style="${dotColor}"></div></div>
+          <div class="hour-content">
+            <div class="hour-action ${isPrayerClass}">
+              <div class="hour-action-header">
+                <div class="hour-action-title">${hr.title}</div>
+                <button class="hour-link-add" onclick="openMediaModal('${actionId}')">+ إرفاق</button>
+              </div>
+              <p class="hour-action-details">${hr.desc}</p>
+              
+              <div class="action-media-box">
+                <img id="img-${actionId}" class="action-img" src="" alt="توضيح بصري">
+                <a id="link-${actionId}" class="action-link-btn" href="" target="_blank" rel="noopener noreferrer">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> عرض التفاصيل
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
 
-  stepIds.forEach(createStepTrigger);
+    let prayerHtml = day.prayer ? `
+      <div class="prayer-box">
+        <svg class="prayer-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <div>
+          <div class="prayer-title">🕌 ملاحظات الصلاة</div>
+          <p class="prayer-text">${day.prayer}</p>
+        </div>
+      </div>
+    ` : '';
 
-  currentIndex = 0;
-  setStep(stepIds[0]);
-  scroller.scrollTop = 0;
-}
-
-function activateStep(id){
-  document.querySelectorAll(".step-card").forEach(el=>{
-    el.classList.remove("active-step");
-    el.style.opacity = 0.3;
+    html += `
+      <div class="day-card ${isOpen}">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-num"><div class="day-num-text">${day.num}</div></div>
+          <div class="day-info">
+            <div class="day-name">${day.name}</div>
+            <div class="day-date">${day.date}</div>
+          </div>
+          <svg class="day-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6,9 12,15 18,9"/></svg>
+        </div>
+        <div class="day-body">
+          ${prayerHtml}
+          <div class="hours-timeline">${hoursHtml}</div>
+        </div>
+      </div>
+    `;
   });
-  const active = document.getElementById(id);
-  if (active){
-    active.classList.add("active-step");
-    active.style.opacity = 1;
+  html += `</div>`;
+
+  document.getElementById('nusk-container').innerHTML = html;
+  
+  if(btnEl) {
+    setTimeout(() => {
+        document.getElementById('scroll-target').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   }
 }
 
-function updateNavButtons(){
-  btnPrev.disabled = (currentIndex <= 0);
-  btnNext.disabled = (currentIndex >= stepIds.length - 1);
-}
-
-function setSceneForStep(id){
-  const el = document.getElementById(id);
-  if (!el) return;
-  const sceneName = el.getAttribute("data-scene") || "ihram";
-
-  kill3DMotions();
-  maqamGroup.visible = false;
-
-  if (sceneName === "ihram"){ showOnly("ihram"); return; }
-
-  if (sceneName === "kaaba"){
-    showOnly("kaaba");
-    // إظهار مقام إبراهيم بشكل لطيف في خطوات الطواف
-    if (id.includes("tawaf") || id.includes("if") || id.includes("wadaa") || id.includes("qudum")) maqamGroup.visible = true;
-    startTawaf(id.includes("if") ? 7.8 : 5.8);
-    return;
+function renderExtraInfo() {
+  let html = '';
+  const extras = db.extraInfo;
+  for (const key in extras) {
+    const section = extras[key];
+    let itemsHtml = section.items.map(item => `<li>${item}</li>`).join('');
+    html += `
+      <div class="extra-card">
+        <h3>${section.title}</h3>
+        <ul class="extra-list">${itemsHtml}</ul>
+      </div>
+    `;
   }
-
-  if (sceneName === "sai"){ showOnly("sai"); startSai(); return; }
-  if (sceneName === "arafat"){ showOnly("arafat"); startArafatSunset(); return; }
-  if (sceneName === "muzdalifah"){ showOnly("muzdalifah"); return; }
-  if (sceneName === "mina"){ showOnly("mina"); return; }
-  if (sceneName === "jamarat"){ showOnly("jamarat"); return; }
-
-  showOnly("ihram");
+  document.getElementById('extra-container').innerHTML = html;
 }
-
-function setStep(id){
-  const idx = stepIds.indexOf(id);
-  if (idx !== -1) currentIndex = idx;
-  activateStep(id);
-  updateNavButtons();
-  setSceneForStep(id);
-}
-
-function scrollToStep(id){
-  const el = document.getElementById(id);
-  if (!el) return;
-
-  if (scrollTween) { scrollTween.kill(); scrollTween=null; }
-  gsap.killTweensOf(scroller);
-
-  isAutoScrolling = true;
-  scrollTween = gsap.to(scroller, {
-    duration: 0.65,
-    ease: "power2.out",
-    scrollTo: { y: el, offsetY: 16, autoKill: false },
-    onStart: ()=> setStep(id),
-    onComplete: ()=> { isAutoScrolling=false; scrollTween=null; },
-    onInterrupt: ()=> { isAutoScrolling=false; scrollTween=null; }
-  });
-}
-
-function goToIndex(idx){
-  const clamped = Math.max(0, Math.min(stepIds.length - 1, idx));
-  scrollToStep(stepIds[clamped]);
-}
-
-btnPrev.addEventListener("click", ()=> goToIndex(currentIndex - 1));
-btnNext.addEventListener("click", ()=> goToIndex(currentIndex + 1));
-
-/* ضغط على البطاقة = انتقال للخطوة */
-document.addEventListener("click", (e)=>{
-  const counterHit = e.target.closest(".counter-action");
-  if (counterHit) return;
-  const jumpBtn = e.target.closest(".side-link");
-  if (jumpBtn) return;
-
-  const card = e.target.closest(".step-card");
-  if (!card) return;
-  if (isAutoScrolling) return;
-  if (stepIds.includes(card.id)) scrollToStep(card.id);
-}, { passive:true });
-
-function createStepTrigger(stepId){
-  const el = document.getElementById(stepId);
-  if (!el) return;
-  const trig = ScrollTrigger.create({
-    trigger: el,
-    scroller: scroller,
-    start: "top center",
-    end: "bottom center",
-    onEnter: ()=> { if(!isAutoScrolling) setStep(stepId); },
-    onEnterBack: ()=> { if(!isAutoScrolling) setStep(stepId); }
-  });
-  triggers.push(trig);
-}
-
-/* =========================================================
-   العدّادات (طواف/سعي/رمي)
-========================================================= */
-function persistCounter(typeKey, counterKey, remaining, completed){
-  COUNTER_STATE[typeKey][counterKey] = { remaining, completed };
-}
-
-function restoreCountersForType(typeKey){
-  const state = COUNTER_STATE[typeKey] || {};
-  document.querySelectorAll(".counter-inline").forEach(box=>{
-    const key = box.getAttribute("data-counter-key");
-    const max = parseInt(box.getAttribute("data-counter-max"), 10) || 7;
-    const saved = state[key];
-
-    if (!saved){
-      persistCounter(typeKey, key, max, false);
-      return;
-    }
-
-    const numEl = box.querySelector(".counter-num");
-    const btnEl = box.querySelector(".counter-btn");
-    if (numEl) numEl.textContent = String(saved.remaining);
-
-    if (saved.completed){
-      box.classList.add("completed");
-      box.querySelectorAll(".counter-action").forEach(a=>a.classList.add("is-done"));
-      if (btnEl) btnEl.textContent = "تم";
-    }else{
-      box.classList.remove("completed");
-      box.querySelectorAll(".counter-action").forEach(a=>a.classList.remove("is-done"));
-      if (btnEl) btnEl.textContent = "تم";
-    }
-  });
-}
-
-document.addEventListener("click", (e)=>{
-  const t = e.target.closest(".counter-action");
-  if (!t) return;
-
-  const box = t.closest(".counter-inline");
-  if (!box) return;
-
-  e.preventDefault();
-  e.stopPropagation();
-  e.stopImmediatePropagation();
-
-  if (box.classList.contains("completed")) return;
-
-  const key = box.getAttribute("data-counter-key");
-  const max = parseInt(box.getAttribute("data-counter-max"), 10) || 7;
-  const numEl = box.querySelector(".counter-num");
-  const btnEl = box.querySelector(".counter-btn");
-
-  let remaining = parseInt((numEl && numEl.textContent) ? numEl.textContent : String(max), 10);
-  if (Number.isNaN(remaining)) remaining = max;
-
-  const say = t.getAttribute("data-say") || "";
-  if (say) speakArabic(say);
-
-  remaining = Math.max(0, remaining - 1);
-  if (numEl) numEl.textContent = String(remaining);
-
-  persistCounter(currentTypeKey, key, remaining, remaining === 0);
-
-  if (remaining === 0){
-    box.classList.add("completed");
-    box.querySelectorAll(".counter-action").forEach(a=>a.classList.add("is-done"));
-    if (btnEl) btnEl.textContent = "تم";
-    showToast("تمت الخطوة التكرارية");
-    speakArabic("تمت");
-  }
-});
-
-/* =========================================================
-   أزرار اختيار نوع الحج (سايدبار)
-========================================================= */
-function setActiveTypeButton(typeKey){
-  document.querySelectorAll(".type-btn").forEach(b=>{
-    b.classList.toggle("active", b.getAttribute("data-type") === typeKey);
-  });
-}
-
-document.querySelectorAll(".type-btn").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    const type = btn.getAttribute("data-type");
-    if (!type || type === currentTypeKey) return;
-
-    currentTypeKey = type;
-    setActiveTypeButton(type);
-    setTypeSummary(type);
-    renderSteps(type);
-
-    showToast("تم تغيير نوع الحج");
-    speakArabic("تم تغيير نوع الحج");
-  });
-});
-
-/* =========================================================
-   تنقّل سريع من السايدبار
-========================================================= */
-document.querySelectorAll(".side-link").forEach(b=>{
-  b.addEventListener("click", ()=>{
-    const target = b.getAttribute("data-jump");
-    if (!target) return;
-    if (!document.getElementById(target)) {
-      showToast("الجزء غير موجود في النوع الحالي");
-      return;
-    }
-    scrollToStep(target);
-  });
-});
-
-/* =========================================================
-   (اختياري) حفظ ملاحظات الدعاء
-========================================================= */
-function hookDuaNotes(){
-  const ta = document.getElementById("dua-notes");
-  if (!ta) return;
-  const storageKey = "hajj_dua_notes_v1";
-  try{
-    ta.value = localStorage.getItem(storageKey) || "";
-    ta.addEventListener("input", ()=>{
-      localStorage.setItem(storageKey, ta.value || "");
-    });
-  }catch(e){}
-}
-
-/* أول تحميل */
-setTypeSummary(currentTypeKey);
-setActiveTypeButton(currentTypeKey);
-renderSteps(currentTypeKey);
-
-/* بعد كل Render للخطوات، اربط ملاحظات الدعاء */
-const _renderStepsOriginal = renderSteps;
-renderSteps = function(typeKey){
-  _renderStepsOriginal(typeKey);
-  hookDuaNotes();
+window.onload = () => {
+  renderUmrah();
+  renderProhibitions(); // القديم (لو لسه محتاجه)
+  renderNusk('tamattu');
+  renderExtraInfo();
+  renderHajjMaster(); // نداء الوظيفة الجديدة اللي بتبني الأقسام
 };
-hookDuaNotes();
 
-/* =========================================================
-   Render loop
-========================================================= */
-function animate(){
-  requestAnimationFrame(animate);
-
-  if (ihramGroup.visible){
-    ihramGroup.rotation.y = Math.sin(Date.now() * 0.001) * 0.12;
-  }
-
-  faceCameraIfBillboard(tawafMale);
-  faceCameraIfBillboard(tawafFemale);
-  faceCameraIfBillboard(saiMale);
-  faceCameraIfBillboard(saiFemale);
-  faceCameraIfBillboard(arafatMale);
-  faceCameraIfBillboard(arafatFemale);
-  faceCameraIfBillboard(mzMale);
-  faceCameraIfBillboard(mzFemale);
-  faceCameraIfBillboard(minaMale);
-  faceCameraIfBillboard(minaFemale);
-  faceCameraIfBillboard(jmMale);
-  faceCameraIfBillboard(jmFemale);
-
-  renderer.render(scene, camera);
+// Scroll nav highlight
+const sections = ['tips', 'umrah-section', 'types', 'extra-info'];
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.1 });
+sections.forEach(id => { const el = document.getElementById(id); if (el) observer.observe(el); });
+// 1. الداتا بالكامل بدون أي نقص
+function openExternalGuide(url) {
+    const container = document.getElementById('guideFrameContainer');
+    const iframe = document.getElementById('externalIframe');
+    const title = document.getElementById('frameTitle');
+    
+    // تحديد العنوان بناءً على الرابط
+    if (url.includes('umra')) title.innerText = '🕋 دليل خطوات العمرة';
+    else title.innerText = '🚶 دليل خطوات الحج';
+    
+    iframe.src = url;
+    container.style.display = 'block';
+    document.body.style.overflow = 'hidden'; // منع التمرير في الصفحة الخلفية
 }
-animate();
+
+function closeExternalGuide() {
+    const container = document.getElementById('guideFrameContainer');
+    const iframe = document.getElementById('externalIframe');
+    
+    container.style.display = 'none';
+    iframe.src = ''; // تفريغ الرابط لتوفير الموارد
+    document.body.style.overflow = ''; // إعادة التمرير
+}
 </script>
 </body>
 </html>
