@@ -605,10 +605,11 @@ const hajjMasterData = {
       "name": "📌 واجبات الحج",
       "description": "من تركها صح حجه ولزمه دم (فدية).",
       "items": [
-      { 
+    { 
           "title": "النية وسنة الاشتراط", 
-          "details": "عقد النية بالقلب والتلفظ بها حسب نوع النسك:<br>• التمتع: لبيك اللهم عمرة.<br>• القران: لبيك اللهم عمرة وحجاً.<br>• الإفراد: لبيك اللهم حجاً.", 
-          "conditions": "💡 <strong>سنة الاشتراط:</strong> يُسن لمن خاف عائقاً (مرض أو غيره) أن يقول بعد النية: <em>«اللَّهُمَّ مَحِلِّي حَيْثُ حَبَسْتَنِي»</em>.<br>فائدتها: يتحلل فوراً إذا عاقه عائق ولا فدية عليه.", 
+          "details": "عقد النية بالقلب والتلفظ بها حسب نوع النسك:<br>• <strong>التمتع:</strong> لبيك اللهم عمرة.<br>• <strong>القران:</strong> لبيك اللهم عمرة وحجاً.<br>• <strong>الإفراد:</strong> لبيك اللهم حجاً.<br>• <strong>العمرة المفردة:</strong> لبيك اللهم عمرة.", 
+          "target": "للرجال والنساء",
+          "conditions": "💡 <strong>سنة الاشتراط:</strong> يُسن لمن خاف عائقاً<br>(مرض أو منع) أن يقول: <em>«اللَّهُمَّ مَحِلِّي حَيْثُ حَبَسْتَنِي»</em>.<br><strong>التلبية بعد النية:</strong> لبيك اللهم لبيك، لبيك لا شريك<br>لك لبيك، إن الحمد والنعمة لك والملك، لا شريك لك.", 
           "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=النية+والاشتراط"], 
           "type": "واجب" 
         },
@@ -627,45 +628,281 @@ const hajjMasterData = {
     },
     {
       "id": "ihram_sunnahs",
-      "name": "✨ سنن الإحرام ومستحباته",
+      "name": "✨ سنن الإحرام ومستحباته التفصيلية",
       "description": "أفعال يُستحب فعلها لزيادة الأجر اقتداءً بالنبي ﷺ.",
       "items": [
-        { "title": "الاغتسال والتنظف", "details": "تقليم الأظافر، نتف الإبط، وحلق العانة.", "conditions": "يُسن التطيب في البدن قبل عقد النية (لا في ملابس الإحرام).", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Arabic_Perfumes.jpg/800px-Arabic_Perfumes.jpg"], "type": "سنة" },
-        { "title": "ملابس الإحرام", "details": "لبس إزار ورداء أبيضين نظيفين للرجل.", "conditions": "إحرام المرأة في ملابس ساترة لا تبرج فيها بأي لون كان.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Ihram_clothing.jpg/800px-Ihram_clothing.jpg"], "type": "سنة" },
-        { "title": "الصلاة والاشتراط", "details": "صلاة ركعتين والاشتراط لمن خاف عائقاً.", "conditions": "يقول: (فإن حبسني حابس فمحلي حيث حبستني).", "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الاشتراط"], "type": "سنة" },
-        { "title": "التلبية", "details": "لبيك اللهم لبيك، لبيك لا شريك لك لبيك...", "conditions": "تستمر من الإحرام حتى بدء الطواف (للعمرة) أو رمي جمرة العقبة (للحج).", "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=التلبية"], "type": "سنة" }
+        { 
+          "title": "الاغتسال ونظافة الفطرة", 
+          "details": "تقليم الأظافر، قص الشارب، نتف الإبط،<br>حلق العانة، والاغتسال الكامل بنية السنّة.", 
+          "target": "للرجال والنساء",
+          "conditions": "يُسن التطيب في البدن واللحية قبل النية.<br><strong>للمرأة:</strong> تتنظف وتغتسل ولو كانت حائضاً،<br>بشرط تجنب الأطياب ذات الرائحة النفاذة.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Arabic_Perfumes.jpg/800px-Arabic_Perfumes.jpg"], 
+          "type": "سنة" 
+        },
+        { 
+          "title": "رداء وإزار الرجل (المخيط)", 
+          "details": "لبس قطعتين بيضاويتين (رداء وإزار)<br>غير مفصلتين على قدر أعضاء الجسم.", 
+          "target": "للرجال فقط",
+          "conditions": "مباح استخدام 'الكباسين' أو 'السوستة'<br>لتثبيت الإزار، ولا يعتبر مخيطاً ممنوعاً.<br>الممنوع: ما فُصل على العضو كالقميص والسروال.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Ihram_clothing.jpg/800px-Ihram_clothing.jpg"], 
+          "type": "سنة" 
+        },
+        { 
+          "title": "لباس المرأة وضوابطه", 
+          "details": "تحرم المرأة في ملابسها العادية الساترة<br>التي لا زينة فيها ولا تشبه الرجال.", 
+          "target": "للنساء فقط",
+          "conditions": "يجب أن تكون الملابس فضفاضة لا تصف البدن.<br>يُمنع لبس 'النقاب' أو 'القفازين' تماماً.<br>تستر وجهها بـ 'سدل' الخمار عند وجود أجانب.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=لباس+المرأة"], 
+          "type": "واجب" 
+        },
+        { 
+          "title": "نعل الإحرام (حذاء القدم)", 
+          "details": "لبس نعل (صندل أو كروكس مفتوح العقب)<br>يظهر منه 'الكعبان' وأصابع القدمين.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الكعبان:</strong> العظمتان البارزتان بالجانبين.<br><strong>للنساء:</strong> يباح لبس الجوارب (الشراب)<br>والحذاء المغلق المعتاد دون أي كراهة.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=نعل+الإحرام"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "الصلاة والاشتراط الشرعي", 
+          "details": "صلاة ركعتين (سنة الوضوء أو الإحرام)<br>ثم النطق بالنية والاشتراط باللسان.", 
+          "target": "للرجال والنساء",
+          "conditions": "تقول: (فإن حبسني حابس فمحلي حيث حبستني).<br>الفائدة: التحلل بلا فدية عند المرض أو الزحام<br>الذي يمنع الحاج من إتمام مناسكه.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الاشتراط"], 
+          "type": "سنة" 
+        },
+        { 
+          "title": "التلبية والجهر (شعار الحج)", 
+          "details": "قول: (لبيك اللهم لبيك، لبيك لا شريك لك...)<br>وهي إعلان الاستجابة لنداء الله عز وجل.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الرجل:</strong> يسن له رفع الصوت بالتلبية جهاراً.<br><strong>المرأة:</strong> تلبي سراً بحيث تسمع نفسها فقط.<br>تستمر التلبية حتى رؤية الكعبة أو رمي الجمرة.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=التلبية"], 
+          "type": "سنة" 
+        },
+        { 
+          "title": "الاضطباع والهرولة (للطواف)", 
+          "details": "كشف الكتف الأيمن (الاضطباع) والهرولة<br>(الرمل) في الأشواط الثلاثة الأولى فقط.", 
+          "target": "للرجال فقط",
+          "conditions": "الاضطباع يكون في طواف القدوم أو العمرة.<br>يجب تغطية الكتفين فور الانتهاء أو عند الصلاة.<br>النساء: يمشين مشياً عادياً وبستر كامل للبدن.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الاضطباع"], 
+          "type": "سنة" 
+        }
+      ]
+    },
+    {
+      "id": "travel_and_miqat",
+      "name": "✈️ مسار الرحلة وتحديد الميقات",
+      "description": "دليل حجاج الخارج والداخل (أهل الدمام والشرقية)<br>وكيفية الإحرام عند المرور بجدة أو المدينة.",
+      "items": [
+        { 
+          "title": "القادمون من المدينة المنورة", 
+          "details": "إذا بدأت رحلتك بزيارة المسجد النبوي:<br>• الميقات هو 'ذو الحليفة' (آبار علي).<br>• تحرم منه عند مغادرة المدينة باتجاه مكة.<br>• يجوز لبس ملابس الإحرام في الفندق بالمدينة.", 
+          "target": "للرجال والنساء",
+          "conditions": "تؤجل نية الإحرام والصلاة حتى الميقات.<br>تستمر في التلبية فور تحرك الحافلة<br>من منطقة آبار علي باتجاه مكة المكرمة.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=ميقات+أهل+المدينة"], 
+          "type": "واجب" 
+        },
+        { 
+          "title": "حجاج الخارج (مصر والشام والمغرب)", 
+          "details": "للقادمين جوًا أو بحرًا من جهة مصر والشام:<br>• الميقات هو 'رابع' (الجحفة).<br>• الطائرات تمر فوق الميقات قبل الهبوط بجدة.<br>• يجب ارتداء الملابس قبل صعود الطائرة أو فيها.", 
+          "target": "للرجال والنساء",
+          "conditions": "📍 تنبيه لمسافري الجو: ميقاتكم قبل جدة.<br>بمجرد التنبيه في الطائرة تنوي وتلبي فوراً.<br>لا تنتظر الوصول لمطار جدة لعقد النية.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=ميقات+الجحفة"], 
+          "type": "واجب" 
+        },
+        { 
+          "title": "حجاج الداخل (الدمام والشرقية)", 
+          "details": "للقادمين من الدمام والمنطقة الشرقية جوًا:<br>• الميقات هو 'قرن المنازل' (السيل الكبير).<br>• يحرم الحاج في الطائرة عند محاذاة الميقات.<br>• يلبس ملابسه في مطار الدمام أو في الطائرة.", 
+          "target": "للرجال والنساء",
+          "conditions": "ينبه كابتن الطائرة قبل الميقات بـ 15 دقيقة.<br>يجب عقد النية فور التنبيه بمحاذاة الميقات<br>ولا يجوز تأخير الإحرام حتى الهبوط بجدة.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=ميقات+حجاج+الداخل"], 
+          "type": "واجب" 
+        },
+        { 
+          "title": "حالة النزول في جدة أولاً", 
+          "details": "إذا كنت ذاهباً لجدة (لعمل أو زيارة) قبل العمرة:<br>• إذا نويت العمرة من بلدك: أحرم في الجو.<br>• إذا كانت نية العمرة نشأت وأنت داخل جدة:<br>• تحرم من مكانك في جدة (باعتبارك من أهلها).", 
+          "target": "للرجال والنساء",
+          "conditions": "📍 تنبيه هام: من تجاوز الميقات وهو ينوي<br>العمرة قاصداً جدة للإحرام منها فقد أخطأ،<br>ويلزمه العودة للميقات أو ذبح 'فدية' (دم).", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=ترانزيت+جدة"], 
+          "type": "تنبيه" 
+        },
+        { 
+          "title": "توقيت النية في الطائرة", 
+          "details": "كيفية الإحرام لمسافري الجو:<br>• يغتسل الحاج في منزله (بالدمام أو القاهرة).<br>• يرتدي ملابس الإحرام في المطار أو الطائرة.<br>• ينطق بالنية (لبيك عمرة) عند محاذاة الميقات.", 
+          "target": "للرجال والنساء",
+          "conditions": "لا تشترط صلاة ركعتين إذا كنت في الطائرة.<br>يكفي عقد النية بالقلب والتلفظ باللسان،<br>ثم البدء بالتلبية فوراً بصوت مسموع.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الإحرام+الجوي"], 
+          "type": "سنة" 
+        }
       ]
     },
 {
       "id": "ihram_prohibitions",
       "name": "🚫 محظورات الإحرام بالتفصيل",
-      "description": "الممنوعات التي يمنع منها الإنسان بسبب الإحرام (للحج والعمرة).",
+      "description": "الممنوعات التي يجب تجنبها فور عقد نية الإحرام.<br><strong>قاعدة عامة:</strong> الناسي والجاهل لا إثم عليهما ولا فدية،<br>أما العامد فتجب عليه الفدية، والمريض يفعله ويفدي.",
       "items": [
-        { "title": "إزالة الشعر", "details": "حلق أو قص أو نتف شعر الرأس أو البدن.", "conditions": "يحرم إزالة أي شعرة من أي مكان في الجسم.", "penalty": "فدية أذى (تخيير): صيام 3 أيام، أو إطعام 6 مساكين، أو ذبح شاة.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Hair_clipping.jpg/800px-Hair_clipping.jpg"], "type": "محظور" },
-        { "title": "تقليم الأظافر", "details": "قص أظافر اليدين أو القدمين.", "conditions": "يحرم القص إلا إذا انكسر الظفر وتأذى به المحرم.", "penalty": "فدية أذى (تخيير): صيام 3 أيام، أو إطعام 6 مساكين، أو ذبح شاة.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Nail_Clippers.jpg/800px-Nail_Clippers.jpg"], "type": "محظور" },
-        { "title": "استعمال الطيب", "details": "تعمد شم العطور أو وضعها على البدن أو الثياب.", "conditions": "يشمل الصابون المعطر بقوة والمناديل المعطرة وطعام التطيب.", "penalty": "فدية أذى (تخيير): صيام 3 أيام، أو إطعام 6 مساكين، أو ذبح شاة.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Arabic_Perfumes.jpg/800px-Arabic_Perfumes.jpg"], "type": "محظور" },
-        { "title": "المخيط (للرجال)", "details": "لبس الثياب المفصلة المحيطة بالجسد.", "conditions": "يمنع القميص، السروال، الجوارب، والملابس الداخلية.", "penalty": "فدية أذى (تخيير): صيام 3 أيام، أو إطعام 6 مساكين، أو ذبح شاة.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Ihram_clothing.jpg/800px-Ihram_clothing.jpg"], "type": "محظور" },
-        { "title": "تغطية الرأس (للرجال)", "details": "تغطية الرأس بملاصق.", "conditions": "كالقبعة، الشماغ، العمامة. (يجوز الاستظلال بالشمسية).", "penalty": "فدية أذى (تخيير): صيام 3 أيام، أو إطعام 6 مساكين، أو ذبح شاة.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Men_in_Ihram.jpg/800px-Men_in_Ihram.jpg"], "type": "محظور" },
-        { "title": "النقاب والقفازين (للنساء)", "details": "لبس ما يفصل الوجه أو الكفين.", "conditions": "تستر وجهها بسدل الخمار عند مرور الأجانب.", "penalty": "فدية أذى (تخيير): صيام 3 أيام، أو إطعام 6 مساكين، أو ذبح شاة.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Women_in_Hajj.jpg/800px-Women_in_Hajj.jpg"], "type": "محظور" },
-        { "title": "قتل صيد البر", "details": "صيد الحيوانات البرية المتوحشة المأكولة أو الإعانة عليه.", "conditions": "يحرم الصيد أو الإشارة إليه.", "penalty": "الجزاء بمثل ما قَتَل من النَّعَم (يُذبح لفقراء الحرم)، أو إطعام، أو صيام.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Gazelle_hajj_ref.jpg/800px-Gazelle_hajj_ref.jpg"], "type": "محظور" },
-        { "title": "عقد النكاح والخطبة", "details": "يحرم عقد النكاح لنفسه أو لغيره ولا يجوز الخطبة.", "conditions": "إذا تم العقد أثناء الإحرام فهو باطل.", "penalty": "العقد باطل ولا يصح، ويأثم فاعله، ولكن لا فدية عليه (لا يلزمه دم).", "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=عقد+النكاح"], "type": "محظور" },
-        { "title": "الجماع والمباشرة", "details": "الجماع والمباشرة لشهوة كالتقبيل واللمس.", "conditions": "الجماع أعظم المحظورات ويفسد النسك إذا وقع قبل التحلل الأول.", "penalty": "يفسد الحج، ويجب إتمامه وقضاؤه العام القادم، وذبح بدنة (جمل).", "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الجماع+والمباشرة"], "type": "محظور" }
+        { 
+          "title": "الرفث والفسوق والجدال", 
+          "details": "المعاصي والمشاحنات والجدال بالباطل.<br>والتحدث في أمور الجماع والشهوة.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>العامد:</strong> يأثم وينقص أجر حجه جداً.<br><strong>الناسي/الجاهل:</strong> لا إثم عليه ويستغفر.<br><strong>المريض:</strong> لا عذر في سوء الخلق.", 
+          "penalty": "يجب الاستغفار والتوبة النصوح فوراً،<br>ولا تجب فيه فدية مالية (دم) عند الجمهور.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الرفث+والجدال"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "الجماع (مفسد الحج)", 
+          "details": "الجماع الكامل قبل التحلل الأول<br>(قبل رمي جمرة العقبة يوم العيد).", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>العامد:</strong> يفسد حجه وعليه بدنة والقضاء.<br><strong>الناسي/الجاهل:</strong> عند الجمهور يفسد الحج أيضاً<br>لعظم شأن هذا المحظور وغلظته.", 
+          "penalty": "يجب إتمام الحج الفاسد، وقضاؤه العام القادم،<br>مع ذبح 'بدنة' (جمل) وتوزيعه على الفقراء.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الجماع+والمباشرة"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "لباس القدم (للرجال فقط)", 
+          "details": "لبس الحذاء الساتر للعقب أو الكعبين<br>مثل 'الكنادر' أو الجوارب والشرابات.", 
+          "target": "للرجال فقط",
+          "conditions": "<strong>المريض:</strong> إذا احتاج للشراب لمرض يلبسه ويفدي.<br><strong>الناسي:</strong> يخلعه فور تذكره ولا شيء عليه.<br><strong>العامد:</strong> يلزمه الفدية فوراً.", 
+          "penalty": "فدية أذى (تخيير): صيام 3 أيام،<br>أو إطعام 6 مساكين، أو ذبح شاة.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=لباس+القدم+المحظور"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "إزالة الشعر والأظافر", 
+          "details": "حلق أو قص أو نتف شعر الرأس أو البدن،<br>أو تقليم أظافر اليدين والقدمين.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>المريض:</strong> إذا حلق لضرورة (عملية مثلاً) يفدي.<br><strong>الناسي:</strong> إذا قص ناسياً فلا شيء عليه.<br><strong>العامد:</strong> تجب عليه الفدية.", 
+          "penalty": "فدية أذى (تخيير): صيام 3 أيام،<br>أو إطعام 6 مساكين، أو ذبح شاة.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Hair_clipping.jpg/800px-Hair_clipping.jpg"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "استعمال الطيب والعطور", 
+          "details": "تعمد وضع العطور على البدن أو الثياب،<br>أو شمها بقصد التلذذ برائحتها.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الناسي:</strong> يغسل أثر الطيب فوراً ولا فدية.<br><strong>الجاهل:</strong> يعذر بجهله ويغسله فوراً.<br><strong>العامد:</strong> تجب عليه الفدية.", 
+          "penalty": "فدية أذى (تخيير): صيام 3 أيام،<br>أو إطعام 6 مساكين، أو ذبح شاة.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Arabic_Perfumes.jpg/800px-Arabic_Perfumes.jpg"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "المخيط وتغطية الرأس (للرجال)", 
+          "details": "لبس الثياب المفصلة كالبنطلون والقميص،<br>أو تغطية الرأس بملاصق كالطاقية.", 
+          "target": "للرجال فقط",
+          "conditions": "<strong>المضطر:</strong> من لم يجد إزاراً لبس السراويل.<br><strong>الناسي:</strong> يخلع المخيط فوراً ولا شيء عليه.<br><strong>العامد:</strong> يلزمه الفدية فوراً.", 
+          "penalty": "فدية أذى (تخيير): صيام 3 أيام،<br>أو إطعام 6 مساكين، أو ذبح شاة.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Ihram_clothing.jpg/800px-Ihram_clothing.jpg"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "النقاب والقفازين (للنساء)", 
+          "details": "لبس النقاب المفصل للوجه أو القفازين.<br>(تستر وجهها بغير النقاب عند الأجانب).", 
+          "target": "للنساء فقط",
+          "conditions": "<strong>الناسي/الجاهل:</strong> تخلعه فوراً ولا شيء عليها.<br><strong>العامد:</strong> تأثم وتجب عليها الفدية.<br><strong>المريضة:</strong> لو احتاجت لستر يدها لمرض تفدي.", 
+          "penalty": "فدية أذى (تخيير): صيام 3 أيام،<br>أو إطعام 6 مساكين، أو ذبح شاة.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Women_in_Hajj.jpg/800px-Women_in_Hajj.jpg"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "عقد النكاح والخطبة", 
+          "details": "إيقاع عقد الزواج لنفسه أو لغيره،<br>أو التقدم لخطبة امرأة أثناء الإحرام.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>العامد:</strong> العقد باطل شرعاً ويأثم فاعله.<br><strong>الناسي/الجاهل:</strong> العقد باطل أيضاً عند الجمهور<br>ولكن لا إثم عليه لجهله.", 
+          "penalty": "لا فدية مالية فيه، ولكن يجب فسخ العقد<br>وإعادته بعد التحلل من الإحرام.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=عقد+النكاح"], 
+          "type": "محظور" 
+        },
+        { 
+          "title": "قتل صيد البر", 
+          "details": "صيد الحيوانات البرية المأكولة أو الإعانة عليه.<br>(لا يشمل صيد البحر أو الدجاج والغنم).", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الناسي:</strong> يضمن الصيد بالفدية (بالمثل).<br><strong>الجاهل:</strong> يضمن الصيد بالفدية أيضاً.<br><strong>العامد:</strong> يأثم ويضمن الصيد بالفدية.", 
+          "penalty": "الجزاء بمثل ما قَتَل من النَّعَم،<br>يُذبح ويُوزع على مساكين الحرم الشريف.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Gazelle_hajj_ref.jpg/800px-Gazelle_hajj_ref.jpg"], 
+          "type": "محظور" 
+        }
       ]
     },
-    {
+{
       "id": "ihram_permitted",
-      "name": "✅ ما يباح للمحرم فعله",
-      "description": "أمور رخص بها الشرع ولا تفسد الإحرام.",
+      "name": "✅ ما يباح للمحرم فعله (الرخص الشرعية)",
+      "description": "أمور رخص بها الشرع تيسيراً على العباد،<br>ولا تجب فيها فدية ولا تفسد الإحرام.",
       "items": [
-        { "title": "الاغتسال للتبرد", "details": "الاستحمام وتغيير ثياب الإحرام بثياب إحرام أخرى.", "conditions": "بشرط عدم استخدام طيب (صابون معطر).", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Pilgrims_at_the_Kaaba.jpg/800px-Pilgrims_at_the_Kaaba.jpg"], "type": "مباح" },
-        { "title": "التظلل", "details": "استخدام غطاء غير ملاصق.", "conditions": "مثل استخدام المظلة (الشمسية) أو سقف السيارة أو الخيمة.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Hajj_Umbrella.jpg/800px-Hajj_Umbrella.jpg"], "type": "مباح" },
-        { "title": "الزينة والمتعلقات", "details": "لبس ساعة اليد، الخاتم، النظارة، وسماعة الأذن.", "conditions": "مباحة للرجل والمرأة ولا تعتبر مخيطاً.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Wristwatch.jpg/800px-Wristwatch.jpg"], "type": "مباح" },
-        { "title": "ربط الحزام وحقيبة المال", "details": "يسمح بربط حزام لحفظ المال أو شد الإزار.", "conditions": "لا يعتبر ذلك من المخيط المحظور.", "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Hajj_Belt.jpg/800px-Hajj_Belt.jpg"], "type": "مباح" },
-        { "title": "حك الجسد", "details": "حك الجسد والرأس برفق.", "conditions": "دون تعمد إسقاط الشعر، وإذا سقط شعر بغير قصد فلا حرج.", "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=حك+الجسد"], "type": "مباح" },
-        { "title": "العلاجات وقتل المؤذيات", "details": "استخدام الأدوية، الحجامة، وقلع الضرس.", "conditions": "ويباح قتل المؤذيات كالذباب، البعوض، العقرب، والكلب العقور.", "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=العلاج+والمؤذيات"], "type": "مباح" }
+        { 
+          "title": "تمشيط الشعر ونقضه", 
+          "details": "يجوز للمحرم تمشيط شعره ونقضه عند الحاجة،<br>ولا يضره ما يسقط منه بغير قصد.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الدليل:</strong> قوله ﷺ لعائشة وهي محرمة:<br>«انقضي رأسك وامتشطي، وأهلي بالحج».<br>(رواه البخاري ومسلم). وهذا إذن صريح بالتمشط.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=تمشيط+الشعر"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "الاغتسال وغسل الرأس", 
+          "details": "يجوز للمحرم الاستحمام للتبرد أو النظافة،<br>وتبديل ملابس الإحرام بأخرى نظيفة.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الدليل:</strong> سُئل أبو أيوب الأنصاري:<br>كيف كان ﷺ يغسل رأسه وهو محرم؟<br>فأراهم بيديه: (أقبل بهما وأدبر). (رواه مسلم).", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Pilgrims_at_the_Kaaba.jpg/800px-Pilgrims_at_the_Kaaba.jpg"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "نحر الهدي وذبح الأنعام", 
+          "details": "يجوز للمحرم ذبح الهدي والأغنام والدجاج،<br>وكل ما ليس بـ 'صيد بري' وحشي.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الدليل:</strong> «أن النبي ﷺ نحر بدنه بيده وهو محرم».<br>فالمحرم يذبح بهيمة الأنعام ويأكل منها،<br>وإنما الممنوع هو صيد البر (مثل الغزال).", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=ذبح+الهدي"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "حك الجسد والعمل اليدوي", 
+          "details": "يجوز للمحرم حك جسده ورأسه برفق عند الحاجة،<br>وممارسة البيع والشراء والأعمال المباحة.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الفقه:</strong> سُئلت عائشة رضي الله عنها عن حك<br>المحرم جسده، فقالت: (نعم فليحككه وليشدد).<br>وكذلك التجارة مباحة لقوله: (ليس عليكم جناح أن تبتغوا فضلاً من ربكم).", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=حك+الجسد"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "الحجامة والتداوي", 
+          "details": "استخدام الأدوية، قلع الضرس، التداوي،<br>وعمل الحجامة إذا احتاج الحاج إليها.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الدليل:</strong> حديث ابن عباس رضي الله عنهما:<br>«أن رسول الله ﷺ احتجم وهو محرم».<br>(رواه البخاري). وهذا دليل قاطع على إباحتها.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الحجامة+للمحرم"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "التظلل بغير الملاصق", 
+          "details": "استخدام المظلة أو الخيمة أو الاستظلال<br>بسيارة أو شجرة للوقاية من الشمس.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الدليل:</strong> حديث أم الحصين رضي الله عنها:<br>«رأيت أسامة وبلالاً يستران النبي ﷺ ببرد<br>من الحر حتى رمى جمرة العقبة». (رواه مسلم).", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Hajj_Umbrella.jpg/800px-Hajj_Umbrella.jpg"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "ربط الجروح والضمادات", 
+          "details": "يجوز للمحرم شد الأربطة والضمادات على الجروح،<br>وكذلك وضع 'اللزقة' الطبية على البدن.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الفقه:</strong> يجوز التداوي وربط موضع الألم والكسر،<br>ولا يعتبر ذلك من لبس 'المخيط' الممنوع،<br>لأنه للضرورة ولعلاج عضو بعينه.", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=ربط+الجروح"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "لبس الخاتم والساعة", 
+          "details": "ارتداء ساعة اليد، خاتم الفضة، النظارة،<br>وكل ما لا يعد ثياباً مفصلة.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الدليل:</strong> ثبت في الصحيحين:<br>«أن رسول الله ﷺ اتخذ خاتماً من فضة».<br>ولم ينهَ عن لبسه حال الإحرام، فبقي على الإباحة.", 
+          "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Wristwatch.jpg/800px-Wristwatch.jpg"], 
+          "type": "مباح" 
+        },
+        { 
+          "title": "قتل الفواسق الخمس", 
+          "details": "قتل كل ما يؤذي المحرم من الدواب والسباع<br>لدرء خطرها عن النفس والحجاج.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>الدليل:</strong> قوله ﷺ: «خمس من الدواب كلهن فاسق<br>يُقتلن في الحل والحرم: العقرب، والحدأة،<br>والغراب، والفأرة، والكلب العقور». (متفق عليه).", 
+          "images": ["https://via.placeholder.com/600x400/1a6b3c/ffffff?text=قتل+المؤذيات"], 
+          "type": "مباح" 
+        }
       ]
-    },
-    {
+    },    {
       "id": "ihram_fidyah",
       "name": "⚖️ الفدية وجزاء المحظورات",
       "description": "ما يترتب على الحاج في حال ارتكاب أحد المحظورات.",
@@ -686,20 +923,43 @@ function renderHajjMaster() {
     if (prohibitionsSlider) prohibitionsSlider.innerHTML = '';
     if (permittedSlider) permittedSlider.innerHTML = '';
 
+    // دالة داخلية صغيرة عشان نكررش كود توليد أزرار العناوين
+    const generateQuickNav = (items) => {
+        return `
+            <div class="quick-nav-wrapper" style="display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px; scrollbar-width: none;">
+                ${items.map(item => `
+                    <a href="#${item.title.replace(/\s+/g, '-')}" style="white-space: nowrap; background: var(--color-surface-offset); border: 1px solid var(--color-border); padding: 5px 12px; border-radius: var(--radius-md); font-size: 11px; color: var(--color-primary); text-decoration: none; font-weight: 600; transition: 0.3s;">
+                        ${item.title}
+                    </a>
+                `).join('')}
+            </div>
+        `;
+    };
+
     hajjMasterData.categories.forEach(cat => {
-        // لو محظورات، حطها في صف المحظورات
+        const navHtml = generateQuickNav(cat.items);
+
+        // 1. قسم المحظورات
         if (cat.id === 'ihram_prohibitions') {
-            cat.items.forEach(item => {
-                if(prohibitionsSlider) prohibitionsSlider.insertAdjacentHTML('beforeend', createHajjCard(item));
-            });
+            if(prohibitionsSlider) {
+                // بنحط أزرار التنقل قبل السلايدر مباشرة
+                prohibitionsSlider.insertAdjacentHTML('beforebegin', navHtml);
+                cat.items.forEach(item => {
+                    prohibitionsSlider.insertAdjacentHTML('beforeend', createHajjCard(item));
+                });
+            }
         } 
-        // لو مباحات، حطها في صف المباحات
+        // 2. قسم المباحات
         else if (cat.id === 'ihram_permitted') {
-            cat.items.forEach(item => {
-                if(permittedSlider) permittedSlider.insertAdjacentHTML('beforeend', createHajjCard(item));
-            });
+            if(permittedSlider) {
+                // بنحط أزرار التنقل قبل السلايدر مباشرة
+                permittedSlider.insertAdjacentHTML('beforebegin', navHtml);
+                cat.items.forEach(item => {
+                    permittedSlider.insertAdjacentHTML('beforeend', createHajjCard(item));
+                });
+            }
         } 
-        // باقي الأقسام (أركان، واجبات، سنن)
+        // 3. باقي الأقسام (أركان، واجبات، سنن)
         else {
             let catHtml = `
                 <div class="category-group fade-in" style="margin-bottom: 40px;">
@@ -707,7 +967,8 @@ function renderHajjMaster() {
                         <div style="width:5px; height:25px; background:var(--color-primary); border-radius:10px;"></div>
                         <h3 style="color:var(--color-text); font-family:var(--font-display); font-size:1.4rem;">${cat.name}</h3>
                     </div>
-                    <div class="hajj-grid" style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scroll-snap-type: x mandatory;">
+                    
+                    ${navHtml} <div class="hajj-grid" style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scroll-snap-type: x mandatory;">
                         ${cat.items.map(item => createHajjCard(item)).join('')}
                     </div>
                 </div>
@@ -716,17 +977,20 @@ function renderHajjMaster() {
         }
     });
 }
-
 function createHajjCard(item) {
     const images = item.images && item.images.length > 0 ? item.images : [item.image_url || 'https://via.placeholder.com/400x200?text=Depanto'];
     
+    // إنشاء معرف فريد (ID) من العنوان لاستخدامه كـ Anchor
+    // بنشيل المسافات ونخليها ID صالح
+    const cardAnchorId = item.title.replace(/\s+/g, '-');
+
     // تحديد لون الكلمة (التاج) بناءً على النوع
     let badgeClass = 'badge-default';
     if (item.type === 'محظور') badgeClass = 'badge-red';
     else if (item.type === 'مباح') badgeClass = 'badge-green';
 
     return `
-        <div class="interactive-card" style="min-width: 320px; flex-shrink: 0; scroll-snap-align: start;">
+        <div class="interactive-card" id="${cardAnchorId}" style="min-width: 320px; flex-shrink: 0; scroll-snap-align: start;">
             <div class="card-visuals">
                 <div class="carousel-track" style="display: flex; height: 100%;">
                     ${images.map(url => `
@@ -751,6 +1015,28 @@ function createHajjCard(item) {
                 </div>
                 ` : ''}
             </div>
+        </div>
+    `;
+}
+function generateCategoryNav(cat) {
+    return `
+        <div class="category-nav" style="display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px;">
+            ${cat.items.map((item, index) => `
+                <a href="#card-${cat.id}-${index}" style="
+                    white-space: nowrap;
+                    padding: 6px 12px;
+                    background: var(--color-surface-offset);
+                    border: 1px solid var(--color-border);
+                    border-radius: var(--radius-md);
+                    font-size: var(--text-xs);
+                    color: var(--color-text-muted);
+                    text-decoration: none;
+                    transition: all 0.2s;
+                " onmouseover="this.style.borderColor='var(--color-primary)';this.style.color='var(--color-primary)'" 
+                   onmouseout="this.style.borderColor='var(--color-border)';this.style.color='var(--color-text-muted)'">
+                    ${item.title}
+                </a>
+            `).join('')}
         </div>
     `;
 }
