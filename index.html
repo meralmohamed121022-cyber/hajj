@@ -400,6 +400,93 @@ button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
 .zoom-backdrop.open #zoomedImage {
     transform: scale(1); /* أنيميشن تكبير ناعم */
 }
+/* تنسيق العلامة المائية (الووترمارك) في منتصف الصور */
+/* الحاوية الأساسية للصورة */
+/* الحاوية الأساسية في الكروت والتايم لاين */
+.inner-slide, .card-visuals {
+    position: relative !important;
+}
+
+/* اللوجو في الكروت الصغيرة */
+.inner-slide::before, 
+.card-visuals::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 220px;
+    height: 220px;
+    background-image: url('https://i.postimg.cc/yx17ZRtm/M-(512-x-512-px)-(7).png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.2;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* اللوجو في شاشة التكبير (الزوم) */
+/* بنحطه على الـ backdrop نفسه عشان يفضل ثابت مهما عملت زوم للصورة اللي وراه */
+.zoom-backdrop::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(300px, 70vw); /* حجم كبير ومناسب للموبايل واللاب */
+    height: min(800px, 70vw);
+    background-image: url('https://i.postimg.cc/yx17ZRtm/M-(512-x-512-px)-(7).png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.15; /* شفافية أخف شوية في الزوم عشان التفاصيل */
+    pointer-events: none;
+    z-index: 100001; /* فوق الصورة المكبرة مباشرة */
+    display: none; /* مخفي في العادي */
+}
+
+/* يظهر فقط لما شاشة الزوم تفتح */
+.zoom-backdrop.open::before {
+    display: block;
+}
+/* حاوية الجريد محتاجة تكون relative عشان السهم يثبت عليها */
+.category-group {
+    position: relative;
+}
+
+/* تصميم السهم */
+.scroll-indicator {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: var(--color-primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    pointer-events: none; /* عشان ميعطلش اللمس */
+    opacity: 0.8;
+    animation: bounceLeft 1.5s infinite;
+    transition: opacity 0.3s;
+}
+
+/* أنيميشن حركة السهم */
+@keyframes bounceLeft {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    50% { transform: translateY(-50%) translateX(-5px); }
+}
+
+/* إخفاء السهم لما يوصل للأخر (هنحكم فيها بالجافا سكريبت) */
+.scroll-indicator.hidden {
+    opacity: 0;
+}
 </style>
 </head>
 <body>
@@ -457,7 +544,9 @@ button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
   
 </section>
 <div style="text-align: center; margin-bottom: 2rem;">
-    <img src="https://i.postimg.cc/Hn6B5P6X/Gemini-Generated-Image-b7n0tzb7n0tzb7n0.png" alt="بُشرى النَّبي ﷺ" style="max-width: 100%; height: auto; display: inline-block; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px;">
+    <div class="inner-slide" style="display: inline-block; width: auto; max-width: 100%;">
+        <img src="https://i.postimg.cc/Hn6B5P6X/Gemini-Generated-Image-b7n0tzb7n0tzb7n0.png" alt="بُشرى النَّبي ﷺ" style="max-width: 100%; height: auto; display: block; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px;">
+    </div>
 </div>
 
 <section class="section" id="virtues" style="background:var(--color-surface-offset-2)">
@@ -622,8 +711,8 @@ button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
 </div>
 <div class="zoom-backdrop" id="imageZoomModal" onclick="closeImageModal()">
     <button class="zoom-close-btn" onclick="closeImageModal()">✕</button>
-    
     <img id="zoomedImage" src="" onclick="event.stopPropagation()" alt="تكبير الصورة">
+</div>
 </div>
 <script>
 // 1. الداتا الشاملة والمحدثة (محظورات كاملة + صور حقيقية)
@@ -1039,7 +1128,6 @@ function renderHajjMaster() {
     if (prohibitionsSlider) prohibitionsSlider.innerHTML = '';
     if (permittedSlider) permittedSlider.innerHTML = '';
 
-    // دالة داخلية صغيرة عشان نكررش كود توليد أزرار العناوين
     const generateQuickNav = (items) => {
         return `
             <div class="quick-nav-wrapper" style="display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px; scrollbar-width: none;">
@@ -1052,63 +1140,115 @@ function renderHajjMaster() {
         `;
     };
 
+    // ✨ تحسين السهم ليكون "نبّاض" واحترافي في نص الكارت على الشمال
+    const createScrollArrow = (id) => `
+        <div class="scroll-indicator" id="arrow-${id}" style="
+            position: absolute; 
+            left: 15px; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            z-index: 50; 
+            background: var(--color-primary); 
+            width: 38px; 
+            height: 38px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2); 
+            pointer-events: none;
+            transition: all 0.4s ease;
+            animation: bounceLeft 1.5s infinite;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+        </div>
+    `;
+
     hajjMasterData.categories.forEach(cat => {
         const navHtml = generateQuickNav(cat.items);
+        const arrowHtml = createScrollArrow(cat.id);
 
-        // 1. قسم المحظورات
         if (cat.id === 'ihram_prohibitions') {
             if(prohibitionsSlider) {
-                // بنحط أزرار التنقل قبل السلايدر مباشرة
+                // وضع السهم داخل حاوية الـ Slider لضمان التمركز
+                prohibitionsSlider.parentElement.style.position = 'relative';
                 prohibitionsSlider.insertAdjacentHTML('beforebegin', navHtml);
+                prohibitionsSlider.insertAdjacentHTML('afterbegin', arrowHtml); // السهم هنا
                 cat.items.forEach(item => {
                     prohibitionsSlider.insertAdjacentHTML('beforeend', createHajjCard(item));
                 });
+                attachScrollListener(prohibitionsSlider, `arrow-${cat.id}`);
             }
         } 
-        // 2. قسم المباحات
         else if (cat.id === 'ihram_permitted') {
             if(permittedSlider) {
-                // بنحط أزرار التنقل قبل السلايدر مباشرة
+                permittedSlider.parentElement.style.position = 'relative';
                 permittedSlider.insertAdjacentHTML('beforebegin', navHtml);
+                permittedSlider.insertAdjacentHTML('afterbegin', arrowHtml); // السهم هنا
                 cat.items.forEach(item => {
                     permittedSlider.insertAdjacentHTML('beforeend', createHajjCard(item));
                 });
+                attachScrollListener(permittedSlider, `arrow-${cat.id}`);
             }
         } 
-        // 3. باقي الأقسام (أركان، واجبات، سنن)
         else {
             let catHtml = `
-                <div class="category-group fade-in" style="margin-bottom: 40px;">
+                <div class="category-group fade-in" style="margin-bottom: 40px; position: relative;">
                     <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px;">
                         <div style="width:5px; height:25px; background:var(--color-primary); border-radius:10px;"></div>
                         <h3 style="color:var(--color-text); font-family:var(--font-display); font-size:1.4rem;">${cat.name}</h3>
                     </div>
                     
-                    ${navHtml} <div class="hajj-grid" style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scroll-snap-type: x mandatory;">
-                        ${cat.items.map(item => createHajjCard(item)).join('')}
+                    <div style="position: relative;">
+                        ${arrowHtml}
+                        ${navHtml} 
+                        <div class="hajj-grid" id="grid-${cat.id}" style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scroll-snap-type: x mandatory;">
+                            ${cat.items.map(item => createHajjCard(item)).join('')}
+                        </div>
                     </div>
                 </div>
             `;
             if(mainContainer) mainContainer.insertAdjacentHTML('beforeend', catHtml);
+            
+            setTimeout(() => {
+                const grid = document.getElementById(`grid-${cat.id}`);
+                attachScrollListener(grid, `arrow-${cat.id}`);
+            }, 50);
         }
     });
+
+    function attachScrollListener(element, arrowId) {
+        if (!element) return;
+        element.addEventListener('scroll', () => {
+            const arrow = document.getElementById(arrowId);
+            if (!arrow) return;
+            
+            // في وضع RTL، السكرول بيبدأ من 0 وبيروح للسالب مع التحرك لليسار
+            if (element.scrollLeft < -60) { 
+                arrow.style.opacity = '0';
+                arrow.style.visibility = 'hidden';
+            } else {
+                arrow.style.opacity = '0.8';
+                arrow.style.visibility = 'visible';
+            }
+        }, { passive: true });
+    }
 }
+
+
 function createHajjCard(item) {
     const images = item.images && item.images.length > 0 ? item.images : [item.image_url || 'https://via.placeholder.com/400x200?text=Depanto'];
-    
-    // إنشاء معرف فريد (ID) من العنوان لاستخدامه كـ Anchor
     const cardAnchorId = item.title.replace(/\s+/g, '-');
+    let badgeClass = (item.type === 'محظور') ? 'badge-red' : (item.type === 'مباح' ? 'badge-green' : 'badge-default');
 
-    // تحديد لون الكلمة (التاج) بناءً على النوع
-    let badgeClass = 'badge-default';
-    if (item.type === 'محظور') badgeClass = 'badge-red';
-    else if (item.type === 'مباح') badgeClass = 'badge-green';
-
-    // تصميم أيقونة التكبير (تظهر عند الوقوف بالماوس)
+    // أيقونة الزوم تظهر عند الهوفر
     const zoomIconOverlay = `
-        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none;">
-            <div class="zoom-icon-circle" style="background: rgba(0,0,0,0.5); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(2px); transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3); opacity: 0;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 100;">
+            <div class="zoom-icon-circle" style="background: rgba(0,0,0,0.5); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </div>
         </div>
     `;
@@ -1118,10 +1258,10 @@ function createHajjCard(item) {
             <div class="card-visuals" style="overflow: hidden; border-radius: var(--radius-xl) var(--radius-xl) 0 0;">
                 <div class="carousel-track" style="display: flex; height: 100%;">
                     ${images.map(url => `
-                        <div class="inner-slide" style="min-width:100%; position: relative; cursor: zoom-in;" 
+                        <div class="inner-slide" style="min-width:100%; cursor: zoom-in;" 
                              onclick="openImageModal('${url}')"
-                             onmouseover="this.querySelector('img').style.transform='scale(1.05)'; this.querySelector('.zoom-icon-circle').style.opacity='1'; this.querySelector('.zoom-icon-circle').style.background='rgba(0,0,0,0.85)'; this.querySelector('.zoom-icon-circle').style.transform='scale(1.1)';" 
-                             onmouseout="this.querySelector('img').style.transform='scale(1)'; this.querySelector('.zoom-icon-circle').style.opacity='0'; this.querySelector('.zoom-icon-circle').style.background='rgba(0,0,0,0.5)'; this.querySelector('.zoom-icon-circle').style.transform='scale(1)';">
+                             onmouseover="this.querySelector('img').style.transform='scale(1.05)'; this.querySelector('.zoom-icon-circle').style.opacity='1';" 
+                             onmouseout="this.querySelector('img').style.transform='scale(1)'; this.querySelector('.zoom-icon-circle').style.opacity='0';">
                             <img src="${url}" style="width:100%; height:200px; object-fit:cover; transition: transform 0.4s ease;" onerror="this.src='https://via.placeholder.com/400x200?text=Depanto'">
                             ${zoomIconOverlay}
                         </div>
@@ -1132,16 +1272,8 @@ function createHajjCard(item) {
                 <div class="info-badge ${badgeClass}">${item.type}</div>
                 <h3 class="info-title">${item.title}</h3>
                 <p class="info-details">${item.details}</p>
-                <div class="info-conditions">
-                    <strong>الضابط الشرعي:</strong>
-                    <p>${item.conditions}</p>
-                </div>
-                ${item.penalty ? `
-                <div class="info-conditions" style="margin-top: 10px; border-right-color: #dc2626; background: #fff5f5;">
-                    <strong style="color: #dc2626;">حكم من فعل المحظور:</strong>
-                    <p style="color: #991b1b; margin-top: 5px;">${item.penalty}</p>
-                </div>
-                ` : ''}
+                <div class="info-conditions"><strong>الضابط الشرعي:</strong><p>${item.conditions}</p></div>
+                ${item.penalty ? `<div class="info-conditions" style="margin-top: 10px; border-right-color: #dc2626; background: #fff5f5;"><strong style="color: #dc2626;">حكم من فعل المحظور:</strong><p style="color: #991b1b;">${item.penalty}</p></div>` : ''}
             </div>
         </div>
     `;
@@ -2189,7 +2321,6 @@ function renderNusk(typeId, btnEl) {
       let hasLink = !!hr.link;
       let imgPos = hr.imgPos || 'bottom'; 
       
-      // 🌟 الزرار التفاعلي الجديد للطواف والسعي 🌟
       let guideBtnHtml = hr.guideBtn ? `
         <div style="margin-top: 12px; margin-bottom: 8px;">
           <button onclick="openExternalGuide('https://umrasteps.vercel.app/')" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 6px 16px; border-radius: 50px; background: var(--color-primary); color: #fff; border: none; box-shadow: 0 4px 10px rgba(26, 107, 60, 0.3);">
@@ -2205,19 +2336,28 @@ function renderNusk(typeId, btnEl) {
         </a>` : '';
 
       const zoomIconOverlay = `
-        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none;">
+        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 20;">
             <div class="zoom-icon-circle" style="background: rgba(0,0,0,0.5); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(2px); transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
             </div>
         </div>
       `;
 
+      // 🏷️ إضافة اللوجو الجديد كعلامة مائية شفافة في النص
+      const watermarkHtml = `
+        <img src="https://i.postimg.cc/yx17ZRtm/M-(512-x-512-px)-(7).png" 
+             style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                    width: 70px; height: auto; opacity: 0.2; pointer-events: none; z-index: 10;" 
+             alt="watermark">
+      `;
+
       let bodyContent = '';
 
       if (imgPos === 'side' && hasImage) {
         let imgSide = `
-          <div style="position: relative; cursor: zoom-in; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-border);" onclick="openImageModal('${hr.img}')" onmouseover="this.querySelector('img').style.transform='scale(1.05)'; this.querySelector('.zoom-icon-circle').style.background='rgba(0,0,0,0.85)'; this.querySelector('.zoom-icon-circle').style.transform='scale(1.1)';" onmouseout="this.querySelector('img').style.transform='scale(1)'; this.querySelector('.zoom-icon-circle').style.background='rgba(0,0,0,0.5)'; this.querySelector('.zoom-icon-circle').style.transform='scale(1)';">
-            <img src="${hr.img}" style="width: 100%; height: 120px; object-fit: cover; transition: transform 0.4s ease; display: block;" alt="تكبير الصورة">
+          <div style="position: relative; cursor: zoom-in; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-border);" onclick="openImageModal('${hr.img}')" onmouseover="this.querySelector('img:first-child').style.transform='scale(1.05)'; this.querySelector('.zoom-icon-circle').style.background='rgba(0,0,0,0.85)'; this.querySelector('.zoom-icon-circle').style.transform='scale(1.1)';" onmouseout="this.querySelector('img:first-child').style.transform='scale(1)'; this.querySelector('.zoom-icon-circle').style.background='rgba(0,0,0,0.5)'; this.querySelector('.zoom-icon-circle').style.transform='scale(1)';">
+            <img src="${hr.img}" style="width: 100%; height: 120px; object-fit: cover; transition: transform 0.4s ease; display: block;" alt="صورة المنسك">
+            ${watermarkHtml}
             ${zoomIconOverlay}
           </div>
         `;
@@ -2235,8 +2375,9 @@ function renderNusk(typeId, btnEl) {
         `;
       } else {
         let imgBottom = hasImage ? `
-          <div style="position: relative; cursor: zoom-in; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-border);" onclick="openImageModal('${hr.img}')" onmouseover="this.querySelector('img').style.transform='scale(1.02)'; this.querySelector('.zoom-icon-circle').style.background='rgba(0,0,0,0.85)'; this.querySelector('.zoom-icon-circle').style.transform='scale(1.1)';" onmouseout="this.querySelector('img').style.transform='scale(1)'; this.querySelector('.zoom-icon-circle').style.background='rgba(0,0,0,0.5)'; this.querySelector('.zoom-icon-circle').style.transform='scale(1)';">
-            <img src="${hr.img}" style="width: 100%; height: 180px; object-fit: cover; transition: transform 0.4s ease; display: block;" alt="تكبير الصورة">
+          <div style="position: relative; cursor: zoom-in; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-border);" onclick="openImageModal('${hr.img}')" onmouseover="this.querySelector('img:first-child').style.transform='scale(1.02)'; this.querySelector('.zoom-icon-circle').style.background='rgba(0,0,0,0.85)'; this.querySelector('.zoom-icon-circle').style.transform='scale(1.1)';" onmouseout="this.querySelector('img:first-child').style.transform='scale(1)'; this.querySelector('.zoom-icon-circle').style.background='rgba(0,0,0,0.5)'; this.querySelector('.zoom-icon-circle').style.transform='scale(1)';">
+            <img src="${hr.img}" style="width: 100%; height: 180px; object-fit: cover; transition: transform 0.4s ease; display: block;" alt="صورة المنسك">
+            ${watermarkHtml}
             ${zoomIconOverlay}
           </div>
         ` : '';
