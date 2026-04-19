@@ -2383,6 +2383,110 @@ function closeImageModal() {
   }, 200);
   document.body.style.overflow = ''; // إعادة التمرير للصفحة الأصلية
 }
+// متغيرات التحكم في الزوم والحركة للصورة
+let zoomScale = 1;
+let isPanning = false;
+let startPoint = { x: 0, y: 0 };
+let currentPan = { x: 0, y: 0 };
+let initialPinchDistance = 0;
+let initialZoomScale = 1;
+
+const imgToZoom = document.getElementById('zoomedImage');
+const zoomContainer = document.getElementById('imageZoomModal');
+
+// دالة تحديث مكان وحجم الصورة
+function updateImageTransform() {
+  imgToZoom.style.transform = 'translate(' + currentPan.x + 'px, ' + currentPan.y + 'px) scale(' + zoomScale + ')';
+}
+
+// التحكم بالماوس في اللاب توب
+zoomContainer.addEventListener('wheel', function(e) {
+  if (!zoomContainer.classList.contains('open')) return;
+  e.preventDefault();
+  
+  const zoomDirection = e.deltaY < 0 ? 1 : -1;
+  zoomScale += zoomDirection * 0.15;
+  
+  if (zoomScale < 1) zoomScale = 1;
+  if (zoomScale > 4) zoomScale = 4;
+  
+  if (zoomScale === 1) currentPan = { x: 0, y: 0 };
+  
+  imgToZoom.style.transition = 'transform 0.1s ease-out';
+  updateImageTransform();
+}, { passive: false });
+
+imgToZoom.addEventListener('mousedown', function(e) {
+  if (zoomScale > 1) {
+    e.preventDefault();
+    isPanning = true;
+    startPoint = { x: e.clientX - currentPan.x, y: e.clientY - currentPan.y };
+    imgToZoom.style.transition = 'none';
+    imgToZoom.style.cursor = 'grabbing';
+  }
+});
+
+window.addEventListener('mouseup', function() {
+  isPanning = false;
+  imgToZoom.style.cursor = zoomScale > 1 ? 'grab' : 'default';
+});
+
+window.addEventListener('mousemove', function(e) {
+  if (!isPanning) return;
+  currentPan.x = e.clientX - startPoint.x;
+  currentPan.y = e.clientY - startPoint.y;
+  updateImageTransform();
+});
+
+// التحكم بالتاتش في الموبايل
+zoomContainer.addEventListener('touchstart', function(e) {
+  if (e.touches.length === 2) {
+    e.preventDefault();
+    initialPinchDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+    initialZoomScale = zoomScale;
+  } else if (e.touches.length === 1 && zoomScale > 1) {
+    isPanning = true;
+    startPoint = { x: e.touches[0].clientX - currentPan.x, y: e.touches[0].clientY - currentPan.y };
+    imgToZoom.style.transition = 'none';
+  }
+}, { passive: false });
+
+zoomContainer.addEventListener('touchmove', function(e) {
+  if (!zoomContainer.classList.contains('open')) return;
+  
+  if (e.touches.length === 2) {
+    e.preventDefault();
+    const currentPinchDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+    zoomScale = initialZoomScale * (currentPinchDistance / initialPinchDistance);
+    
+    if (zoomScale < 1) zoomScale = 1;
+    if (zoomScale > 5) zoomScale = 5;
+    
+    if (zoomScale === 1) currentPan = { x: 0, y: 0 };
+    updateImageTransform();
+  } else if (e.touches.length === 1 && isPanning) {
+    e.preventDefault();
+    currentPan.x = e.touches[0].clientX - startPoint.x;
+    currentPan.y = e.touches[0].clientY - startPoint.y;
+    updateImageTransform();
+  }
+}, { passive: false });
+
+zoomContainer.addEventListener('touchend', function() {
+  isPanning = false;
+});
+
+// تصفير الزوم لما تقفل الشاشة السودا
+const originalCloseImageModal = window.closeImageModal;
+window.closeImageModal = function() {
+  if (originalCloseImageModal) originalCloseImageModal();
+  setTimeout(() => {
+    zoomScale = 1;
+    currentPan = { x: 0, y: 0 };
+    imgToZoom.style.transition = 'transform 0.3s ease';
+    updateImageTransform();
+  }, 300);
+};
 </script>
 </body>
 </html>
