@@ -111,15 +111,18 @@ button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
   color: var(--color-text-muted);
   transition: color var(--transition), background var(--transition), transform var(--transition);
   
-  /* 🛠️ التعديل هنا: الرقم ده هينزل الزرار لتحت (جرب 5px أو 8px حسب ذوقك) */
-  transform: translateY(12px); 
+  /* 🛠️ التعديل هنا: 
+     translateY(6px) بينزله لتحت
+     translateX(-10px) بيزقه لليمين (لجوه) 
+     جرب تغير الـ -10px لحد ما يظبط مكانه بالظبط */
+  transform: translateY(17px) translateX(-0px); 
 }
 
 .theme-btn:hover {
   color: var(--color-text);
   background: var(--color-surface-offset);
-  /* 💡 بنحافظ على الـ transform عشان الزرار م ينطش لفوق وقت الهوفر */
-  transform: translateY(6px) scale(1.05); 
+  /* 💡 بنحافظ على الأرقام هنا مع إضافة الـ scale */
+  transform: translateY(12px) translateX(-20px) scale(1.05); 
 }
 @media(max-width:850px){.nav-links{display:none}}
 
