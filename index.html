@@ -8,506 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300..900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-<style>
-/* ── Design Tokens ── */
-:root,[data-theme="light"]{
-  --color-bg:#f5f3ee;
-  --color-surface:#faf9f6;
-  --color-surface-2:#ffffff;
-  --color-surface-offset:#ede9e2;
-  --color-surface-offset-2:#e5e1d8;
-  --color-surface-dynamic:#d8d3c8;
-  --color-divider:#ccc9c0;
-  --color-border:#c0bbb0;
-  --color-text:#1e1c17;
-  --color-text-muted:#6b6760;
-  --color-text-faint:#b0ada6;
-  --color-text-inverse:#f9f8f4;
-  --color-primary:#1a6b3c;
-  --color-primary-hover:#145530;
-  --color-primary-active:#0e3d22;
-  --color-primary-highlight:#c8ddd1;
-  --color-gold:#c9930a;
-  --color-gold-light:#fdf3dc;
-  --color-gold-border:#e8c96a;
-  --radius-sm:.375rem;
-  --radius-md:.5rem;
-  --radius-lg:.75rem;
-  --radius-xl:1rem;
-  --radius-2xl:1.5rem;
-  --radius-full:9999px;
-  --shadow-sm:0 1px 3px rgba(30,28,23,.07);
-  --shadow-md:0 4px 14px rgba(30,28,23,.09);
-  --shadow-lg:0 12px 36px rgba(30,28,23,.13);
-  --transition:200ms cubic-bezier(.16,1,.3,1);
-  --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;
-  --space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;
-  --space-12:3rem;--space-16:4rem;--space-20:5rem;
-  --text-xs:clamp(.75rem,.7rem + .25vw,.875rem);
-  --text-sm:clamp(.875rem,.8rem + .35vw,1rem);
-  --text-base:clamp(1rem,.95rem + .25vw,1.125rem);
-  --text-lg:clamp(1.125rem,1rem + .75vw,1.5rem);
-  --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
-  --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
-  --font-display:'Amiri',serif;
-  --font-body:'Cairo',sans-serif;
-}
-[data-theme="dark"]{
-  --color-bg:#0f0e0b;
-  --color-surface:#161510;
-  --color-surface-2:#1c1b16;
-  --color-surface-offset:#1a1914;
-  --color-surface-offset-2:#201f19;
-  --color-surface-dynamic:#2a2921;
-  --color-divider:#27261e;
-  --color-border:#3a3830;
-  --color-text:#d4d2cc;
-  --color-text-muted:#7a7970;
-  --color-text-faint:#5a5952;
-  --color-text-inverse:#1e1c17;
-  --color-primary:#3da068;
-  --color-primary-hover:#2a8a55;
-  --color-primary-active:#1d6e40;
-  --color-primary-highlight:#1e3328;
-  --color-gold:#e0a820;
-  --color-gold-light:#2a2515;
-  --color-gold-border:#6b5520;
-  --shadow-sm:0 1px 3px rgba(0,0,0,.25);
-  --shadow-md:0 4px 14px rgba(0,0,0,.35);
-  --shadow-lg:0 12px 36px rgba(0,0,0,.45);
-}
 
-/* ── Base ── */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth;scroll-padding-top:5rem}
-body{min-height:100dvh;line-height:1.7;font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);transition:background var(--transition),color var(--transition); word-wrap: break-word; overflow-wrap: break-word; max-width: 100vw; overflow-x: hidden;}
-img,svg{display:block;max-width:100%;height:auto}
-button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm)}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-
-/* ── Layout Helpers ── */
-.container{max-width:960px;margin-inline:auto;padding-inline:var(--space-4)}
-.container-wide{max-width:1200px;margin-inline:auto;padding-inline:var(--space-4)}
-
-/* ── Header / Nav ── */
-.site-header{position:sticky;top:0;z-index:100;background:color-mix(in oklab,var(--color-bg) 85%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--color-divider);transition:background var(--transition)}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;padding-block:var(--space-3);gap:var(--space-4)}
-.logo{display:flex;align-items:center;gap:var(--space-3);text-decoration:none;color:var(--color-text)}
-.logo-icon{width:40px;height:40px;flex-shrink:0}
-.logo-text{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;line-height:1.2}
-.logo-text span{display:block;font-size:var(--text-xs);font-family:var(--font-body);color:var(--color-text-muted);font-weight:400}
-.nav-actions{display:flex;align-items:center;gap:var(--space-2)}
-.nav-links{display:flex;align-items:center;gap:var(--space-1)}
-.nav-link{padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);font-size:var(--text-sm);font-weight:500;text-decoration:none;color:var(--color-text-muted);transition:color var(--transition),background var(--transition)}
-.nav-link:hover{color:var(--color-text);background:var(--color-surface-offset)}
-.nav-link.active{color:var(--color-primary)}
-.theme-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius-full);
-  display: grid;
-  place-items: center;
-  color: var(--color-text-muted);
-  transition: color var(--transition), background var(--transition), transform var(--transition);
-  
-  /* 🛠️ التعديل هنا: 
-     translateY(6px) بينزله لتحت
-     translateX(-10px) بيزقه لليمين (لجوه) 
-     جرب تغير الـ -10px لحد ما يظبط مكانه بالظبط */
-  transform: translateY(17px) translateX(-0px); 
-}
-
-.theme-btn:hover {
-  color: var(--color-text);
-  background: var(--color-surface-offset);
-  /* 💡 بنحافظ على الأرقام هنا مع إضافة الـ scale */
-  transform: translateY(12px) translateX(-20px) scale(1.05); 
-}
-@media(max-width:850px){.nav-links{display:none}}
-
-/* ── Hero ── */
-.hero{padding:var(--space-16) 0 var(--space-12);text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,color-mix(in oklab,var(--color-primary) 8%,transparent),transparent 70%);pointer-events:none}
-.hero-badge{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-4);background:var(--color-gold-light);border:1px solid var(--color-gold-border);border-radius:var(--radius-full);font-size:var(--text-sm);color:var(--color-gold);margin-bottom:var(--space-6);font-weight:600}
-.hero h1{font-family:var(--font-display);font-size:var(--text-2xl);color:var(--color-text);line-height:1.25;margin-bottom:var(--space-4);max-width:800px;margin-inline:auto}
-.hero p{font-size:var(--text-lg);color:var(--color-text-muted);max-width:560px;margin-inline:auto;margin-bottom:var(--space-8)}
-.hero-ctas{display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-3) var(--space-6);border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:600;text-decoration:none;transition:all var(--transition);border:1.5px solid transparent;line-height:1; cursor:pointer;}
-.btn-primary{background:var(--color-primary);color:#fff;border-color:var(--color-primary)}
-.btn-primary:hover{background:var(--color-primary-hover);border-color:var(--color-primary-hover);transform:translateY(-1px);box-shadow:var(--shadow-md)}
-.btn-ghost{color:var(--color-text-muted);border-color:var(--color-border)}
-.btn-ghost:hover{color:var(--color-text);background:var(--color-surface-offset);border-color:var(--color-border)}
-.hero-stats{display:flex;gap:var(--space-8);justify-content:center;margin-top:var(--space-10);padding-top:var(--space-8);border-top:1px solid var(--color-divider);flex-wrap:wrap}
-.stat{text-align:center}
-.stat-num{font-family:var(--font-display);font-size:var(--text-xl);color:var(--color-primary);font-weight:700;display:block;line-height:1}
-.stat-label{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-1)}
-
-/* ── Section Wrapper ── */
-.section{padding-block:clamp(3rem,6vw,5rem)}
-.section-header{margin-bottom:var(--space-10)}
-.section-eyebrow{display:inline-flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--color-primary);margin-bottom:var(--space-3)}
-.section-eyebrow::before{content:'';display:block;width:20px;height:2px;background:var(--color-primary);border-radius:var(--radius-full)}
-.section-title{font-family:var(--font-display);font-size:var(--text-xl);color:var(--color-text);line-height:1.3;margin-bottom:var(--space-3)}
-.section-desc{color:var(--color-text-muted);max-width:60ch;font-size:var(--text-base)}
-
-/* ── Tips Grid ── */
-.tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:var(--space-4)}
-.tip-card{background:var(--color-surface);border:1px solid oklch(from var(--color-text) l c h / .08);border-radius:var(--radius-xl);padding:var(--space-6);transition:box-shadow var(--transition),transform var(--transition)}
-.tip-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
-.tip-icon{width:44px;height:44px;border-radius:var(--radius-lg);background:var(--color-primary-highlight);display:grid;place-items:center;margin-bottom:var(--space-4);color:var(--color-primary)}
-.tip-title{font-weight:700;font-size:var(--text-base);margin-bottom:var(--space-2);color:var(--color-text)}
-.tip-desc{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.7}
-
-/* ── Pillars Banner ── */
-.pillars-banner{margin-top:var(--space-8);background:linear-gradient(135deg,var(--color-primary),var(--color-primary-active));border-radius:var(--radius-2xl);padding:var(--space-8);display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)}
-.pillar-item{display:flex;gap:var(--space-3);align-items:flex-start}
-.pillar-dot{width:8px;height:8px;border-radius:var(--radius-full);background:#fff;opacity:.7;margin-top:.5em;flex-shrink:0}
-.pillar-text{color:#fff;font-size:var(--text-sm);line-height:1.6;opacity:.92}
-
-/* ── Umrah Box ── */
-.umrah-box { background: var(--color-surface-2); border: 1px solid var(--color-primary); border-radius: var(--radius-2xl); padding: var(--space-8); box-shadow: var(--shadow-md); }
-.umrah-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-8); }
-.umrah-section h4 { color: var(--color-primary); font-family: var(--font-display); font-size: var(--text-lg); margin-bottom: var(--space-4); border-bottom: 2px solid var(--color-primary-highlight); padding-bottom: var(--space-2); display: inline-block; }
-.umrah-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--space-3); }
-.umrah-list li { position: relative; padding-right: 1.8rem; font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; }
-.umrah-list li::before { content: '🕋'; position: absolute; right: 0; top: 2px; font-size: 1rem; }
-.umrah-list li strong { color: var(--color-text); }
-
-/* ── Prohibitions Slider ── */
-.slider-wrapper { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: var(--space-4); padding-bottom: var(--space-4); scrollbar-width: thin; scrollbar-color: var(--color-primary) var(--color-surface-offset); }
-.slider-wrapper::-webkit-scrollbar { height: 8px; }
-.slider-wrapper::-webkit-scrollbar-track { background: var(--color-surface-offset); border-radius: var(--radius-full); }
-.slider-wrapper::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: var(--radius-full); }
-.prohibition-slide { flex: 0 0 min(320px, 85vw); scroll-snap-align: start; background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius-xl); overflow: hidden; display: flex; flex-direction: column; transition: transform var(--transition), box-shadow var(--transition); }
-.prohibition-slide:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-.slide-media { height: 180px; background: var(--color-surface-offset); display: flex; align-items: center; justify-content: center; color: var(--color-text-faint); font-size: var(--text-sm); position: relative; border-bottom: 1px solid var(--color-divider); }
-.slide-media img, .slide-media video { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; display: none; }
-.slide-content { padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); flex: 1; }
-.slide-target { font-size: 0.75rem; font-weight: 700; padding: 4px 10px; background: var(--color-primary-highlight); color: var(--color-primary-active); border-radius: var(--radius-full); width: fit-content; margin-bottom: var(--space-1); }
-.slide-title { font-family: var(--font-display); font-size: var(--text-lg); color: var(--color-text); font-weight: bold; line-height: 1.2; }
-.slide-desc { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; }
-
-/* ── Tabs & Type Content ── */
-.tabs-wrapper{border-radius:var(--radius-2xl);overflow:hidden;background:var(--color-surface);box-shadow:var(--shadow-md);border:1px solid oklch(from var(--color-text) l c h / .07)}
-.tabs-header{display:grid;grid-template-columns:repeat(3,1fr);background:var(--color-surface-offset)}
-.tab-btn{padding:var(--space-4) var(--space-6);font-size:var(--text-sm);font-weight:600;font-family:var(--font-body);color:var(--color-text-muted);border-bottom:2px solid transparent;transition:all var(--transition);text-align:center}
-.tab-btn:hover{color:var(--color-text);background:var(--color-surface-dynamic)}
-.tab-btn.active{color:var(--color-primary);border-bottom-color:var(--color-primary);background:var(--color-surface)}
-
-.type-content{display:grid;grid-template-columns:1fr 2fr;gap:var(--space-8);align-items:start; padding: var(--space-8); border-bottom: 1px solid var(--color-divider); animation:fadeIn .25s ease; max-width: 100%;}
-.type-badge-big{background:var(--color-primary-highlight);border-radius:var(--radius-xl);padding:var(--space-6);text-align:center}
-.type-icon-big{font-size:2.5rem;margin-bottom:var(--space-3);display:block}
-.type-badge-big h3{font-family:var(--font-display);font-size:var(--text-xl);color:var(--color-primary);margin-bottom:var(--space-2)}
-.type-badge-big p{font-size:var(--text-xs);color:var(--color-primary);opacity:.8;font-weight:600}
-.type-desc p{font-size:var(--text-base);color:var(--color-text-muted);line-height:1.8;margin-bottom:var(--space-4)}
-.type-steps{list-style:none;display:flex;flex-direction:column;gap:var(--space-3)}
-.type-step{display:flex;gap:var(--space-3);align-items:flex-start;font-size:var(--text-sm);color:var(--color-text-muted)}
-.step-num{width:24px;height:24px;border-radius:var(--radius-full);background:var(--color-primary);color:#fff;font-size:var(--text-xs);font-weight:700;display:grid;place-items:center;flex-shrink:0;margin-top:.15em}
-
-/* ── Timeline ── */
-.timeline{display:flex;flex-direction:column;gap:var(--space-3); padding: var(--space-8); animation:fadeIn .25s ease}
-.day-card{background:var(--color-surface);border:1px solid oklch(from var(--color-text) l c h / .07);border-radius:var(--radius-xl);overflow:hidden;transition:box-shadow var(--transition)}
-.day-card:hover{box-shadow:var(--shadow-md)}
-.day-header{display:flex;align-items:center;gap:var(--space-4);padding:var(--space-5) var(--space-6);cursor:pointer;user-select:none;transition:background var(--transition)}
-.day-header:hover{background:var(--color-surface-offset)}
-.day-num{width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-primary);color:#fff;display:grid;place-items:center;flex-shrink:0}
-.day-num-text{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;line-height:1}
-.day-info{flex:1}
-.day-name{font-weight:700;font-size:var(--text-base);color:var(--color-text)}
-.day-date{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:2px}
-.day-chevron{color:var(--color-text-faint);transition:transform var(--transition);flex-shrink:0}
-.day-card.open .day-chevron{transform:rotate(180deg)}
-.day-body{display:none;border-top:1px solid var(--color-divider)}
-.day-card.open .day-body{display:block}
-
-/* Prayer box */
-.prayer-box{margin:var(--space-5) var(--space-6);background:var(--color-gold-light);border:1px solid var(--color-gold-border);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-5);display:flex;gap:var(--space-3);align-items:flex-start}
-.prayer-icon{flex-shrink:0;color:var(--color-gold);margin-top:2px}
-.prayer-title{font-weight:700;font-size:var(--text-sm);color:var(--color-gold);margin-bottom:var(--space-1)}
-.prayer-text{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.7}
-
-/* Hourly timeline */
-.hours-timeline{padding:var(--space-2) var(--space-6) var(--space-6);display:flex;flex-direction:column;gap:0}
-.hour-item{display:grid;grid-template-columns:140px 1fr;gap:0;position:relative}
-.hour-item::before{content:'';position:absolute;right:127px;top:26px;bottom:-10px;width:1px;background:var(--color-divider)}
-.hour-item:last-child::before{display:none}
-.hour-time{padding:var(--space-3) var(--space-4) var(--space-3) 0;text-align:left;display:flex;align-items:flex-start;justify-content:flex-end;gap:var(--space-2);position:relative;padding-top:14px}
-.hour-dot{width:10px;height:10px;border-radius:var(--radius-full);background:var(--color-primary);flex-shrink:0;margin-top:5px;position:relative;z-index:1}
-.hour-time-label{font-size:var(--text-xs);color:var(--color-text-muted);font-weight:600;text-align:right;line-height:1.4;padding-top:2px}
-.hour-content{padding:var(--space-3) var(--space-3) var(--space-5);margin-right:var(--space-4)}
-.hour-action{background:var(--color-surface-2);border:1px solid oklch(from var(--color-text) l c h / .06);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-5);transition:box-shadow var(--transition); max-width: 100%;}
-.hour-action:hover{box-shadow:var(--shadow-sm)}
-.hour-action-header{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);margin-bottom:var(--space-2); flex-wrap: wrap;}
-.hour-action-title{font-weight:700;font-size:var(--text-sm);color:var(--color-text)}
-.hour-action-details{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.7}
-
-/* Action Links & Images */
-.hour-link-add{display:inline-flex;align-items:center;gap:var(--space-1);font-size:var(--text-xs);color:var(--color-text-faint);border:1px dashed var(--color-border);padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);transition:all var(--transition);cursor:pointer;background:none;font-family:var(--font-body)}
-.hour-link-add:hover{color:var(--color-primary);border-color:var(--color-primary)}
-.action-media-box { margin-top: var(--space-3); display: flex; flex-direction: column; gap: var(--space-2); }
-.action-img { max-width: 100%; border-radius: var(--radius-md); display: none; border: 1px solid var(--color-border); }
-.action-link-btn { display: none; align-items: center; gap: var(--space-1); font-size: var(--text-xs); color: var(--color-primary); text-decoration: none; font-weight: 600; padding: var(--space-1) var(--space-3); background: var(--color-primary-highlight); border-radius: var(--radius-full); transition: all var(--transition); width: fit-content;}
-.action-link-btn:hover { background: var(--color-primary); color: #fff; }
-
-.is-prayer{background:color-mix(in oklab,var(--color-gold-light) 100%,transparent);border-color:var(--color-gold-border)!important}
-.is-prayer .hour-action-title{color:var(--color-gold)}
-
-/* ── Extra Content Cards ── */
-.extra-content-grid {display: grid; grid-template-columns: 1fr; gap: var(--space-4); margin-top: var(--space-6);}
-.extra-card {background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-6);}
-.extra-card h3 {color: var(--color-primary); margin-bottom: var(--space-3); font-family: var(--font-display); font-size: var(--text-lg);}
-.extra-list {list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--space-2);}
-.extra-list li {position: relative; padding-right: 1.5rem; font-size: var(--text-sm); color: var(--color-text-muted);}
-.extra-list li::before {content: '🔸'; position: absolute; right: 0; top: 2px; font-size: 0.8rem;}
-
-/* ── Responsive Mobile Fixes ── */
-@media(max-width:640px){
-  .hour-item{grid-template-columns:1fr}
-  .hour-item::before{display:none}
-  .hour-time{justify-content:flex-start;padding:var(--space-3) 0 var(--space-1);flex-direction:row-reverse}
-  .hour-time-label{text-align:right}
-  .hour-content{padding:0 0 var(--space-4);margin-right:0}
-  .day-header{padding:var(--space-4)}
-  .prayer-box,.hours-timeline{margin-inline:var(--space-4);padding-inline:0}
-  .hours-timeline{padding-inline:var(--space-4)}
-  .pillars-banner{padding:var(--space-5); grid-template-columns:1fr;}
-  .type-content{grid-template-columns:1fr; padding:var(--space-4)}
-  .timeline{padding: var(--space-4);}
-  .hero h1{font-size:clamp(1.6rem,5vw,3rem)}
-  .prayer-box { flex-direction: column; }
-  .umrah-box { padding: var(--space-5); }
-}
-
-/* ── Scroll Reveal ── */
-.fade-in{opacity:1}
-@supports(animation-timeline:scroll()){
-  .fade-in{opacity:0;animation:reveal-fade linear both;animation-timeline:view();animation-range:entry 0% entry 80%}
-  @keyframes reveal-fade{to{opacity:1}}
-}
-@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-
-/* ── Footer & Modals ── */
-.site-footer{border-top:1px solid var(--color-divider);padding-block:var(--space-8);text-align:center;color:var(--color-text-faint);font-size:var(--text-xs)}
-.site-footer a{color:var(--color-text-muted);text-decoration:none}
-.site-footer a:hover{color:var(--color-primary)}
-
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:grid;place-items:center;padding:var(--space-4);opacity:0;pointer-events:none;transition:opacity var(--transition)}
-.modal-backdrop.open{opacity:1;pointer-events:auto}
-.modal{background:var(--color-surface);border-radius:var(--radius-xl);padding:var(--space-8);width:100%;max-width:440px;box-shadow:var(--shadow-lg);transform:scale(.97);transition:transform var(--transition); max-height:90vh; overflow-y:auto; overflow-x:hidden;}
-.modal-wide{max-width: 600px;}
-.modal-backdrop.open .modal{transform:scale(1)}
-.modal h3{font-family:var(--font-display);font-size:var(--text-lg);margin-bottom:var(--space-5);color:var(--color-text)}
-.modal label {font-size:var(--text-sm); font-weight:bold; display:block; margin-bottom:var(--space-2); color:var(--color-text)}
-.modal input{width:100%;padding:var(--space-3) var(--space-4);border:1.5px solid var(--color-border);border-radius:var(--radius-md);font-size:var(--text-sm);font-family:var(--font-body);background:var(--color-surface-2);color:var(--color-text);margin-bottom:var(--space-4);transition:border-color var(--transition)}
-.modal input:focus{outline:none;border-color:var(--color-primary)}
-.modal-actions{display:flex;gap:var(--space-3);justify-content:flex-end; margin-top:1rem}
-.btn-sm{padding:var(--space-2) var(--space-4);font-size:var(--text-sm);border-radius:var(--radius-md)}
-.modal-content-list { list-style: none; padding: 0; margin-bottom: 1rem; }
-.modal-content-list li { margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-divider); font-size: var(--text-sm); }
-.modal-content-list li:last-child { border-bottom: none; }
-
-#progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--color-primary);z-index:999;width:0%;transition:width .1s linear}
-/* ستايلات الكروت التفاعلية الجديدة */
-/* تحويل الجريد لسلايدر أفقي سلس */
-.hajj-grid { 
-    display: flex; 
-    gap: 20px; 
-    overflow-x: auto; 
-    padding-bottom: 20px; 
-    scrollbar-width: thin; /* للمتصفحات الحديثة */
-    scroll-snap-type: x mandatory; /* يخلي السلايد يثبت في مكانه */
-}
-
-/* تحسين شكل الكارت داخل السلايدر */
-.interactive-card { 
-    min-width: 320px; /* عرض الكارت */
-    flex-shrink: 0; 
-    scroll-snap-align: start; 
-    background: var(--color-surface-2); 
-    border: 1px solid var(--color-border); 
-    border-radius: var(--radius-xl); 
-    display: flex; 
-    flex-direction: column; 
-    height: auto;
-}
-
-/* تحسين السكرول بار (Scrollbar) */
-.hajj-grid::-webkit-scrollbar { height: 6px; }
-.hajj-grid::-webkit-scrollbar-track { background: var(--color-surface-offset); border-radius: 10px; }
-.hajj-grid::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 10px; }
-.card-visuals { position: relative; height: 200px; background: #eee; overflow: hidden; }
-.carousel-track { height: 100%; display: flex; transition: transform 0.5s ease; }
-.inner-slide { min-width: 100%; height: 100%; }
-.inner-slide img { width: 100%; height: 100%; object-fit: cover; }
-.card-info { padding: 20px; flex-grow: 1; }
-.info-badge { background: var(--color-primary-highlight); color: var(--color-primary); font-size: 10px; font-weight: bold; padding: 3px 12px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
-.info-title { font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 8px; color: var(--color-text); }
-.info-details { font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.6; }
-.info-conditions { margin-top: 15px; padding: 12px; background: var(--color-bg); border-radius: var(--radius-md); border-right: 3px solid var(--color-gold); }
-.info-conditions strong { font-size: 0.8rem; color: var(--color-gold); display: block; }
-.info-conditions p { font-size: 0.85rem; margin-top: 5px; color: var(--color-text); }
-.inner-nav-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px; }
-.ind-dot { width: 6px; height: 6px; background: rgba(255,255,255,0.5); border-radius: 50%; transition: 0.3s; }
-.ind-dot.active { background: #fff; width: 15px; border-radius: 4px; }
-.info-conditions { 
-  margin-top: 15px; 
-  padding: 12px; 
-  background: var(--color-surface-offset); 
-  border-radius: var(--radius-md); 
-  border-right: 4px solid var(--color-gold); 
-  display: block !important; 
-}
-.interactive-card { height: 100%; display: flex; flex-direction: column; }
-.card-info { flex-grow: 1; }
-/* ألوان التاجات المخصصة */
-.badge-red { background: #fee2e2 !important; color: #dc2626 !important; border: 1px solid #fca5a5; }
-.badge-green { background: #dcfce7 !important; color: #16a34a !important; border: 1px solid #bbf7d0; }
-.badge-default { background: var(--color-primary-highlight); color: var(--color-primary); }
-
-/* ── Image Zoom Lightbox (شاشة التكبير) ── */
-.zoom-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.85); /* خلفية غامقة لتركيز الرؤية */
-    z-index: 99999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    padding: 20px;
-}
-.zoom-backdrop.open {
-    opacity: 1;
-    pointer-events: auto;
-}
-.zoom-close-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    font-size: 22px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 100000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-}
-.zoom-close-btn:hover {
-    background: #fff;
-    color: #000;
-    transform: scale(1.1);
-}
-#zoomedImage {
-    max-width: 95vw;
-    max-height: 90vh;
-    object-fit: contain;
-    border-radius: 8px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-    transform: scale(0.95);
-    transition: transform 0.3s ease;
-    cursor: default; /* عشان يبان إنه مش هيقفل لما تضغط عليه */
-}
-.zoom-backdrop.open #zoomedImage {
-    transform: scale(1); /* أنيميشن تكبير ناعم */
-}
-/* تنسيق العلامة المائية (الووترمارك) في منتصف الصور */
-/* الحاوية الأساسية للصورة */
-/* الحاوية الأساسية في الكروت والتايم لاين */
-.inner-slide, .card-visuals {
-    position: relative !important;
-}
-
-/* اللوجو في الكروت الصغيرة */
-.inner-slide::before, 
-.card-visuals::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 220px;
-    height: 220px;
-    background-image: url('https://i.postimg.cc/yx17ZRtm/M-(512-x-512-px)-(7).png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    opacity: 0.2;
-    pointer-events: none;
-    z-index: 10;
-}
-
-/* اللوجو في شاشة التكبير (الزوم) */
-/* بنحطه على الـ backdrop نفسه عشان يفضل ثابت مهما عملت زوم للصورة اللي وراه */
-.zoom-backdrop::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: min(300px, 70vw); /* حجم كبير ومناسب للموبايل واللاب */
-    height: min(800px, 70vw);
-    background-image: url('https://i.postimg.cc/yx17ZRtm/M-(512-x-512-px)-(7).png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    opacity: 0.15; /* شفافية أخف شوية في الزوم عشان التفاصيل */
-    pointer-events: none;
-    z-index: 100001; /* فوق الصورة المكبرة مباشرة */
-    display: none; /* مخفي في العادي */
-}
-
-/* يظهر فقط لما شاشة الزوم تفتح */
-.zoom-backdrop.open::before {
-    display: block;
-}
-/* حاوية الجريد محتاجة تكون relative عشان السهم يثبت عليها */
-.category-group {
-    position: relative;
-}
-
-/* تصميم السهم */
-.scroll-indicator {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background: var(--color-primary);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--shadow-lg);
-    z-index: 100;
-    pointer-events: none; /* عشان ميعطلش اللمس */
-    opacity: 0.8;
-    animation: bounceLeft 1.5s infinite;
-    transition: opacity 0.3s;
-}
-
-/* أنيميشن حركة السهم */
-@keyframes bounceLeft {
-    0%, 100% { transform: translateY(-50%) translateX(0); }
-    50% { transform: translateY(-50%) translateX(-5px); }
-}
-
-/* إخفاء السهم لما يوصل للأخر (هنحكم فيها بالجافا سكريبت) */
-.scroll-indicator.hidden {
-    opacity: 0;
-}
-</style>
 </head>
 <body>
 
@@ -553,13 +54,16 @@ button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
     </div>
     <h1>الدليل التفاعلي الشامل<br>لمناسك الحج والعمرة</h1>
     <p>خريطة زمنية تفصيلية، إرشادات العمرة، محظورات الإحرام، وفتاوى شرعية</p>
-   <div class="hero-ctas">
+  <div class="hero-ctas">
   <a href="#types" class="btn btn-primary">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5,12 19,12"/><polyline points="12,5 19,12 12,19"/></svg>
     ابدأ خريطة الحج
   </a>
   <button onclick="openExternalGuide('https://umrasteps.vercel.app/')" class="btn btn-ghost">🕋 دليل العمرة</button>
   <button onclick="openExternalGuide('https://hajjsteps.vercel.app/')" class="btn btn-ghost">🚶 دليل الحج</button>
+  <button onclick="openExternalGuide('https://tawafall.vercel.app/')" class="btn btn-ghost">🔄 دليل الطواف</button>
+  <button onclick="openExternalGuide('https://sa3eall.vercel.app/')" class="btn btn-ghost">🚶‍♂️ دليل السعي</button>
+  <button onclick="openExternalGuide('https://hajjtypes.vercel.app/')" class="btn btn-ghost">📑 أنواع الحج تفاعلي</button>
 </div>
   
 </section>
@@ -784,33 +288,67 @@ const hajjMasterData = {
         { "title": "السعي بين الصفا والمروة", "details": "سعي الحج بعد طواف الإفاضة", "conditions": "أن يكون سبعة أشواط، والبدء بالصفا والختم بالمروة بعد طواف صحيح.", "images": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSP-CWreB8zOGOPkWQbZrG1pw0iCYAP_MA5IA&s"], "type": "ركن" }
       ]
     },
-    {
+{
       "id": "obligations",
       "name": "📌 واجبات الحج",
-      "description": "من تركها صح حجه ولزمه دم (فدية).",
+      "description": "من تركها صح حجه ولزمه دم (ذبح شاة لتجبير النقص)، أما الأركان فلا يجبرها الدم.",
       "items": [
-    { 
-          "title": "النية وسنة الاشتراط", 
-          "details": "عقد النية بالقلب والتلفظ بها حسب نوع النسك:<br>• <strong>التمتع:</strong> لبيك اللهم عمرة.<br>• <strong>القران:</strong> لبيك اللهم عمرة وحجاً.<br>• <strong>الإفراد:</strong> لبيك اللهم حجاً.<br>• <strong>العمرة المفردة:</strong> لبيك اللهم عمرة.", 
-          "target": "للرجال والنساء",
-          "conditions": "💡 <strong>سنة الاشتراط:</strong> يُسن لمن خاف عائقاً<br>(مرض أو منع) أن يقول: <em>«اللَّهُمَّ مَحِلِّي حَيْثُ حَبَسْتَنِي»</em>.<br><strong>التلبية بعد النية:</strong> لبيك اللهم لبيك، لبيك لا شريك<br>لك لبيك، إن الحمد والنعمة لك والملك، لا شريك لك.", 
-          "images": ["https://i.postimg.cc/XvGCVDMp/Gemini-Generated-Image-pdku5ppdku5ppdku.png"], 
-
-          "type": "واجب" 
-
-        },
         { 
-          "title": "الإحرام من الميقات", 
-          "details": "عدم تجاوز الميقات المكاني المحدد شرعاً بدون إحرام.", 
-          "conditions": "✈️ جواً وبحراً: الإحرام عند محاذاة الميقات (الكابتن بينبه).<br>🚌 براً: من موقع الميقات نفسه.<br>📍 تنبيه هام: من نزل جدة بدون إحرام يلزمه العودة للميقات أو فدية (دم).", 
+          "title": "الإحرام من الميقات المكاني", 
+          "details": "عقد النية والدخول في النسك قبل تجاوز الميقات الذي حدده الشرع.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>📖 الدليل الشرعي:</strong> قول النبي ﷺ حين حدد المواقيت: <em>«هُنَّ لَهُنَّ، وَلِمَنْ أَتَى عَلَيْهِنَّ مِنْ غَيْرِهِنَّ مِمَّنْ أَرَادَ الْحَجَّ وَالْعُمْرَةَ»</em> (متفق عليه).<br>✈️ <strong>جواً وبحراً:</strong> يُحرم عند محاذاة الميقات (الكابتن يُنبه).<br>📍 <strong>تنبيه:</strong> من تجاوز الميقات (مثل النزول بجدة) بدون نية إحرام، يلزمه العودة إليه أو ذبح فدية (دم).", 
           "images": ["https://i.postimg.cc/kgzK0d2p/Gemini-Generated-Image-62mmno62mmno62mm.png"], 
           "type": "واجب" 
         },
-
-        { "title": "المبيت بمزدلفة", "details": "بعد الإفاضة من عرفات", "conditions": "البقاء فيها إلى بعد منتصف الليل ليلة النحر.", "images": ["https://www.dar-alifta.org/images/Fatwa/7aj1-06-202301.jpg"], "type": "واجب" },
-        { "title": "رمي الجمرات", "details": "جمرة العقبة وأيام التشريق", "conditions": "الترتيب في الأيام، وأن يكون الرمي بسبع حصيات لكل جمرة.", "images": ["https://i.postimg.cc/7ZV5q8tn/Gemini-Generated-Image-6okq436okq436okq.png"], "type": "واجب" },
-        { "title": "الحلق أو التقصير", "details": "إزالة الشعر للتحلل", "conditions": "استيعاب كامل الرأس أو قدر أنملة، والحلق أفضل للرجال.", "images": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ_V3ts_3L3lvld3ENIyr4JnY3xvQn7rtzFQ&s"], "type": "واجب" },
-        { "title": "طواف الوداع", "details": "آخر فعل قبل مغادرة مكة", "conditions": "أن يكون آخر عهد الحاج بالبيت، ويسقط عن الحائض والنفساء.", "images": ["https://s3-eu-west-1.amazonaws.com/content.argaamnews.com/00413193-5f2b-4482-94d4-26db00d92ee6.jpg"], "type": "واجب" }
+        { 
+          "title": "البقاء بعرفة إلى غروب الشمس", 
+          "details": "من وقف بعرفة نهاراً، يجب عليه ألا ينصرف منها حتى يغيب قرص الشمس.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>📖 الدليل الشرعي:</strong> فعل النبي ﷺ، حيث وقف نهاراً ولم يدفع من عرفة إلا بعد أن غابت الشمس وسقط القرص، وقال: <em>«لتأخذوا عني مناسككم»</em>.<br>📍 <strong>تنبيه:</strong> من انصرف قبل الغروب ولم يرجع ليلاً، صح حجه ولكن لزمه دم (فدية) لتركه هذا الواجب.", 
+          "images": ["https://media.gemini.media/img/large/2018/8/19/2018_8_19_22_51_42_68.jpg"], 
+          "type": "واجب" 
+        },
+        { 
+          "title": "المبيت بمزدلفة ليلة النحر", 
+          "details": "البقاء في مزدلفة بعد الإفاضة من عرفات حتى ما بعد منتصف الليل.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>📖 الدليل الشرعي:</strong> قوله تعالى: <em>{فَإِذَا أَفَضْتُم مِّنْ عَرَفَاتٍ فَاذْكُرُوا اللَّهَ عِندَ الْمَشْعَرِ الْحَرَامِ}</em>. وأمر النبي ﷺ بالبقاء فيها، ورخص للضعفاء والنساء بالانصراف بعد منتصف الليل.<br>📍 <strong>تنبيه:</strong> يسقط هذا الواجب في حال الزحام الشديد الذي يمنع دخولها أصلاً.", 
+          "images": ["https://www.dar-alifta.org/images/Fatwa/7aj1-06-202301.jpg"], 
+          "type": "واجب" 
+        },
+        { 
+          "title": "المبيت بمنى ليالي التشريق", 
+          "details": "قضاء معظم الليل في مشعر منى ليلة ١١ و ١٢ (وليلة ١٣ لغير المتعجل).", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>📖 الدليل الشرعي:</strong> أن النبي ﷺ رخص للرعاة والسقاة في ترك المبيت بمنى، والرخصة لا تكون إلا لترك شيء (واجب).<br>📍 <strong>تنبيه:</strong> من لم يجد مكاناً في منى، أو كان خيمته خارج حدودها (بمزدلفة مثلاً) لاتصال الخيام، سقط عنه الواجب ولا فدية عليه للضرورة.", 
+          "images": ["https://www.dar-alifta.org/images/Fatwa/7aj1-06-202301.jpg"], 
+          "type": "واجب" 
+        },
+        { 
+          "title": "رمي الجمرات", 
+          "details": "رمي جمرة العقبة الكبرى يوم العيد، ورمي الجمرات الثلاث في أيام التشريق.", 
+          "target": "الجميع (ويجوز التوكيل للعاجز)",
+          "conditions": "<strong>📖 الدليل الشرعي:</strong> قوله ﷺ: <em>«إِنَّمَا جُعِلَ الطَّوَافُ بِالْبَيْتِ، وَبَيْنَ الصَّفَا وَالْمَرْوَةِ، وَرَمْيُ الْجِمَارِ لإِقَامَةِ ذِكْرِ اللَّهِ»</em> (رواه أبو داود).<br>📍 <strong>الضابط:</strong> الترتيب إلزامي (صغرى، وسطى، كبرى) بـ ٧ حصيات لكل جمرة، تقع داخل الحوض.", 
+          "images": ["https://i.postimg.cc/7ZV5q8tn/Gemini-Generated-Image-6okq436okq436okq.png"], 
+          "type": "واجب" 
+        },
+        { 
+          "title": "الحلق أو التقصير", 
+          "details": "إزالة شعر الرأس كعلامة على إتمام النسك والتحلل من الإحرام.", 
+          "target": "للرجال والنساء",
+          "conditions": "<strong>📖 الدليل الشرعي:</strong> قوله تعالى: <em>{مُحَلِّقِينَ رُءُوسَكُمْ وَمُقَصِّرِينَ لَا تَخَافُونَ}</em>، ودعا النبي ﷺ للمحلقين بالمغفرة ثلاثاً وللمقصرين مرة.<br>📍 <strong>الضابط:</strong> الحلق أو التقصير للرجل يعم الرأس كله، والمرأة تقص قدر 'أنملة' (عقلة إصبع) من أطراف شعرها.", 
+          "images": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ_V3ts_3L3lvld3ENIyr4JnY3xvQn7rtzFQ&s"], 
+          "type": "واجب" 
+        },
+        { 
+          "title": "طواف الوداع", 
+          "details": "طواف ٧ أشواط حول الكعبة، وهو آخر فعل قبل مغادرة مكة للعودة للوطن.", 
+          "target": "الجميع (يسقط عن الحائض والنفساء)",
+          "conditions": "<strong>📖 الدليل الشرعي:</strong> أمر النبي ﷺ الحجاج قائلاً: <em>«لاَ يَنْفِرَنَّ أَحَدٌ حَتَّى يَكُونَ آخِرُ عَهْدِهِ بِالْبَيْتِ»</em> (رواه مسلم).<br>📍 <strong>تنبيه:</strong> رخص الشرع وخفف عن المرأة الحائض والنفساء، فيسقط عنها هذا الطواف، وتسافر مباشرة دون فدية.", 
+          "images": ["https://s3-eu-west-1.amazonaws.com/content.argaamnews.com/00413193-5f2b-4482-94d4-26db00d92ee6.jpg"], 
+          "type": "واجب" 
+        }
       ]
     },
     {
@@ -1475,11 +1013,12 @@ const db = {
                 <span style="color: #991b1b; font-weight: bold;">يُحرم تماماً وضع أي طيب (عطر) على ملابس الإحرام نفسها</span>. الطيب يوضع على الجسد فقط قبل النية. وإذا أصاب ملابس الإحرام عطر، يجب غسلها جيداُ أو تغييرها قبل الإحرام بها.
                 </div>
               `,
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الاغتسال+والتطيب', imgPos: 'side'
+              img: 'https://static.vecteezy.com/system/resources/thumbnails/057/106/523/small/young-man-enjoying-a-refreshing-shower-with-soap-bubbles-in-a-minimalistic-flat-design-illustration-vector.jpg', imgPos: 'side'
             },
             { 
               time: 'الميقات', title: 'لبس الإحرام والنية', isPrayer: false, 
               desc: "يلبس الإزار والرداء (للرجال) وتلبس المرأة ملابسها العادية الساترة.<br><strong>النية والاشتراط:</strong> ينوي بالقلب ويقول: <em>'لبيك اللهم عمرة'</em>. ويُسن أن يشترط قائلاً: <em>'فإن حبسني حابس فمحلي حيث حبستني'</em> تحسباً لأي طارئ يمنعه من إتمام العمرة." 
+
             },
             { 
               time: 'بعد النية', title: 'التلبية الجهرية', isPrayer: false, 
@@ -1519,8 +1058,7 @@ const db = {
                 • <strong>الدعاء المأثور:</strong> تذكر أن (ماء زمزم لما شُرب له)، وكان ابن عباس رضي الله عنهما إذا شرب قال: <em>'اللهم إني أسألك علماً نافعاً، ورزقاً واسعاً، وشفاءً من كل داء'</em>.
                 </div>
               `,
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=ماء+زمزم', imgPos: 'side'
-            }
+                     img: 'https://cdn.alweb.com/thumbs/hajjwaomra/article/fit710x532/%D8%AF%D8%B9%D8%A7%D8%A1-%D8%B4%D8%B1%D8%A8-%D9%85%D8%A7%D8%A1-%D8%B2%D9%85%D8%B2%D9%85.jpg', imgPos: 'side'            }
           ]
         },
         {
@@ -1578,14 +1116,12 @@ tamattu: {
             { 
               time: 'الميقات', title: 'النية والإحرام بالعمرة', isPrayer: false, color: '', 
               desc: "الاغتسال والتطهر، ولبس ملابس الإحرام للرجل والمرأة.<br><strong>حديث السروال والخفين:</strong> قال النبي ﷺ: «مَنْ لَمْ يَجِدِ الإِزَارَ فَلْيَلْبَسِ السِّرْوَالَيْنِ، وَمَنْ لَمْ يَجِدِ النَّعْلَيْنِ فَلْيَلْبَسِ الْخُفَّيْنِ»، فمن لم يجد إزاراً لبس البنطلون، ومن لم يجد نعلاً (شبشب) لبس حذاءً يقطعه أسفل الكعبين ولا فدية عليه.<br><strong>النية والاشتراط:</strong> عقد النية بالقلب وقول: <em>'لبيك اللهم بعمرة'</em>، ويُسن أن يشترط: <em>'فإن حبسني حابس فمحلي حيث حبستني'</em>.",
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الإحرام+من+الميقات', imgPos: 'side'
+              img: 'https://i.postimg.cc/bJVjYL1d/Gemini-Generated-Image-f9vgi0f9vgi0f9vg.png', imgPos: 'side'
             },
             { 
               time: 'دخول الحرم', title: 'دعاء رؤية الكعبة وشروط الطواف', isPrayer: false, color: '', 
               desc: "<strong>عند رؤية الكعبة المشرفة:</strong> يُسن أن يقول: <em>«اللهم زِدْ هذا البيت تشريفاً وتعظيماً وتكريماً ومهابةً، وزِدْ مَن شَرّفَهُ وكَرّمَهُ مِمّن حَجّه أو اعتَمَرَه تشريفاً وتكريماً وتعظيماً وبِرّاً»</em> (ويُدعى بما شاء فالدعاء عند رؤية الكعبة مستجاب).<br><strong>شروط الطواف:</strong> الطهارة الكاملة (الوضوء)، ستر العورة، أن تكون الكعبة على يسار الطائف، إتمام ٧ أشواط كاملة، وأن يكون الطواف داخل المسجد.<br><strong>الاستعداد (للرجال فقط):</strong> 'الاضطباع' وهو كشف الكتف الأيمن، ويستمر طوال أشواط طواف العمرة فقط.",
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=رؤية+الكعبة', imgPos: 'side'
-            },
-            { 
+              img: 'https://www.el-massa.com/dz/media/k2/items/cache/6442d12c4d55f65985620b5e2f000f6f_XL.jpg', imgPos: 'side'            },            { 
               time: 'شوط ١-٣', title: 'بداية الطواف والرمل', guideBtn: 'الطواف', isPrayer: false, color: '', 
               img: 'https://hotelsplatform.com/uploads/0000/6/2021/11/23/sacred-mosque.jpg', imgPos: 'side',
               desc: "يقطع التلبية عند بدء الطواف. يبدأ الطواف بمحاذاة الحجر الأسود، يستقبله ويشير إليه قائلاً: 'بسم الله، والله أكبر'.<br><strong>الرمل (للرجال فقط):</strong> الإسراع في المشي مع تقارب الخطى في أول ٣ أشواط (سنة).<br><strong>الدعاء الثابت:</strong> يُسن بين الركن اليماني والحجر الأسود قول: <em>«رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ»</em>." 
@@ -1603,8 +1139,7 @@ tamattu: {
             { 
               time: 'السعي', title: 'أشواط السعي والأدعية', guideBtn: 'السعي', isPrayer: false, color: '', 
               desc: "<strong>الوقوف على الصفا والمروة:</strong> يستقبل القبلة، يرفع يديه، يكبر ٣ مرات ويقول: <em>«لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، وهو على كل شيء قدير. لا إله إلا الله وحده، أنجز وعده، ونصر عبده، وهزم الأحزاب وحده»</em> (يكررها ٣ مرات ويدعو بينها بما شاء).<br><strong>بين العلمين الأخضرين:</strong> 'الهرولة' (الجري السريع) للرجال فقط (سنة). ويُستحب أن يقول: 'رَبِّ اغْفِرْ وَارْحَمْ، إِنَّكَ أَنْتَ الأَعَزُّ الأَكْرَمُ'.<br><strong>الحساب:</strong> الذهاب من الصفا للمروة (شوط)، والعودة للصفا (شوط). ويختم الشوط السابع عند المروة.",
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=السعي+بين+الصفا+والمروة', imgPos: 'side'
-            },
+              img: 'https://img.youtube.com/vi/2DHEFbECouM/0.jpg', imgPos: 'side'            },
             { 
               time: 'الختام', title: 'التحلل من العمرة', isPrayer: false, color: '', 
               img: 'https://i.postimg.cc/SsyzsVb7/hajj-Page-040-Image-0001.jpg', imgPos: 'side',
@@ -1634,12 +1169,12 @@ tamattu: {
                 </div>
                 يُكثر الحاج من التلبية (لبيك اللهم لبيك) جهاراً للرجال وسراً للنساء طوال الطريق.
               `,
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=التوجه+إلى+منى', imgPos: 'side'
+              img: 'https://www.el-massa.com/dz/media/k2/items/cache/6442d12c4d55f65985620b5e2f000f6f_XL.jpg', imgPos: 'side'
             },
             { 
               time: 'أوقات الصلاة', title: 'صلاة القصر بلا جمع', isPrayer: true, color: 'var(--color-gold)', 
               desc: "يصلي الحاج بمنى ٥ صلوات: الظهر، العصر، المغرب، العشاء، وفجر يوم عرفة (يوم ٩). يصلي الرباعية ركعتين (قصراً)، والمغرب ثلاث ركعات. <strong>القاعدة هنا:</strong> يصلي كل صلاة في وقتها المحدد (بدون جمع) تأسياً بفعل النبي ﷺ.",
-              img: 'https://via.placeholder.com/600x400/c9930a/ffffff?text=صلاة+القصر', imgPos: 'side'
+              img: 'https://modo3.com/thumbs/fit630x300/102462/1584438273/%D8%B4%D8%B1%D9%88%D8%B7_%D8%B5%D9%84%D8%A7%D8%A9_%D8%A7%D9%84%D9%82%D8%B5%D8%B1.jpg', imgPos: 'side'
             }
           ]
         },
@@ -1650,12 +1185,12 @@ tamattu: {
             { 
               time: 'بعد الشروق', title: 'التوجه لعرفات', isPrayer: false, color: '', 
               desc: "السير بهدوء وسكينة مع الاستمرار في التلبية وتكبيرات العيد للوصول إلى عرفات. تأكد من دخولك حدود عرفات (توجد لوحات إرشادية ضخمة تحدد البداية والنهاية)، لقوله ﷺ: «وقفت هاهنا وعرفة كلها موقف». الوقوف خارج الحدود يبطل الحج.",
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=التوجه+لعرفات', imgPos: 'side'
+              img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbTTKlmL3ygfi04pjpk9XIHcVK4LTLZ7H67w&s', imgPos: 'side'
             },
             { 
               time: 'وقت الزوال', title: 'خطبة عرفة والصلاة', isPrayer: true, color: 'var(--color-gold)', 
               desc: "الاستماع لخطبة عرفة. أداء صلاة الظهر والعصر (ركعتين ركعتين) جمع تقديم بأذان واحد وإقامتين، ولا يُصلى بينهما ولا قبلهما شيء من السنن، للتفرغ التام للدعاء في هذا اليوم العظيم.",
-              img: 'https://via.placeholder.com/600x400/c9930a/ffffff?text=صلاة+الظهر+والعصر', imgPos: 'side'
+              img: 'https://palsawa.com/uploads/images/TKjkb.jpg', imgPos: 'side'
             },
             { 
               time: 'حتى الغروب', title: 'الوقوف بعرفة (الركن)', isPrayer: false, color: '#e74c3c', 
@@ -1669,18 +1204,16 @@ tamattu: {
                 • <strong>شرط أساسي:</strong> يُمنع الانصراف قبل تأكد غروب الشمس. من غادر قبل الغروب ولم يرجع وجب عليه دم (فدية).
                 </div>
               `,
-              img: 'https://via.placeholder.com/600x400/e74c3c/ffffff?text=الوقوف+بعرفة', imgPos: 'side'
+              img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbTTKlmL3ygfi04pjpk9XIHcVK4LTLZ7H67w&s', imgPos: 'side'
             },
             { 
               time: 'بعد الغروب', title: 'الإفاضة لمزدلفة', isPrayer: false, color: '', 
               desc: "مغادرة عرفات والتوجه إلى مزدلفة بسكينة ووقار تلبيةً لقوله ﷺ: «أيها الناس، السكينة السكينة». لا تصلِ المغرب في عرفة، بل تؤخرها لتصليها فور وصولك إلى مزدلفة.",
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الإفاضة+لمزدلفة', imgPos: 'side'
-            },
+              img: 'https://i.postimg.cc/HnL1ccrj/mozdalifat01.png', imgPos: 'side'            },
             { 
               time: 'في مزدلفة', title: 'الصلاة وجمع الحصيات', isPrayer: true, color: 'var(--color-gold)', 
               desc: "فور الوصول لمزدلفة، تصلي المغرب (٣ ركعات) والعشاء (ركعتين) جمع تأخير وقصر بأذان وإقامتين. المبيت بمزدلفة (واجب). يُسن جمع ٧ حصيات فقط (بحجم حبة الحمص أو البندق) لرمي جمرة العقبة الكبرى صباح العيد، ويجوز جمعها من منى لاحقاً.",
-              img: 'https://via.placeholder.com/600x400/c9930a/ffffff?text=مبيت+مزدلفة', imgPos: 'side'
-            }
+              img: 'https://img.youm7.com/ArticleImgs/2018/8/20/93124-000-3682623601534799387025.jpg', imgPos: 'side'            }
           
           ]
         },
@@ -1691,8 +1224,7 @@ tamattu: {
             { 
               time: 'الفجر', title: 'صلاة الفجر والدعاء', isPrayer: true, color: 'var(--color-gold)', 
               desc: "الصلاة في مزدلفة في أول وقتها (غلس)، ثم الوقوف عند المشعر الحرام (أو في أي مكان بمزدلفة) مستقبل القبلة والدعاء والتهليل والتكبير حتى يسفر الصباح جداً (قبل طلوع الشمس).",
-              img: 'https://via.placeholder.com/600x400/c9930a/ffffff?text=فجر+مزدلفة', imgPos: 'side'
-            },
+              img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRXsVfCUHSvo-YwC-qsigJWvMhpUdl_a4yJg&s', imgPos: 'side'            },
             { 
               time: 'الصباح', title: 'رمي جمرة العقبة الكبرى', isPrayer: false, color: '', 
               desc: "التوجه لمنى ورمي جمرة العقبة الكبرى (الجمرة الكبرى فقط) بـ ٧ حصيات. يرميها واحدة تلو الأخرى ويقول مع كل حصاة: 'الله أكبر'. ويقطع التلبية عند رمي أول حصاة.",
@@ -1711,13 +1243,11 @@ tamattu: {
                 <strong>٢. الحلق أو التقصير:</strong> يحلق الرجل رأسه (والحلق أفضل) أو يقصره، وتقص المرأة قدر أنملة.<br>
                 <strong>النتيجة:</strong> التحلل الأول (الأصغر)؛ يحل لك كل محظورات الإحرام (بما فيها لبس المخيط والتطيب) ما عدا إتيان النساء (الجماع).
               `,
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الذبح+والحلق', imgPos: 'side'
-            },
+              img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgaDOk38CTzLg2kcZzLL2bR4YJE9kKv5JxVA&s', imgPos: 'side'            },
             { 
               time: 'خلال اليوم', title: 'طواف الإفاضة وسعي الحج (الركن)', guideBtn: 'الطواف', isPrayer: false, color: '', 
               desc: "النزول لمكة لأداء طواف الإفاضة (ركن الحج) وسعي الحج (لأن سعي العمرة السابقة لا يجزئ عن الحج للمتمتع).<br><strong>تنبيه:</strong> طواف الإفاضة ليس فيه 'رمل' ولا 'اضطباع' (لأنه طواف بثياب عادية وليس إحرام).<br>بهذا يتم <strong>التحلل الأكبر</strong> ويحل له كل شيء تماماً.",
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=طواف+الإفاضة', imgPos: 'side'
-            }
+              img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQigbiHP53fhoYLsDZrnVH39X92nvfsm0J4w&s', imgPos: 'side'            }
           ]
         },
         {
@@ -1736,8 +1266,7 @@ tamattu: {
                 أفتت <strong>دار الإفتاء المصرية</strong> وغيرها، بأنه يجوز ترك المبيت بمنى للمرضى والضعفاء، بل ولعموم الحجاج إذا كان هناك زحام شديد يهدد الأرواح، أخذًا برخصة النبي ﷺ للرعاة والسقاة، وتقليداً لمن قال بسنيته، رفعاً للحرج.
                 </div>
               `,
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=المبيت+بمنى+أو+مزدلفة', imgPos: 'side'
-            },
+              img: 'https://www.al-qaradawi.net/sites/default/files/styles/detailed/public/field/image/342743481c291a4957926443fe59f62cb2ca4db36.jpg?itok=-EHKBdnS', imgPos: 'side'            },
           { 
               time: 'بعد الزوال', 
               title: 'رمي الجمرات الثلاث (التفاصيل والأحكام)', 
@@ -1762,14 +1291,12 @@ tamattu: {
                 • <strong>التوكيل:</strong> يجوز للمرضى وكبار السن والنساء توكيل غيرهم في الرمي وقت الزحام الشديد. الوكيل يرمي ٧ عن نفسه عند الصغرى، ثم ٧ عن موكله في نفس المكان، وهكذا في الباقي.
                 </div>
               `,
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=رمي+الجمرات+الثلاث', 
-              imgPos: 'side'
+              img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROTSdqSpoqeB9ilghOe2i2t8_pzd_QkyOrOw&s',               imgPos: 'side'
             },
             { 
               time: 'اليوم ١٢', title: 'التعجل (اختياري)', isPrayer: false, color: '', 
               desc: "يجوز للمتعجل المغادرة والاكتفاء برمي ٤٩ حصاة، وبذلك يسقط عنه مبيت ورمي اليوم الـ ١٣. <strong>الشرط الأساسي:</strong> الخروج من حدود منى قبل غروب شمس يوم ١٢ ذي الحجة. فإن غربت الشمس وهو لا يزال داخل حدود منى، لزمه المبيت ليلة ١٣ والرمي في اليوم التالي ليكمل ٧٠ حصاة.",
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=التعجل', imgPos: 'side'
-            },
+              img: 'https://media.elbalad.news/2024/10/large/948/2/471.jpeg', imgPos: 'side'            },
            { 
               time: 'عند السفر', title: 'طواف الوداع (واجب)', isPrayer: false, color: 'var(--color-primary)', 
               desc: `
@@ -1780,8 +1307,7 @@ tamattu: {
                 • <strong>الطهارة:</strong> الوضوء وستر العورة شرط أساسي لصحته زي أي طواف.<br><br>
                 <strong>تنبيه هام:</strong> يسقط هذا الطواف الواجب عن الحائض والنفساء تخفيفاً من الشرع، وتسافر مباشرة دون وداع ولا فدية عليها.
               `,
-              img: 'https://via.placeholder.com/600x400/c9930a/ffffff?text=طواف+الوداع', imgPos: 'side'
-            }
+              img: 'https://media.elbalad.news/2024/10/large/948/2/471.jpeg', imgPos: 'side'            }
           ]
         }
       ]
@@ -1857,12 +1383,12 @@ tamattu: {
             { 
               time: 'بعد الشروق', title: 'التوجه لعرفات', isPrayer: false, color: '', 
               desc: "السير بهدوء وسكينة مع الاستمرار في التلبية وتكبيرات العيد للوصول إلى عرفات. تأكد من دخولك حدود عرفات (توجد لوحات إرشادية ضخمة تحدد البداية والنهاية)، لقوله ﷺ: «وقفت هاهنا وعرفة كلها موقف». الوقوف خارج الحدود يبطل الحج.",
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=التوجه+لعرفات', imgPos: 'side'
+              img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbTTKlmL3ygfi04pjpk9XIHcVK4LTLZ7H67w&s', imgPos: 'side'
             },
             { 
               time: 'وقت الزوال', title: 'خطبة عرفة والصلاة', isPrayer: true, color: 'var(--color-gold)', 
               desc: "الاستماع لخطبة عرفة. أداء صلاة الظهر والعصر (ركعتين ركعتين) جمع تقديم بأذان واحد وإقامتين، ولا يُصلى بينهما ولا قبلهما شيء من السنن، للتفرغ التام للدعاء في هذا اليوم العظيم.",
-              img: 'https://via.placeholder.com/600x400/c9930a/ffffff?text=صلاة+الظهر+والعصر', imgPos: 'side'
+              img: 'https://palsawa.com/uploads/images/TKjkb.jpg', imgPos: 'side'
             },
             { 
               time: 'حتى الغروب', title: 'الوقوف بعرفة (الركن)', isPrayer: false, color: '#e74c3c', 
@@ -1876,18 +1402,16 @@ tamattu: {
                 • <strong>شرط أساسي:</strong> يُمنع الانصراف قبل تأكد غروب الشمس. من غادر قبل الغروب ولم يرجع وجب عليه دم (فدية).
                 </div>
               `,
-              img: 'https://via.placeholder.com/600x400/e74c3c/ffffff?text=الوقوف+بعرفة', imgPos: 'side'
+              img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbTTKlmL3ygfi04pjpk9XIHcVK4LTLZ7H67w&s', imgPos: 'side'
             },
             { 
               time: 'بعد الغروب', title: 'الإفاضة لمزدلفة', isPrayer: false, color: '', 
               desc: "مغادرة عرفات والتوجه إلى مزدلفة بسكينة ووقار تلبيةً لقوله ﷺ: «أيها الناس، السكينة السكينة». لا تصلِ المغرب في عرفة، بل تؤخرها لتصليها فور وصولك إلى مزدلفة.",
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الإفاضة+لمزدلفة', imgPos: 'side'
-            },
+              img: 'https://i.postimg.cc/HnL1ccrj/mozdalifat01.png', imgPos: 'side'            },
             { 
               time: 'في مزدلفة', title: 'الصلاة وجمع الحصيات', isPrayer: true, color: 'var(--color-gold)', 
               desc: "فور الوصول لمزدلفة، تصلي المغرب (٣ ركعات) والعشاء (ركعتين) جمع تأخير وقصر بأذان وإقامتين. المبيت بمزدلفة (واجب). يُسن جمع ٧ حصيات فقط (بحجم حبة الحمص أو البندق) لرمي جمرة العقبة الكبرى صباح العيد، ويجوز جمعها من منى لاحقاً.",
-              img: 'https://via.placeholder.com/600x400/c9930a/ffffff?text=مبيت+مزدلفة', imgPos: 'side'
-            }
+              img: 'https://img.youm7.com/ArticleImgs/2018/8/20/93124-000-3682623601534799387025.jpg', imgPos: 'side'            }
           ]
         },
         {
@@ -1935,8 +1459,7 @@ tamattu: {
                 أفتت <strong>دار الإفتاء المصرية</strong> وغيرها، بأنه يجوز ترك المبيت بمنى للمرضى والضعفاء، بل ولعموم الحجاج إذا كان هناك زحام شديد يهدد الأرواح، أخذًا برخصة النبي ﷺ للرعاة والسقاة، وتقليداً لمن قال بسنيته، رفعاً للحرج.
                 </div>
               `,
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=المبيت+بمنى+أو+مزدلفة', imgPos: 'side'
-            },
+              img: 'https://www.al-qaradawi.net/sites/default/files/styles/detailed/public/field/image/342743481c291a4957926443fe59f62cb2ca4db36.jpg?itok=-EHKBdnS', imgPos: 'side'            },
           { 
               time: 'بعد الزوال', 
               title: 'رمي الجمرات الثلاث (التفاصيل والأحكام)', 
@@ -1961,8 +1484,7 @@ tamattu: {
                 • <strong>التوكيل:</strong> يجوز للمرضى وكبار السن والنساء توكيل غيرهم في الرمي وقت الزحام الشديد. الوكيل يرمي ٧ عن نفسه عند الصغرى، ثم ٧ عن موكله في نفس المكان، وهكذا في الباقي.
                 </div>
               `,
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=رمي+الجمرات+الثلاث', 
-              imgPos: 'side'
+              img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROTSdqSpoqeB9ilghOe2i2t8_pzd_QkyOrOw&s',               imgPos: 'side'
             },
             { 
               time: 'اليوم ١٢', title: 'التعجل (اختياري)', isPrayer: false, color: '', 
@@ -1979,8 +1501,7 @@ tamattu: {
                 • <strong>الطهارة:</strong> الوضوء وستر العورة شرط أساسي لصحته زي أي طواف.<br><br>
                 <strong>تنبيه هام:</strong> يسقط هذا الطواف الواجب عن الحائض والنفساء تخفيفاً من الشرع، وتسافر مباشرة دون وداع ولا فدية عليها.
               `,
-              img: 'https://via.placeholder.com/600x400/c9930a/ffffff?text=طواف+الوداع', imgPos: 'side'
-            }
+              img: 'https://media.elbalad.news/2024/10/large/948/2/471.jpeg', imgPos: 'side'            }
           ]
         }
       ]
@@ -2046,7 +1567,7 @@ tamattu: {
             { 
               time: 'أوقات الصلاة', title: 'صلاة القصر بلا جمع', isPrayer: true, color: 'var(--color-gold)', 
               desc: "تصلي بمنى ٥ صلوات: الظهر، العصر، المغرب، العشاء، وفجر يوم عرفة (يوم ٩). تصلي الرباعية ركعتين (قصراً)، والمغرب ثلاث ركعات. <strong>القاعدة هنا:</strong> تصلي كل صلاة في وقتها المحدد (بدون جمع) تأسياً بفعل النبي ﷺ.",
-              img: 'https://via.placeholder.com/600x400/c9930a/ffffff?text=صلاة+القصر', imgPos: 'side'
+              img: 'https://modo3.com/thumbs/fit630x300/102462/1584438273/%D8%B4%D8%B1%D9%88%D8%B7_%D8%B5%D9%84%D8%A7%D8%A9_%D8%A7%D9%84%D9%82%D8%B5%D8%B1.jpg', imgPos: 'side'
             }
           ]
         },
@@ -2057,12 +1578,12 @@ tamattu: {
             { 
               time: 'بعد الشروق', title: 'التوجه لعرفات', isPrayer: false, color: '', 
               desc: "السير بهدوء وسكينة مع الاستمرار في التلبية وتكبيرات العيد للوصول إلى عرفات. تأكد من دخولك حدود عرفات (توجد لوحات إرشادية ضخمة تحدد البداية والنهاية)، لقوله ﷺ: «وقفت هاهنا وعرفة كلها موقف». الوقوف خارج الحدود يبطل الحج.",
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=التوجه+لعرفات', imgPos: 'side'
+              img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbTTKlmL3ygfi04pjpk9XIHcVK4LTLZ7H67w&s', imgPos: 'side'
             },
             { 
               time: 'وقت الزوال', title: 'خطبة عرفة والصلاة', isPrayer: true, color: 'var(--color-gold)', 
               desc: "الاستماع لخطبة عرفة. أداء صلاة الظهر والعصر (ركعتين ركعتين) جمع تقديم بأذان واحد وإقامتين، ولا يُصلى بينهما ولا قبلهما شيء من السنن، للتفرغ التام للدعاء في هذا اليوم العظيم.",
-              img: 'https://via.placeholder.com/600x400/c9930a/ffffff?text=صلاة+الظهر+والعصر', imgPos: 'side'
+              img: 'https://palsawa.com/uploads/images/TKjkb.jpg', imgPos: 'side'
             },
             { 
               time: 'حتى الغروب', title: 'الوقوف بعرفة (الركن)', isPrayer: false, color: '#e74c3c', 
@@ -2076,18 +1597,16 @@ tamattu: {
                 • <strong>شرط أساسي:</strong> يُمنع الانصراف قبل تأكد غروب الشمس. من غادر قبل الغروب ولم يرجع وجب عليه دم (فدية).
                 </div>
               `,
-              img: 'https://via.placeholder.com/600x400/e74c3c/ffffff?text=الوقوف+بعرفة', imgPos: 'side'
+              img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbTTKlmL3ygfi04pjpk9XIHcVK4LTLZ7H67w&s', imgPos: 'side'
             },
             { 
               time: 'بعد الغروب', title: 'الإفاضة لمزدلفة', isPrayer: false, color: '', 
               desc: "مغادرة عرفات والتوجه إلى مزدلفة بسكينة ووقار تلبيةً لقوله ﷺ: «أيها الناس، السكينة السكينة». لا تصلِ المغرب في عرفة، بل تؤخرها لتصليها فور وصولك إلى مزدلفة.",
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=الإفاضة+لمزدلفة', imgPos: 'side'
-            },
+              img: 'https://i.postimg.cc/HnL1ccrj/mozdalifat01.png', imgPos: 'side'            },
             { 
               time: 'في مزدلفة', title: 'الصلاة وجمع الحصيات', isPrayer: true, color: 'var(--color-gold)', 
               desc: "فور الوصول لمزدلفة، تصلي المغرب (٣ ركعات) والعشاء (ركعتين) جمع تأخير وقصر بأذان وإقامتين. المبيت بمزدلفة (واجب). يُسن جمع ٧ حصيات فقط (بحجم حبة الحمص أو البندق) لرمي جمرة العقبة الكبرى صباح العيد، ويجوز جمعها من منى لاحقاً.",
-              img: 'https://via.placeholder.com/600x400/c9930a/ffffff?text=مبيت+مزدلفة', imgPos: 'side'
-            }
+              img: 'https://img.youm7.com/ArticleImgs/2018/8/20/93124-000-3682623601534799387025.jpg', imgPos: 'side'            }
           ]
         },
         {
@@ -2124,8 +1643,7 @@ tamattu: {
                 أفتت <strong>دار الإفتاء المصرية</strong> وغيرها، بأنه يجوز ترك المبيت بمنى للمرضى والضعفاء، بل ولعموم الحجاج إذا كان هناك زحام شديد يهدد الأرواح، أخذًا برخصة النبي ﷺ للرعاة والسقاة، وتقليداً لمن قال بسنيته، رفعاً للحرج.
                 </div>
               `,
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=المبيت+بمنى+أو+مزدلفة', imgPos: 'side'
-            },
+              img: 'https://www.al-qaradawi.net/sites/default/files/styles/detailed/public/field/image/342743481c291a4957926443fe59f62cb2ca4db36.jpg?itok=-EHKBdnS', imgPos: 'side'            },
           { 
               time: 'بعد الزوال', 
               title: 'رمي الجمرات الثلاث (التفاصيل والأحكام)', 
@@ -2150,14 +1668,12 @@ tamattu: {
                 • <strong>التوكيل:</strong> يجوز للمرضى وكبار السن والنساء توكيل غيرهم في الرمي وقت الزحام الشديد. الوكيل يرمي ٧ عن نفسه عند الصغرى، ثم ٧ عن موكله في نفس المكان، وهكذا في الباقي.
                 </div>
               `,
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=رمي+الجمرات+الثلاث', 
-              imgPos: 'side'
+              img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROTSdqSpoqeB9ilghOe2i2t8_pzd_QkyOrOw&s',               imgPos: 'side'
             },
             { 
               time: 'اليوم ١٢', title: 'التعجل (اختياري)', isPrayer: false, color: '', 
               desc: "يجوز للمتعجل المغادرة والاكتفاء برمي ٤٩ حصاة، وبذلك يسقط عنه مبيت ورمي اليوم الـ ١٣. <strong>الشرط الأساسي:</strong> الخروج من حدود منى قبل غروب شمس يوم ١٢ ذي الحجة. فإن غربت الشمس وهو لا يزال داخل حدود منى، لزمه المبيت ليلة ١٣ والرمي في اليوم التالي ليكمل ٧٠ حصاة.",
-              img: 'https://via.placeholder.com/600x400/1a6b3c/ffffff?text=التعجل', imgPos: 'side'
-            },
+              img: 'https://media.elbalad.news/2024/10/large/948/2/471.jpeg', imgPos: 'side'            },
            { 
               time: 'عند السفر', title: 'طواف الوداع (واجب)', isPrayer: false, color: 'var(--color-primary)', 
               desc: `
@@ -2168,8 +1684,7 @@ tamattu: {
                 • <strong>الطهارة:</strong> الوضوء وستر العورة شرط أساسي لصحته زي أي طواف.<br><br>
                 <strong>تنبيه هام:</strong> يسقط هذا الطواف الواجب عن الحائض والنفساء تخفيفاً من الشرع، وتسافر مباشرة دون وداع ولا فدية عليها.
               `,
-              img: 'https://via.placeholder.com/600x400/c9930a/ffffff?text=طواف+الوداع', imgPos: 'side'
-            }
+              img: 'https://media.elbalad.news/2024/10/large/948/2/471.jpeg', imgPos: 'side'            }
           ]
         }
       ]
@@ -2177,24 +1692,86 @@ tamattu: {
   },
       
   },
-  extraInfo: {
-  ihram: {
-      title: "أحكام الإحرام العامة",
+extraInfo: {
+women: {
+      title: "أحكام خاصة بالنساء (الحيض بجميع حالاته، اللباس، الرخص)",
       items: [
-        "يستحب تقليم الأظافر وحلق العانة والإبط والاغتسال قبل الإحرام.",
-        "يُسن وضع الطيب (العطر) على البدن واللحية قبل عقد النية، ويحرم وضعه تماماً على ملابس الإحرام.",
-        "الإحرام ليس مجرد ارتداء الثياب الأبيض، بل هو (نية الدخول في النسك)، فمن لبسها ولم ينوِ بالقلب لم يُحرم.",
-        "يجوز الاغتسال بالماء والصابون (غير المعطر) والشامبو غير المعطر والتظليل بخيمة أو شمسية.",
-        "يجوز للمحرم تغيير ملابس الإحرام لغسلها أو استبدالها بملابس أخرى نظيفة ولا يفسد إحرامه.",
-        "يجوز لبس الخاتم، وساعة اليد، والنظارة، وسماعة الأذن، واستخدام حزام أو حقيبة وسط لحفظ المال والأوراق.",
-        "المقصود بـ (المخيط) الممنوع للرجال هو ما فُصل على مقاس البدن أو العضو كالقميص والسروال، وليس معناه وجود خيط في القماش (فالحزام المخيط بالخيط مباح).",
-        "لا حرج في حك الرأس أو البدن برفق، وإذا سقطت شعرة من المحرم بغير قصد أو بسبب الاحتكاك فلا إثم عليه ولا فدية.",
-        "يجوز لبس الجوارب المقطوعة أسفل الكعبين للرجل إذا فقد النعلين (عند بعض المذاهب والأفضل تجنبها إن وجد النعل).",
-        "المرأة تحرم في أي ثياب شاءت باللون الذي تحبه، بشرط ألا يكون فيها زينة وتلتزم بستر كامل البدن بملابس فضفاضة.",
-        "الحائض والنفساء تغتسل وتُحرم وتفعل كل مناسك الحج (كالوقوف بعرفة والمبيت بمنى والسعي) إلا الطواف بالكعبة فتؤخره حتى تطهر."
+        "<strong style='color: var(--color-primary);'>لباس الإحرام:</strong> تحرم المرأة في ملابسها العادية الساترة (التي لا زينة فيها ولا تشبه ملابس الرجال). وليس هناك لون محدد للإحرام (كالأبيض أو الأخضر).",
+        
+        "<strong style='color: var(--color-primary);'>محظورات خاصة باللباس:</strong> يُحرم عليها لبس 'النقاب' و 'البرقع' و 'القفازين'. وتستر وجهها عن الرجال الأجانب بإسدال جزء من خمارها من أعلى رأسها على وجهها.",
+        
+        "<strong style='color: var(--color-primary);'>١. الحيض في الميقات (قبل الإحرام):</strong> إذا وصلت الميقات وهي حائض أو نفساء، تغتسل (بنية النظافة والسنة)، وتُحرم وتعقد النية وتلبي. الحيض لا يمنع من عقد نية الإحرام إطلاقاً.",
+        
+        "<strong style='color: var(--color-primary);'>٢. الحيض قبل طواف العمرة (للمتمتعة):</strong> إذا أحرمت بالعمرة ثم حاضت، ولم تطهر حتى جاء يوم التروية أو عرفة: <strong style='color: #dc2626;'>تُدخل نية الحج على العمرة وتصبح (قارنة)</strong>، وتذهب للوقوف بعرفة وتكمل الحج.",
+        
+        "<strong style='color: var(--color-primary);'>٣. الحيض بعد الطواف وقبل السعي:</strong> إذا طافت بالكعبة وهي طاهرة، ثم حاضت قبل السعي: <strong style='color: #dc2626;'>تسعى بين الصفا والمروة وحجها/عمرتها صحيحة</strong>؛ لأن الطهارة ليست شرطاً للسعي.",
+        
+        "<strong style='color: var(--color-primary);'>٤. الحيض أثناء مناسك الحج:</strong> الحائض تفعل كل أفعال الحج (تقف بعرفة، تبيت بمنى ومزدلفة، وترمي الجمرات) <strong>إلا الطواف بالكعبة</strong>، فتؤخره حتى تطهر.",
+        
+        "<strong style='color: var(--color-primary);'>٥. الحيض وطواف الإفاضة (في حال موعد السفر):</strong> الأصل أن تنتظر حتى تطهر لتطوف طواف الإفاضة (لأنه ركن). <strong style='color: #dc2626;'>ولكن للضرورة:</strong> إذا حان موعد سفرها لبلدها، ولا يمكنها التأجيل، ولا يوجد مَحْرَم يستطيع البقاء معها؛ يجوز لها أن تغتسل وتتحفظ جيداً (بفوطة تمنع نزول الدم وتلويث المسجد) وتطوف بالبيت للضرورة القصوى (وهي فتوى شيخ الإسلام ابن تيمية والمفتى به في دور الإفتاء رفعاً للحرج).",
+        
+        "<strong style='color: var(--color-primary);'>٦. الحيض وطواف الوداع:</strong> إذا حاضت المرأة بعد أداء طواف الإفاضة وقبل سفرها لبلدها، <strong>سقط عنها طواف الوداع تماماً</strong>، وتسافر مباشرة ولا فدية عليها ولا تأثم.",
+        
+        "<strong style='color: var(--color-primary);'>حبوب منع الحيض:</strong> يجوز طبياً وشرعياً استخدام العقاقير لتأجيل الحيض لتتمكن من أداء الطواف مع رفقة الحج، بشرط استشارة الطبيب وألا يضر ذلك بصحتها.",
+        
+        "<strong style='color: var(--color-primary);'>السفر بدون مَحْرَم:</strong> يجوز للمرأة السفر لأداء الحج والعمرة بدون مَحْرَم إذا توفرت 'الرفقة الآمنة' (مجموعة من النساء الثقات أو رحلة منظمة آمنة)، وهو المفتى به حالياً لتغير سبل السفر والأمن.",
+        
+        "<strong style='color: var(--color-primary);'>الرمل والاضطباع:</strong> لا يُشرع للمرأة الإسراع في الطواف (الرمل) ولا الهرولة بين العلمين الأخضرين في السعي، بل تمشي مشياً عادياً ساتراً.",
+        
+        "<strong style='color: var(--color-primary);'>التحلل (التقصير):</strong> لا تحلق المرأة شعرها إطلاقاً، بل تجمع أطراف شعرها (الضفيرة أو الذيل) وتأخذ منه وتقص قدر 'أنملة' (عقلة الإصبع) من طرفه فقط ليحصل التحلل."
       ]
     },
-   medina: {
+men: {
+      title: "أحكام خاصة بالرجال (اللباس، الاحتلام، والسنن المخصوصة)",
+      items: [
+        "<strong style='color: var(--color-primary);'>١. لباس الإحرام (قاعدة المخيط):</strong> يجب أن يتجرد الرجل من كل ما 'فُصِّل' على قدر البدن أو أعضائه (كالقميص والبنطلون والسروال الداخلي)، ويلبس إزاراً ورداءً. <strong style='color: #dc2626;'>توضيح هام:</strong> المخيط ليس معناه وجود خيط في القماش، بل 'التفصيل'. لذا يجوز لبس الحزام، حقيبة المال، السوار الطبي، أو استخدام 'الكباسين' لتثبيت الإزار.",
+        
+        "<strong style='color: var(--color-primary);'>٢. تغطية الرأس:</strong> يُحرم على الرجل تغطية رأسه بملاصق (كالطاقية، العمامة، أو الكاب). <strong style='color: #dc2626;'>الرخص:</strong> يجوز له الاستظلال بمظلة (شمسية)، أو سقف خيمة وسيارة، أو حمل حقيبته على رأسه إذا لم يقصد التغطية.",
+        
+        "<strong style='color: var(--color-primary);'>٣. لباس القدم (الحذاء):</strong> الأصل لبس نعلين (شبشب/صندل) يظهر منهما الكعبان ومقدمة القدم. <strong style='color: #dc2626;'>رخصة للمضطر:</strong> من لم يجد نعلين يجوز له لبس حذاء مقطوع أسفل الكعبين (خف) ولا فدية عليه. (ويُمنع تماماً لبس الجوارب 'الشراب').",
+        
+        "<strong style='color: var(--color-primary);'>٤. الاحتلام للمُحرم:</strong> إذا نام المُحرم فاحتلم (خرج منه المني بغير إرادته أثناء النوم)، <strong style='color: #dc2626;'>فإحرامه صحيح وحجه/عمرته تامة</strong>، ولا إثم عليه ولا فدية. يجب عليه فقط الاغتسال (غسل الجنابة) وغسل ما أصاب إحرامه من نجاسة أو استبداله.",
+        
+        "<strong style='color: var(--color-primary);'>٥. سقوط الإزار وانكشاف العورة:</strong> إذا انحل إزار الحاج بغير قصد بسبب الزحام، أو نسي ووضع غطاءً على رأسه، يزيله ويربط إزاره فور تذكره <strong style='color: #dc2626;'>ولا فدية عليه ولا حرج</strong> لأنه غير متعمد.",
+        
+        "<strong style='color: var(--color-primary);'>٦. كشف الكتف (الاضطباع):</strong> يُسن للرجل كشف الكتف الأيمن <strong>في الطواف الذي يليه سعي فقط</strong> (كطواف العمرة وطواف القدوم). <strong style='color: #dc2626;'>خطأ شائع:</strong> البقاء مكشوف الكتف طوال فترة الإحرام أو أثناء الصلاة خطأ؛ يجب تغطية الكتفين فور الانتهاء من الشوط السابع وقبل صلاة الركعتين.",
+        
+        "<strong style='color: var(--color-primary);'>٧. الإسراع في المشي (الرَّمَل):</strong> يُسن للرجل الإسراع مع تقارب الخطى (هز الكتفين) في <strong>الأشواط الثلاثة الأولى فقط</strong> من طواف القدوم أو طواف العمرة. (وإذا كان الزحام شديداً يمنع ذلك، سقطت السنة ويمشي مشياً عادياً).",
+        
+        "<strong style='color: var(--color-primary);'>٨. الهرولة في السعي:</strong> يُسن للرجل الجري (الهرولة) <strong>بين العلمين الأخضرين فقط</strong> في مسعى الصفا والمروة، ثم يمشي مشياً عادياً في باقي المسار، ويفعل ذلك في الأشواط السبعة.",
+        
+        "<strong style='color: var(--color-primary);'>٩. الجهر بالتلبية:</strong> يُسن للرجال رفع الصوت جهاراً بالتلبية (لبيك اللهم لبيك) إظهاراً للشعيرة وتنشيطاً للقلب.",
+        
+        "<strong style='color: var(--color-primary);'>١٠. التحلل (الحلق والتقصير):</strong> الحلق بالموسى للرجل أفضل وأعظم أجراً من التقصير. <strong style='color: #dc2626;'>للمتمتع:</strong> يُستحب له التقصير بعد العمرة، ليترك الحلق بالموسى ليوم العيد (يوم الحج الأكبر). <strong style='color: #dc2626;'>حكم الأصلع:</strong> من لا شعر له يُمرر الموسى على رأسه (إمراراً فقط) من باب السنة ويتحلل."
+      ]
+    },
+ihram: {
+      title: "أحكام الإحرام العامة (مفاهيم وتصحيح أخطاء)",
+      items: [
+        "<strong style='color: var(--color-primary);'>١. سنن النظافة والفطرة:</strong> يُستحب تقليم الأظافر، حلق العانة، نتف الإبط، والاغتسال الكامل قبل عقد نية الإحرام (وهو سنة للرجال والنساء حتى الحائض والنفساء).",
+        
+        "<strong style='color: var(--color-primary);'>٢. حكم الطيب والعطور:</strong> يُسن وضع العطر على البدن واللحية <strong>قبل النية</strong>. <strong style='color: #dc2626;'>تنبيه خطير:</strong> يَحرم تماماً وضع أي طيب على ملابس الإحرام نفسها، ومن فعل ذلك وجب عليه غسلها أو تغييرها قبل الإحرام.",
+        
+        "<strong style='color: var(--color-primary);'>٣. حقيقة الإحرام:</strong> الإحرام ليس مجرد ارتداء الثياب البيضاء، بل هو <strong style='color: #dc2626;'>نية الدخول في النسك</strong> بالقلب. فمن لبس الثياب ولم ينوِ لم يُحرم، ومن نوى ولم يلبس (لعذر) فقد أحرم وتعلقت به الأحكام.",
+        
+        "<strong style='color: var(--color-primary);'>٤. الاغتسال والاستظلال:</strong> يجوز للمحرم الاغتسال للتبرد أو النظافة باستخدام الماء والصابون والشامبو <strong style='color: #dc2626;'>(الخالي من العطور)</strong>، ويجوز له الاستظلال بخيمة، أو شمسية، أو سقف حافلة.",
+        
+        "<strong style='color: var(--color-primary);'>٥. تغيير ملابس الإحرام:</strong> يجوز للمحرم خلع ملابس الإحرام لغسلها، أو استبدالها بملابس إحرام أخرى نظيفة متى شاء، <strong style='color: #dc2626;'>ولا يفسد ذلك إحرامه إطلاقاً</strong>.",
+        
+        "<strong style='color: var(--color-primary);'>٦. المباحات الشخصية:</strong> يجوز لبس الخاتم، ساعة اليد، النظارة، سماعة الأذن، والكمامة الطبية عند الحاجة. كما يجوز استخدام حزام البطن (الكمر) أو حقيبة الوسط لحفظ المال والأوراق.",
+        
+        "<strong style='color: var(--color-primary);'>٧. مفهوم المخيط الممنوع:</strong> المقصود بـ 'المخيط' للرجال هو ما <strong>فُصل وخيط على مقاس البدن أو العضو</strong> (كالقميص والبنطلون والجورب). <strong style='color: #dc2626;'>تصحيح لخطأ شائع:</strong> ليس المقصود وجود 'خيط' في القماش، فالحزام المخيط بخيط، والنعل المخيط، وحقيبة الخصر، كلها مباحة تماماً.",
+        
+        "<strong style='color: var(--color-primary);'>٨. سقوط الشعر بغير قصد:</strong> لا حرج في حك الرأس أو البدن برفق، وإذا سقطت شعرة من المحرم أثناء الوضوء أو الاغتسال أو بسبب الاحتكاك بغير قصد <strong style='color: #dc2626;'>فلا إثم عليه ولا فدية</strong>.",
+        
+        "<strong style='color: var(--color-primary);'>٩. رخصة لباس القدم:</strong> الأصل للرجل لبس نعلين (شبشب/صندل) يظهر منهما الكعبان. وإذا لم يجد نعلين، يجوز له لبس خف مقطوع أسفل الكعبين دون فدية.",
+        
+        "<strong style='color: var(--color-primary);'>١٠. لباس المرأة:</strong> تُحرم المرأة في أي ملابس شاءت وبأي لون تحبه (لا يشترط الأبيض أو الأخضر)، بشرط أن تكون ساترة وفضفاضة، ولا يكون فيها زينة لافتة ولا تشبه ملابس الرجال.",
+        
+        "<strong style='color: var(--color-primary);'>١١. إحرام الحائض والنفساء:</strong> المرأة الحائض أو النفساء تغتسل وتُحرم وتفعل كل مناسك الحج بالكامل (من وقوف بعرفة ومبيت ورمي وسعي)، <strong style='color: #dc2626;'>إلا الطواف بالكعبة</strong>، فتؤجله حتى تطهر."
+      ]
+    },
+    medina: {
       title: "زيارة المدينة المنورة وأحكامها",
       items: [
         "زيارة المسجد النبوي سُنة عظيمة مستقلة، وليست ركناً أو شرطاً لصحة الحج والعمرة، فمن لم يزرها فحجه صحيح تماماً.",
@@ -2210,10 +1787,9 @@ tamattu: {
         "ليس للمسجد النبوي (طواف وداع) أو (صلاة وداع) مخصوصة عند المغادرة، فيكفي أن تصلي فيه وتدعو بما شئت ثم تسافر لبلدك."
       ]
     },
-fatwas: {
+    fatwas: {
       title: "فتاوى وأحكام مختارة (دار الإفتاء والمصادر المعتمدة)",
       items: [
-        // الفتاوى الأساسية اللي كانت موجودة
         "يصح الحج عن ذوي الاحتياجات الخاصة، ولا تجب الفريضة على مريض ألزهايمر لسقوط شرط التكليف.",
         "من أحدث (انتقض وضوؤه) في الطواف يقطعه ليتوضأ ويبني على ما طاف تيسيراً (وهو مذهب المالكية المفتى به للتيسير).",
         "المصاب بالسلس (البول أو الريح) يتوضأ ويتحفظ ويطوف طوافاً صحيحاً ولا حرج عليه إذا خرج منه شيء أثناء الطواف.",
@@ -2226,8 +1802,6 @@ fatwas: {
         "التحلل الأصغر يحصل بفعل شيئين من ثلاثة (رمي جمرة العقبة، الحلق أو التقصير، طواف الإفاضة)، وبه يباح كل شيء إلا النساء.",
         "يجوز الخروج من مكة إلى جدة أو الطائف بعد الإحرام وقبل الوقوف بعرفة ولا ينقطع الإحرام ولا يفسد الحج.",
         "النية هي الركن الأساسي، فمن نوى الإحرام ولم يتلفظ بلسانه فإحرامه صحيح ومنعقد بمجرد النية القلبية.",
-        
-        // الفتاوى الجديدة الشاملة
         "يجوز للمرأة السفر لأداء الحج والعمرة بدون محرم متى توفرت الرفقة الآمنة، وهو ما تفتي به دار الإفتاء المصرية وتعمل به الجهات الرسمية حالياً.",
         "الحائض والنفساء إذا حان موعد سفرها لبلدها ولم تطهر، ولا يمكنها البقاء في مكة، يجوز لها التحفظ جيداً (لبس ما يمنع نزول الدم) وأداء طواف الإفاضة للضرورة القصوى (اختيار شيخ الإسلام ابن تيمية ومفتى به للحاجة).",
         "أداء الحج أو العمرة بالتقسيط أو بقرض حسن جائز شرعاً، بشرط أن يغلب على ظن الحاج قدرته على السداد دون الإضرار ببيته وأسرته.",
@@ -2243,6 +1817,7 @@ fatwas: {
       ]
     }
   }
+    
 };
 
 // ── Render Functions ──
@@ -2341,9 +1916,17 @@ function renderNusk(typeId, btnEl) {
       let hasLink = !!hr.link;
       let imgPos = hr.imgPos || 'bottom'; 
       
+      // 🛠️ التعديل هنا: تحديد الرابط بناءً على مسمى الزر
+      let guideUrl = 'https://umrasteps.vercel.app/'; // الافتراضي
+      if (hr.guideBtn === 'الطواف') {
+          guideUrl = 'https://tawafall.vercel.app/';
+      } else if (hr.guideBtn === 'السعي') {
+          guideUrl = 'https://sa3eall.vercel.app/';
+      }
+
       let guideBtnHtml = hr.guideBtn ? `
         <div style="margin-top: 12px; margin-bottom: 8px;">
-          <button onclick="openExternalGuide('https://umrasteps.vercel.app/')" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 6px 16px; border-radius: 50px; background: var(--color-primary); color: #fff; border: none; box-shadow: 0 4px 10px rgba(26, 107, 60, 0.3);">
+          <button onclick="openExternalGuide('${guideUrl}')" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 6px 16px; border-radius: 50px; background: var(--color-primary); color: #fff; border: none; box-shadow: 0 4px 10px rgba(26, 107, 60, 0.3);">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> 
             ابدأ ${hr.guideBtn} التفاعلي
           </button>
@@ -2363,7 +1946,6 @@ function renderNusk(typeId, btnEl) {
         </div>
       `;
 
-      // 🏷️ إضافة اللوجو الجديد كعلامة مائية شفافة في النص
       const watermarkHtml = `
         <img src="https://i.postimg.cc/yx17ZRtm/M-(512-x-512-px)-(7).png" 
              style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
@@ -2375,7 +1957,7 @@ function renderNusk(typeId, btnEl) {
 
       if (imgPos === 'side' && hasImage) {
         let imgSide = `
-          <div style="position: relative; cursor: zoom-in; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-border);" onclick="openImageModal('${hr.img}')" onmouseover="this.querySelector('img:first-child').style.transform='scale(1.05)'; this.querySelector('.zoom-icon-circle').style.background='rgba(0,0,0,0.85)'; this.querySelector('.zoom-icon-circle').style.transform='scale(1.1)';" onmouseout="this.querySelector('img:first-child').style.transform='scale(1)'; this.querySelector('.zoom-icon-circle').style.background='rgba(0,0,0,0.5)'; this.querySelector('.zoom-icon-circle').style.transform='scale(1)';">
+          <div style="position: relative; cursor: zoom-in; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-border);" onclick="openImageModal('${hr.img}')">
             <img src="${hr.img}" style="width: 100%; height: 120px; object-fit: cover; transition: transform 0.4s ease; display: block;" alt="صورة المنسك">
             ${watermarkHtml}
             ${zoomIconOverlay}
@@ -2395,7 +1977,7 @@ function renderNusk(typeId, btnEl) {
         `;
       } else {
         let imgBottom = hasImage ? `
-          <div style="position: relative; cursor: zoom-in; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-border);" onclick="openImageModal('${hr.img}')" onmouseover="this.querySelector('img:first-child').style.transform='scale(1.02)'; this.querySelector('.zoom-icon-circle').style.background='rgba(0,0,0,0.85)'; this.querySelector('.zoom-icon-circle').style.transform='scale(1.1)';" onmouseout="this.querySelector('img:first-child').style.transform='scale(1)'; this.querySelector('.zoom-icon-circle').style.background='rgba(0,0,0,0.5)'; this.querySelector('.zoom-icon-circle').style.transform='scale(1)';">
+          <div style="position: relative; cursor: zoom-in; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-border);" onclick="openImageModal('${hr.img}')">
             <img src="${hr.img}" style="width: 100%; height: 180px; object-fit: cover; transition: transform 0.4s ease; display: block;" alt="صورة المنسك">
             ${watermarkHtml}
             ${zoomIconOverlay}
@@ -2460,7 +2042,6 @@ function renderNusk(typeId, btnEl) {
     }, 100);
   }
 }
-
 function renderExtraInfo() {
   let html = '';
   const extras = db.extraInfo;
